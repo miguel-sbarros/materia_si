@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MR Digital - Dashboard de Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-bright": "#f7f9fb",
+              "inverse-on-surface": "#eff1f3",
+              "error-container": "#ffdad6",
+              "on-secondary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "surface-container-low": "#f2f4f6",
+              "outline-variant": "#c3c6d7",
+              "on-secondary-fixed": "#00174b",
+              "on-primary": "#ffffff",
+              "on-surface": "#191c1e",
+              "background": "#f7f9fb",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-fixed": "#ffdbcd",
+              "secondary-fixed": "#dbe1ff",
+              "surface-dim": "#d8dadc",
+              "primary": "#004ac6",
+              "inverse-primary": "#b4c5ff",
+              "on-surface-variant": "#434655",
+              "on-primary-fixed": "#00174b",
+              "surface": "#f7f9fb",
+              "surface-tint": "#0053db",
+              "surface-container-high": "#e6e8ea",
+              "tertiary-fixed-dim": "#ffb596",
+              "on-secondary-fixed-variant": "#31447b",
+              "on-error-container": "#93000a",
+              "inverse-surface": "#2d3133",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#2563eb",
+              "on-error": "#ffffff",
+              "tertiary": "#943700",
+              "tertiary-container": "#bc4800",
+              "on-tertiary-fixed": "#360f00",
+              "surface-variant": "#e0e3e5",
+              "outline": "#737686",
+              "on-primary-fixed-variant": "#003ea8",
+              "secondary-container": "#acbfff",
+              "secondary": "#495c95",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "on-secondary-container": "#394c84",
+              "secondary-fixed-dim": "#b4c5ff",
+              "error": "#ba1a1a",
+              "primary-fixed": "#dbe1ff",
+              "on-tertiary-container": "#ffede6",
+              "surface-container": "#eceef0",
+              "on-primary-container": "#eeefff",
+              "on-background": "#191c1e"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar (Authority Source: JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 flex flex-col py-6 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl z-50">
+<div class="px-6 mb-10 flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-black flex items-center justify-center overflow-hidden">
+<img alt="MR Digital Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uhB-ZF6hgcyPZGylcRvfWLcyueR3Jt3T-w9gZ7mJYDeCRXqzB-hie4yQU-58PNTRaB7YCo5xuQid-X-pG2B161xOVn7wOsQjkFVh2-ux4qFAOKiRPhm1chrkJyxka1zb1g7XmX5jLCEi9BmKX-Zbqw2NHi-xdBuSKyymCj51EYtVvyGqlHcGKm7xEp3kEIYQnLOHW0gGUpsK4GMCjt7UGpmu-3GIeBCZ1GxF-k97qEAHvn_2-iymQ6ukNc6uDeSdQKjnmmSBuRRxw"/>
+</div>
+<div>
+<h1 class="text-lg font-bold text-slate-900 dark:text-slate-100 tracking-tight leading-none">MR Digital</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-semibold mt-1">CRM Médico</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1 px-4">
+<!-- Analytics Active -->
+<a class="flex items-center gap-3 px-4 py-3 border-l-4 border-blue-700 bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-400 font-manrope text-sm font-semibold transition-transform scale-95 active:scale-100" href="#">
+<span class="material-symbols-outlined">insights</span>
+                Analytics
+            </a>
+<!-- Inactive Tabs -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 font-manrope text-sm font-semibold transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">filter_alt</span>
+                Funil
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 font-manrope text-sm font-semibold transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">chat</span>
+                Conversas
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 font-manrope text-sm font-semibold transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">school</span>
+                Cursos
+            </a>
+</nav>
+<div class="mt-auto px-6">
+<div class="p-4 rounded-xl bg-surface-container-high/50 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-200 overflow-hidden">
+<img alt="Foto do Médico" data-alt="professional portrait of a male doctor in a white clinical coat smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWS_gYc37-x9tBbUmOemSLkRCSNok1pmh1-V2CAG-BPfgOnLxdVqq6TfbML702UU5c6Jgmx11teTYC9oxsQeajAgW5Gd_2MTZ6S8CzIljCUeOmJUuCZIiyNpyplvB7M09dhq4lE6zHwtnRTBDyrYFLiQrpnIjf_lzy_DjYLytZMRpv37FoysrTiv9pGwwJOr6PwUZsQwGgY8D2QKlDdRP5KJpLTcNl2SKfmBFTGTdRjcWaF9EUDPv5Hj9KHQGi0xhBX-CxuDW2yMWF"/>
+</div>
+<div class="truncate">
+<p class="text-xs font-bold text-on-surface">Dr. Julian Vance</p>
+<p class="text-[10px] text-slate-500">Administrador</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 flex justify-between items-center px-8 z-40 bg-white dark:bg-slate-950">
+<div class="flex items-center bg-slate-100 dark:bg-slate-900 rounded-full px-4 py-1.5 w-96">
+<span class="material-symbols-outlined text-slate-400 text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-slate-400" placeholder="Buscar analytics do paciente..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-slate-600 dark:text-slate-400 opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-600 dark:text-slate-400 opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200"></div>
+<div class="flex items-center gap-3">
+<span class="text-xs font-semibold text-slate-700">MR Digital CRM</span>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-[10px] text-white font-bold">MR</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 pt-24 pb-16 px-10 max-w-[1600px] mx-auto">
+<!-- Header Section -->
+<section class="mb-10 flex justify-between items-end">
+<div>
+<h2 class="text-3xl font-extrabold text-on-surface tracking-tight mb-1">Visão Geral de Performance</h2>
+<p class="text-on-surface-variant font-medium">Monitoramento de métricas de aquisição e retenção de pacientes.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 bg-surface-container-high text-on-surface rounded-md font-semibold text-sm transition-all hover:bg-surface-container-highest">
+                    Últimos 30 Dias
+                </button>
+<button class="px-4 py-2 bg-primary text-white rounded-md font-semibold text-sm shadow-lg shadow-primary/20 transition-all hover:opacity-90">
+                    Exportar Relatório
+                </button>
+</div>
+</section>
+<!-- KPI Grid -->
+<div class="grid grid-cols-12 gap-6 mb-10">
+<!-- KPI 1 -->
+<div class="col-span-12 md:col-span-4 p-8 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="p-2 bg-blue-50 text-blue-700 rounded-lg">
+<span class="material-symbols-outlined">groups</span>
+</span>
+<span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">+4.2%</span>
+</div>
+<p class="text-sm font-semibold text-on-surface-variant uppercase tracking-wider">Total de Leads</p>
+<h3 class="text-5xl font-extrabold text-primary mt-2">250</h3>
+</div>
+<div class="mt-6 pt-6 border-t border-slate-50">
+<p class="text-xs text-slate-400">Leads qualificados no funil atual</p>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="col-span-12 md:col-span-4 p-8 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="p-2 bg-orange-50 text-orange-700 rounded-lg">
+<span class="material-symbols-outlined">bolt</span>
+</span>
+<span class="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded-full">Ativos Agora</span>
+</div>
+<p class="text-sm font-semibold text-on-surface-variant uppercase tracking-wider">Novos Leads hoje</p>
+<h3 class="text-5xl font-extrabold text-on-surface mt-2">12</h3>
+</div>
+<div class="mt-6 pt-6 border-t border-slate-50">
+<p class="text-xs text-slate-400">Novas oportunidades identificadas desde 00:00</p>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="col-span-12 md:col-span-4 p-8 rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="p-2 bg-purple-50 text-purple-700 rounded-lg">
+<span class="material-symbols-outlined">target</span>
+</span>
+<span class="text-xs font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded-full">Top 5%</span>
+</div>
+<p class="text-sm font-semibold text-on-surface-variant uppercase tracking-wider">Taxa de Conversão</p>
+<h3 class="text-5xl font-extrabold text-on-surface mt-2">18%</h3>
+</div>
+<div class="mt-6 pt-6 border-t border-slate-50">
+<p class="text-xs text-slate-400">Taxa de lead para matriculado</p>
+</div>
+</div>
+</div>
+<!-- Pipeline Status -->
+<section class="mb-10">
+<h3 class="text-xl font-bold text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">account_tree</span>
+                Status do Funil de Leads
+            </h3>
+<div class="grid grid-cols-5 gap-4">
+<div class="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-lowest transition-all group cursor-default">
+<p class="text-xs font-bold text-on-surface-variant mb-1 group-hover:text-primary">Novo</p>
+<p class="text-2xl font-extrabold text-on-surface">42</p>
+<div class="mt-4 h-1 w-full bg-slate-200 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-1/3"></div>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-lowest transition-all group cursor-default border-l-2 border-primary/10">
+<p class="text-xs font-bold text-on-surface-variant mb-1 group-hover:text-primary">Contatado</p>
+<p class="text-2xl font-extrabold text-on-surface">68</p>
+<div class="mt-4 h-1 w-full bg-slate-200 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-1/2"></div>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-lowest transition-all group cursor-default border-l-2 border-primary/10">
+<p class="text-xs font-bold text-on-surface-variant mb-1 group-hover:text-primary">Negociando</p>
+<p class="text-2xl font-extrabold text-on-surface">31</p>
+<div class="mt-4 h-1 w-full bg-slate-200 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-1/4"></div>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-lowest transition-all group cursor-default border-l-2 border-primary/10">
+<p class="text-xs font-bold text-on-surface-variant mb-1 group-hover:text-primary">Matriculado</p>
+<p class="text-2xl font-extrabold text-primary">85</p>
+<div class="mt-4 h-1 w-full bg-slate-200 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-full"></div>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-lowest transition-all group cursor-default border-l-2 border-primary/10">
+<p class="text-xs font-bold text-on-surface-variant mb-1 group-hover:text-primary">Perdido</p>
+<p class="text-2xl font-extrabold text-slate-400">24</p>
+<div class="mt-4 h-1 w-full bg-slate-200 rounded-full overflow-hidden">
+<div class="h-full bg-slate-400 w-1/5"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Charts Section -->
+<div class="grid grid-cols-12 gap-10">
+<!-- SPIN Churn Stage -->
+<div class="col-span-12 lg:col-span-5 bg-surface-container-low p-8 rounded-2xl">
+<div class="flex justify-between items-center mb-10">
+<h3 class="text-lg font-bold text-on-surface">Abandono por estágio (SPIN)</h3>
+<span class="material-symbols-outlined text-slate-400">info</span>
+</div>
+<div class="space-y-8">
+<div class="relative">
+<div class="flex justify-between mb-2">
+<span class="text-sm font-bold text-on-surface">Situação</span>
+<span class="text-sm font-medium text-slate-500">12% Churn</span>
+</div>
+<div class="h-12 w-full bg-surface-container-lowest rounded-lg flex overflow-hidden">
+<div class="h-full bg-primary w-[88%]"></div>
+<div class="h-full bg-red-100 w-[12%]"></div>
+</div>
+</div>
+<div class="relative">
+<div class="flex justify-between mb-2">
+<span class="text-sm font-bold text-on-surface">Problema</span>
+<span class="text-sm font-medium text-slate-500">28% Churn</span>
+</div>
+<div class="h-12 w-full bg-surface-container-lowest rounded-lg flex overflow-hidden">
+<div class="h-full bg-primary/80 w-[72%]"></div>
+<div class="h-full bg-red-100 w-[28%]"></div>
+</div>
+</div>
+<div class="relative">
+<div class="flex justify-between mb-2">
+<span class="text-sm font-bold text-on-surface">Implicação</span>
+<span class="text-sm font-medium text-slate-500">45% Churn</span>
+</div>
+<div class="h-12 w-full bg-surface-container-lowest rounded-lg flex overflow-hidden">
+<div class="h-full bg-primary/60 w-[55%]"></div>
+<div class="h-full bg-red-200 w-[45%]"></div>
+</div>
+</div>
+<div class="relative">
+<div class="flex justify-between mb-2">
+<span class="text-sm font-bold text-on-surface">Necessidade de Solução</span>
+<span class="text-sm font-medium text-slate-500">15% Churn</span>
+</div>
+<div class="h-12 w-full bg-surface-container-lowest rounded-lg flex overflow-hidden">
+<div class="h-full bg-primary/40 w-[85%]"></div>
+<div class="h-full bg-red-100 w-[15%]"></div>
+</div>
+</div>
+</div>
+<div class="mt-10 p-4 bg-primary/5 rounded-xl border-l-4 border-primary">
+<p class="text-xs leading-relaxed text-on-surface-variant italic">
+                        "O abandono é maior no estágio de **Implicação**. Considere refinar os roteiros de proposta de valor para o paciente."
+                    </p>
+</div>
+</div>
+<!-- Conversation Trends -->
+<div class="col-span-12 lg:col-span-7">
+<div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm h-full border border-slate-100">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="text-lg font-bold text-on-surface">Tendências de Conversa</h3>
+<p class="text-xs text-slate-500 mt-1">Interações em todos os canais médicos</p>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-bold">
+<span class="w-2 h-2 rounded-full bg-blue-700"></span>
+                                WhatsApp
+                            </div>
+<div class="flex items-center gap-2 px-3 py-1 bg-slate-50 text-slate-500 rounded-full text-xs font-bold">
+<span class="w-2 h-2 rounded-full bg-slate-300"></span>
+                                Chamadas CRM
+                            </div>
+</div>
+</div>
+<div class="h-64 w-full flex items-end gap-2 px-4 relative">
+<div class="absolute inset-0 flex flex-col justify-between py-2 border-b border-slate-100">
+<div class="w-full border-t border-slate-50"></div>
+<div class="w-full border-t border-slate-50"></div>
+<div class="w-full border-t border-slate-50"></div>
+<div class="w-full border-t border-slate-50"></div>
+</div>
+<div class="flex-1 bg-slate-100 h-[20%] rounded-t-sm"></div>
+<div class="flex-1 bg-slate-100 h-[30%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/30 h-[45%] rounded-t-sm"></div>
+<div class="flex-1 bg-slate-100 h-[25%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/30 h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/40 h-[75%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/30 h-[50%] rounded-t-sm"></div>
+<div class="flex-1 bg-slate-100 h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary h-[90%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/60 h-[70%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/40 h-[55%] rounded-t-sm"></div>
+<div class="flex-1 bg-slate-100 h-[30%] rounded-t-sm"></div>
+<div class="flex-1 bg-slate-100 h-[45%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/30 h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/40 h-[80%] rounded-t-sm"></div>
+<div class="flex-1 bg-slate-100 h-[35%] rounded-t-sm"></div>
+<div class="flex-1 bg-slate-100 h-[25%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/50 h-[65%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary h-[85%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/80 h-[95%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/60 h-[70%] rounded-t-sm"></div>
+<div class="flex-1 bg-slate-100 h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-slate-100 h-[30%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/30 h-[50%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/40 h-[65%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary h-[88%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/70 h-[75%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/50 h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/90 h-[100%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary h-[92%] rounded-t-sm"></div>
+</div>
+<div class="flex justify-between mt-6 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+<span>30 dias atrás</span>
+<span>15 dias atrás</span>
+<span>Hoje</span>
+</div>
+<div class="mt-10 grid grid-cols-2 gap-4">
+<div class="p-4 bg-surface-container-low rounded-xl">
+<p class="text-xs text-slate-500 mb-1">Tempo Médio de Resposta</p>
+<p class="text-xl font-bold text-on-surface">4m 12s</p>
+</div>
+<div class="p-4 bg-surface-container-low rounded-xl">
+<p class="text-xs text-slate-500 mb-1">Horário de Pico</p>
+<p class="text-xl font-bold text-on-surface">14:00 - 16:00</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="ml-64 px-10 py-8 border-t border-slate-100 flex justify-between items-center bg-white/50">
+<div class="flex items-center gap-2">
+<span class="text-xs text-slate-400">© 2024 MR Digital. Todos os direitos reservados.</span>
+</div>
+<div class="flex gap-6">
+<a class="text-xs font-semibold text-slate-500 hover:text-primary transition-colors" href="#">Suporte</a>
+<a class="text-xs font-semibold text-slate-500 hover:text-primary transition-colors" href="#">Termos de Uso</a>
+</div>
+</footer>
+</body></html>
