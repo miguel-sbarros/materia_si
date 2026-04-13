@@ -1,0 +1,480 @@
+<!DOCTYPE html><html class="light" lang="pt-br"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Gestão de Cursos e Turmas - MR Digital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-bright": "#f7f9fb",
+              "inverse-on-surface": "#eff1f3",
+              "error-container": "#ffdad6",
+              "on-secondary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "surface-container-low": "#f2f4f6",
+              "outline-variant": "#c3c6d7",
+              "on-secondary-fixed": "#00174b",
+              "on-primary": "#ffffff",
+              "on-surface": "#191c1e",
+              "background": "#f7f9fb",
+              "surface": "#f7f9fb",
+              "surface-tint": "#0053db",
+              "surface-container-high": "#e6e8ea",
+              "primary": "#004ac6",
+              "inverse-primary": "#b4c5ff",
+              "on-surface-variant": "#434655",
+              "on-primary-fixed": "#00174b",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-fixed": "#ffdbcd",
+              "secondary-fixed": "#dbe1ff",
+              "surface-dim": "#d8dadc",
+              "inverse-surface": "#2d3133",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#2563eb",
+              "on-error": "#ffffff",
+              "tertiary": "#943700",
+              "tertiary-container": "#bc4800",
+              "on-tertiary-fixed": "#360f00",
+              "surface-variant": "#e0e3e5",
+              "outline": "#737686",
+              "on-primary-fixed-variant": "#003ea8",
+              "secondary-container": "#acbfff",
+              "secondary": "#495c95",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "on-secondary-container": "#394c84",
+              "secondary-fixed-dim": "#b4c5ff",
+              "error": "#ba1a1a",
+              "primary-fixed": "#dbe1ff",
+              "on-tertiary-container": "#ffede6",
+              "surface-container": "#eceef0",
+              "on-primary-container": "#eeefff",
+              "on-background": "#191c1e"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 flex flex-col py-6 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl no-border bg-slate-50 dark:bg-slate-900 font-manrope text-sm font-semibold z-50">
+<div class="px-6 mb-10 flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl overflow-hidden bg-black flex items-center justify-center shadow-lg">
+<img alt="MR Digital Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uhB-ZF6hgcyPZGylcRvfWLcyueR3Jt3T-w9gZ7mJYDeCRXqzB-hie4yQU-58PNTRaB7YCo5xuQid-X-pG2B161xOVn7wOsQjkFVh2-ux4qFAOKiRPhm1chrkJyxka1zb1g7XmX5jLCEi9BmKX-Zbqw2NHi-xdBuSKyymCj51EYtVvyGqlHcGKm7xEp3kEIYQnLOHW0gGUpsK4GMCjt7UGpmu-3GIeBCZ1GxF-k97qEAHvn_2-iymQ6ukNc6uDeSdQKjnmmSBuRRxw" style="">
+</div>
+<div>
+<div class="text-lg font-bold text-slate-900 dark:text-slate-100 tracking-tight" style="">MR Digital</div>
+<div class="text-[10px] uppercase tracking-widest text-slate-400 font-bold" style="">Educação Médica</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200" href="#" style="">
+<span class="material-symbols-outlined" style="">insights</span>
+<span class="" style="">Análises</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200" href="#" style="">
+<span class="material-symbols-outlined" style="">filter_alt</span>
+<span class="" style="">Funil</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200" href="#" style="">
+<span class="material-symbols-outlined" style="">chat</span>
+<span class="" style="">Conversas</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg border-l-4 border-blue-700 bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-400 transition-colors duration-200" href="#" style="">
+<span class="material-symbols-outlined" style="">school</span>
+<span class="" style="">Cursos</span>
+</a>
+</nav>
+<div class="mt-auto px-6 py-4">
+<div class="flex items-center gap-3 p-2 rounded-xl bg-surface-container-low">
+<img alt="Logo Clínica" class="w-8 h-8 rounded-full" data-alt="professional portrait of a medical clinic administrator in a clean white environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYG6nAGBY2-9VSmvul3up1_tmPBMncmYbTH6xee--LareZdTKjqDCj2O9Qgr9w03YL2xFcGWDcnDuZJGZNUdvGv__fm3lGjZioXRpOgNsPxOVYwK8tAVE0ve52Bgx8eUyNo7x9GAc_JO5FM0dJRGWMZL5yf20mw3aZyv5QoqSjcETYKcLyNYsCpY_fBJimbDeJH5-PgPvGMEjz2kVsJX40MrQ_e7n9WTCB-YocqHNRMnacmWqCppnTGC_eNmlwH3ciznpuB8z79yPs" style="">
+<div class="overflow-hidden">
+<p class="text-xs font-bold truncate" style="">Dr. Aris Thorne</p>
+<p class="text-[10px] text-slate-500 uppercase" style="">Administrador</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 flex justify-between items-center px-8 z-40 bg-white dark:bg-slate-950 font-inter text-sm no-border bg-slate-100 dark:bg-slate-900">
+<div class="flex items-center gap-4 bg-surface-container-low px-4 py-2 rounded-full w-96">
+<span class="material-symbols-outlined text-slate-400" style="">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-slate-400" placeholder="Buscar alunos, turmas ou registros..." type="text">
+</div>
+<div class="flex items-center gap-6">
+<button class="opacity-80 hover:opacity-100 transition-opacity relative" style="">
+<span class="material-symbols-outlined text-slate-600" style="">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="opacity-80 hover:opacity-100 transition-opacity" style="">
+<span class="material-symbols-outlined text-slate-600" style="">settings</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 dark:bg-slate-800"></div>
+<img alt="Perfil do Usuário" class="w-8 h-8 rounded-full border border-slate-200" data-alt="close-up portrait of a healthcare professional with a friendly expression, professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqpNfptpunN2C09-TliJ1oi2drcVNllF-5E24k_wyM_JzCcr1fC22HEXkAeq_NpRMR6H4EghsetlbMk2lkUFrnH-M0TIcwmVlY-cgWwV5tZNFLmy5ylDG7H6RfN-LXKx6nmeZOcGKNIQkLBTf5Fg-wfJQ6oKGYGYxzTQjPRz6SXhhDcuO7V32FYrYPV-L4cSlR6hWes5MAfTiFVQKfqKSbwsWVXlOQV8SnEno6OBMG2gg1vsL0X4yjCl7Mv9yHWsQbXgkR9IGv3fhC" style="">
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-20 pb-20 px-8 min-h-screen">
+<!-- Header Section: Course Overview -->
+<section class="mb-10">
+<div class="flex justify-between items-end mb-8">
+<div>
+<nav class="flex items-center gap-2 text-xs text-slate-400 mb-2 font-medium uppercase tracking-wider">
+<span class="" style="">Cursos</span>
+<span class="material-symbols-outlined text-[14px]" style="">chevron_right</span>
+<span class="text-primary" style="">Imersão em Implantodontia Digital</span>
+</nav>
+<h1 class="text-4xl font-extrabold tracking-tight text-on-surface" style="">Imersão em Implantodontia Digital</h1>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-high px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-surface-container-highest transition-colors" style="">Editar Ementa</button>
+<button class="bg-primary text-white px-5 py-2.5 rounded-lg font-semibold text-sm shadow-lg shadow-primary/20 flex items-center gap-2 hover:bg-primary/90 transition-colors" style="">
+<span class="material-symbols-outlined text-sm" style="">person_add</span> Matricular Aluno
+                    </button>
+</div>
+</div>
+<!-- Bento Stats Grid - Restyled -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Status das Matrículas -->
+<div class="col-span-12 lg:col-span-4 p-8 rounded-3xl bg-white border border-slate-100 shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="text-slate-500 font-bold text-xs uppercase tracking-widest" style="">Matrículas</span>
+<span class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" style="">group</span>
+</span>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="text-5xl font-extrabold text-on-surface tracking-tighter" style="">24</h3>
+<span class="text-xl font-semibold text-slate-300" style="">/ 30</span>
+</div>
+</div>
+<div class="mt-8">
+<div class="flex justify-between text-xs font-bold text-slate-500 mb-2">
+<span class="" style="">Progresso</span>
+<span class="text-primary" style="">80%</span>
+</div>
+<div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 80%"></div>
+</div>
+</div>
+</div>
+<!-- Datas -->
+<div class="col-span-12 lg:col-span-5 p-8 rounded-3xl bg-white border border-slate-100 shadow-sm flex flex-col">
+<div class="flex items-center justify-between mb-6">
+<span class="text-slate-500 font-bold text-xs uppercase tracking-widest" style="">Período Letivo</span>
+<span class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" style="">calendar_month</span>
+</span>
+</div>
+<div class="flex items-center gap-8 flex-1">
+<div class="flex-1">
+<p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1" style="">Início</p>
+<p class="text-2xl font-bold text-on-surface" style="">01/05/2026</p>
+</div>
+<div class="h-10 w-px bg-slate-100"></div>
+<div class="flex-1">
+<p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1" style="">Término</p>
+<p class="text-2xl font-bold text-on-surface" style="">12/12/2026</p>
+</div>
+</div>
+<div class="mt-6 flex gap-2">
+<span class="px-3 py-1 bg-surface-container-low rounded-lg text-[10px] font-bold text-slate-600 border border-slate-200" style="">PRESENCIAL</span>
+<span class="px-3 py-1 bg-surface-container-low rounded-lg text-[10px] font-bold text-slate-600 border border-slate-200" style="">HÍBRIDO</span>
+<span class="px-3 py-1 bg-blue-50 rounded-lg text-[10px] font-bold text-primary border border-primary/10 uppercase" style="">Turma T2</span>
+</div>
+</div>
+<!-- Valor do Curso -->
+<div class="col-span-12 lg:col-span-3 p-8 rounded-3xl bg-primary text-white shadow-xl shadow-primary/20 relative overflow-hidden group">
+<span class="material-symbols-outlined absolute -right-6 -top-6 text-[180px] opacity-10 rotate-12 transition-transform group-hover:scale-110" style="">payments</span>
+<div class="relative z-10 flex flex-col h-full">
+<span class="font-bold text-xs uppercase tracking-widest mb-4 opacity-80" style="">Investimento</span>
+<div class="mb-auto">
+<p class="text-sm opacity-80" style="">Valor por vaga</p>
+<h3 class="text-3xl font-extrabold tracking-tight" style="">R$ 22.250</h3>
+</div>
+<div class="pt-4 border-t border-white/10 mt-6">
+<p class="text-[10px] opacity-70 uppercase font-bold tracking-widest mb-1" style="">Receita Prevista</p>
+<p class="text-xl font-bold" style="">R$ 534.000,00</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Mid Section: Chronogram/Timeline -->
+<section class="mb-12">
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-2xl font-bold tracking-tight" style="">Cronograma do Curso</h2>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors" style="">
+<span class="material-symbols-outlined" style="">chevron_left</span>
+</button>
+<span class="font-bold text-sm uppercase" style="">Maio 2026</span>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors" style="">
+<span class="material-symbols-outlined" style="">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="relative">
+<div class="absolute left-1/2 top-0 bottom-0 w-px bg-slate-200 -translate-x-1/2 hidden md:block"></div>
+<div class="space-y-12 relative">
+<!-- Timeline Item 1 -->
+<div class="flex flex-col md:flex-row items-center gap-8 group">
+<div class="flex-1 text-right hidden md:block">
+<h4 class="text-lg font-bold text-primary" style="">Módulo 01: Fundamentos</h4>
+<p class="text-sm text-slate-500" style="">Ética, Privacidade e Padrões de Dados do Paciente</p>
+</div>
+<div class="relative z-10 w-12 h-12 rounded-full bg-white border-4 border-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+<span class="text-xs font-bold" style="">01/05</span>
+</div>
+<div class="flex-1 p-6 rounded-2xl bg-surface-container-low group-hover:bg-surface-container-lowest transition-all group-hover:shadow-xl group-hover:shadow-slate-200/50">
+<div class="md:hidden mb-2">
+<h4 class="text-lg font-bold text-primary" style="">Módulo 01: Fundamentos</h4>
+</div>
+<div class="flex items-center gap-4 text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">
+<span class="flex items-center gap-1" style=""><span class="material-symbols-outlined text-[14px]" style="">schedule</span> 09:00</span>
+<span class="flex items-center gap-1" style=""><span class="material-symbols-outlined text-[14px]" style="">location_on</span> Sala 402 / Zoom</span>
+</div>
+<p class="text-sm leading-relaxed text-on-surface-variant" style="">Introdução intensiva aos princípios fundamentais da curadoria clínica e ética digital em ambientes médicos.</p>
+</div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="flex flex-col md:flex-row-reverse items-center gap-8 group">
+<div class="flex-1 text-left hidden md:block">
+<h4 class="text-lg font-bold text-primary" style="">Módulo 02: Registros Digitais</h4>
+<p class="text-sm text-slate-500" style="">Integração de sistemas e gestão de APIs</p>
+</div>
+<div class="relative z-10 w-12 h-12 rounded-full bg-white border-4 border-slate-200 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+<span class="text-xs font-bold" style="">15/05</span>
+</div>
+<div class="flex-1 p-6 rounded-2xl bg-surface-container-low group-hover:bg-surface-container-lowest transition-all group-hover:shadow-xl group-hover:shadow-slate-200/50">
+<div class="md:hidden mb-2">
+<h4 class="text-lg font-bold text-primary" style="">Módulo 02: Registros Digitais</h4>
+</div>
+<div class="flex items-center gap-4 text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">
+<span class="flex items-center gap-1" style=""><span class="material-symbols-outlined text-[14px]" style="">schedule</span> 14:00</span>
+<span class="flex items-center gap-1" style=""><span class="material-symbols-outlined text-[14px]" style="">location_on</span> Lab 12-A</span>
+</div>
+<p class="text-sm leading-relaxed text-on-surface-variant" style="">Workshop prático sobre integração de dados EMR em vários sistemas de gestão hospitalar sem perda de dados.</p>
+</div>
+</div>
+<!-- Timeline Item 3 -->
+<div class="flex flex-col md:flex-row items-center gap-8 group">
+<div class="flex-1 text-right hidden md:block">
+<h4 class="text-lg font-bold text-primary" style="">Avaliação Intermediária</h4>
+<p class="text-sm text-slate-500" style="">Verificação de competência da primeira fase</p>
+</div>
+<div class="relative z-10 w-12 h-12 rounded-full bg-white border-4 border-slate-200 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+<span class="text-xs font-bold" style="">01/06</span>
+</div>
+<div class="flex-1 p-6 rounded-2xl bg-surface-container-low group-hover:bg-surface-container-lowest transition-all group-hover:shadow-xl group-hover:shadow-slate-200/50 border border-transparent hover:border-primary/10">
+<div class="md:hidden mb-2">
+<h4 class="text-lg font-bold text-primary" style="">Avaliação Intermediária</h4>
+</div>
+<div class="flex items-center gap-4 text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">
+<span class="flex items-center gap-1 text-error" style=""><span class="material-symbols-outlined text-[14px]" style="">warning</span> PRESENÇA OBRIGATÓRIA</span>
+</div>
+<p class="text-sm leading-relaxed text-on-surface-variant" style="">Exame teórico abrangente cobrindo o Módulo 01 e Módulo 02. Os resultados influenciarão as atribuições de rodízio clínico.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- NEW SECTION: Gerenciar Documentos -->
+<section class="mb-12 p-8 rounded-3xl bg-white border border-slate-100 shadow-sm">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<div>
+<h2 class="text-2xl font-bold tracking-tight" style="">Gerenciar Documentos</h2>
+<p class="text-sm text-slate-500" style="">Editais, contratos e materiais de apoio centrais do curso</p>
+</div>
+<button class="bg-surface-container-high hover:bg-surface-container-highest px-5 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2 transition-colors" style="">
+<span class="material-symbols-outlined text-sm" style="">upload_file</span> Fazer Upload
+                </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="border-b border-slate-100">
+<th class="pb-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest" style="">Nome do Arquivo</th>
+<th class="pb-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest" style="">Tipo</th>
+<th class="pb-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest" style="">Data de Upload</th>
+<th class="pb-4 text-right text-[10px] font-bold text-slate-400 uppercase tracking-widest" style="">Ações</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-50">
+<tr class="group">
+<td class="py-4" style="">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary bg-primary/5 p-2 rounded-lg" style="">description</span>
+<span class="font-bold text-sm" style="">Edital_Implantodontia_2026.pdf</span>
+</div>
+</td>
+<td class="py-4 text-sm text-slate-500" style="">PDF • 2.4 MB</td>
+<td class="py-4 text-sm text-slate-500" style="">12 Abr 2026</td>
+<td class="py-4 text-right" style="">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 hover:bg-primary/5 text-slate-400 hover:text-primary rounded-lg transition-colors" title="Baixar" style="">
+<span class="material-symbols-outlined text-xl" style="">download</span>
+</button>
+<button class="p-2 hover:bg-error/5 text-slate-400 hover:text-error rounded-lg transition-colors" title="Excluir" style="">
+<span class="material-symbols-outlined text-xl" style="">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="group">
+<td class="py-4" style="">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-amber-600 bg-amber-50 p-2 rounded-lg" style="">contract</span>
+<span class="font-bold text-sm" style="">Contrato_Padrao_Matricula.docx</span>
+</div>
+</td>
+<td class="py-4 text-sm text-slate-500" style="">DOCX • 1.1 MB</td>
+<td class="py-4 text-sm text-slate-500" style="">15 Abr 2026</td>
+<td class="py-4 text-right" style="">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 hover:bg-primary/5 text-slate-400 hover:text-primary rounded-lg transition-colors" style="">
+<span class="material-symbols-outlined text-xl" style="">download</span>
+</button>
+<button class="p-2 hover:bg-error/5 text-slate-400 hover:text-error rounded-lg transition-colors" style="">
+<span class="material-symbols-outlined text-xl" style="">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="group">
+<td class="py-4" style="">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-green-600 bg-green-50 p-2 rounded-lg" style="">book</span>
+<span class="font-bold text-sm" style="">Material_Apoio_Modulo_01.zip</span>
+</div>
+</td>
+<td class="py-4 text-sm text-slate-500" style="">ZIP • 145 MB</td>
+<td class="py-4 text-sm text-slate-500" style="">01 Mai 2026</td>
+<td class="py-4 text-right" style="">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 hover:bg-primary/5 text-slate-400 hover:text-primary rounded-lg transition-colors" style="">
+<span class="material-symbols-outlined text-xl" style="">download</span>
+</button>
+<button class="p-2 hover:bg-error/5 text-slate-400 hover:text-error rounded-lg transition-colors" style="">
+<span class="material-symbols-outlined text-xl" style="">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Bottom Section: Enrolled Students List -->
+<section class="p-8 rounded-3xl bg-surface-container-low">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+<div>
+<h2 class="text-2xl font-bold tracking-tight" style="">Alunos Matriculados</h2>
+<p class="text-sm text-slate-500" style="">24 perfis ativos encontrados para a turma ACD-2026</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" style="">search</span>
+<input class="pl-10 pr-4 py-2 bg-white rounded-lg border-none focus:ring-2 ring-primary text-sm w-64 shadow-sm" placeholder="Filtrar por nome..." type="text">
+</div>
+<button class="bg-white p-2 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors" style="">
+<span class="material-symbols-outlined text-slate-600" style="">tune</span>
+</button>
+<button class="bg-white p-2 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors" style="">
+<span class="material-symbols-outlined text-slate-600" style="">download</span>
+</button>
+</div>
+</div>
+<div class="space-y-4">
+<!-- Student Item 1 -->
+<div class="group flex items-center justify-between p-5 rounded-2xl bg-surface-container-lowest hover:shadow-lg transition-all border border-transparent hover:border-primary/10">
+<div class="flex items-center gap-4">
+<img alt="Estudante" class="w-12 h-12 rounded-xl" data-alt="headshot of a young student with glasses, friendly medical student vibe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWRelS8N0UOh3XxYPiHB9RlQ3sMuKm2sDBGnap3eFPRCH-w8ELHDnMLukCyeI12MBkWryqRXIlCs8UoUzM-7gnMjkbVbDYJOHpxuSd6RdC1LiArXcOANX-7CIDW83KBdu18-FxQ24VDPigE6TWl1Wr0wWza8BztSO-vZfFujblh6kmYw-2BgxDvdixN76ivvzLHRHiOL1adiPJ5Fme0lyJIr8tpGPRL8RktSIMmnd9GoO2py11TLUhch6nYaXpq4kpoKug4D5CaTug" style="">
+<div>
+<h4 class="font-bold text-on-surface" style="">Elena Rodriguez</h4>
+<p class="text-xs text-slate-500" style="">e.rodriguez@medical.edu • Matriculada em 12 Abr</p>
+</div>
+</div>
+<div class="hidden md:block text-center">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1" style="">Status</p>
+<span class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-[10px] font-bold uppercase" style="">Pago &amp; Ativo</span>
+</div>
+<div class="hidden lg:block text-center">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1" style="">Frequência</p>
+<p class="text-sm font-bold" style="">100% <span class="text-[10px] font-medium text-slate-400" style="">(0 faltas)</span></p>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors" style="">
+<span class="material-symbols-outlined text-slate-400" style="">more_vert</span>
+</button>
+</div>
+<!-- Student Item 2 -->
+<div class="group flex items-center justify-between p-5 rounded-2xl bg-surface-container-lowest hover:shadow-lg transition-all border border-transparent hover:border-primary/10">
+<div class="flex items-center gap-4">
+<img alt="Estudante" class="w-12 h-12 rounded-xl" data-alt="professional portrait of a male student, clean clinical background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAffC6uiIAIQKedsEaAejXuSljgDtVNQtc7uRVW06DU9YZcP23cqF4SU82lBgwpdoSVyuI8Ri2uI83Spzl-oJwskTg7XhTj_7Iw6PDx0JtUbDxcu1tBApN1JVDjCrpyAxpxM7r6IPyxa4Kj0NZP7ngVCoRMRez3O8Wy9_zytYrjlMdgTVXcjViRyWEpVUjjJpAJ7u-wUSG1SL8m3qYwdlGkWxXXdUPx41mOwhij_Pw5vlRjcbbxDvvVmlAhkx_tBJIM4DUBmMy_4Kmj" style="">
+<div>
+<h4 class="font-bold text-on-surface" style="">Marcus Chen</h4>
+<p class="text-xs text-slate-500" style="">m.chen@clinical.org • Matriculado em 28 Mar</p>
+</div>
+</div>
+<div class="hidden md:block text-center">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1" style="">Status</p>
+<span class="px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-[10px] font-bold uppercase" style="">Parcelado</span>
+</div>
+<div class="hidden lg:block text-center">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1" style="">Frequência</p>
+<p class="text-sm font-bold" style="">92% <span class="text-[10px] font-medium text-slate-400" style="">(1 falta)</span></p>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors" style="">
+<span class="material-symbols-outlined text-slate-400" style="">more_vert</span>
+</button>
+</div>
+<!-- Student Item 3 -->
+<div class="group flex items-center justify-between p-5 rounded-2xl bg-surface-container-lowest hover:shadow-lg transition-all border border-transparent hover:border-primary/10">
+<div class="flex items-center gap-4">
+<img alt="Estudante" class="w-12 h-12 rounded-xl" data-alt="close up headshot of a female student in professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9DqYlvEOglKsybT5HRGyolzllgODiK5dldllAsRcZt6ZKBru0zXTPiDurhCq6iLbKdtm8API2xi9ybyFFBxmyGbw_5Ra3IkQcVNKrDLxITu0YN67rQIS7VLZHoKuagxubZ86awaib1UUVzvWmzKWR8xcXO3VKBzgmVbgoXrtycIREmLVxx27E1cp15VWRedP13J7nmD64DJ_iHePepAeCQHb9kPvGyi5SpN4bJmFdz3Lkqk5cBZEoKz2yc-BDGJ1OCBmlsGaE5lKu" style="">
+<div>
+<h4 class="font-bold text-on-surface" style="">Sarah Jenkins</h4>
+<p class="text-xs text-slate-500" style="">s.jenkins@academy.com • Matriculada em 01 Mai</p>
+</div>
+</div>
+<div class="hidden md:block text-center">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1" style="">Status</p>
+<span class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-[10px] font-bold uppercase" style="">Pago &amp; Ativo</span>
+</div>
+<div class="hidden lg:block text-center">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1" style="">Frequência</p>
+<p class="text-sm font-bold" style="">100% <span class="text-[10px] font-medium text-slate-400" style="">(0 faltas)</span></p>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors" style="">
+<span class="material-symbols-outlined text-slate-400" style="">more_vert</span>
+</button>
+</div>
+</div>
+<button class="w-full mt-6 py-4 rounded-xl border-2 border-dashed border-slate-300 text-slate-400 font-bold text-sm hover:border-primary hover:text-primary transition-all uppercase tracking-widest" style="">
+                Ver todos os 24 alunos matriculados
+            </button>
+</section>
+</main>
+</body></html>

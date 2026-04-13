@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MR Digital - Conversas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-bright": "#f7f9fb",
+              "inverse-on-surface": "#eff1f3",
+              "error-container": "#ffdad6",
+              "on-secondary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "surface-container-low": "#f2f4f6",
+              "outline-variant": "#c3c6d7",
+              "on-secondary-fixed": "#00174b",
+              "on-primary": "#ffffff",
+              "on-surface": "#191c1e",
+              "background": "#f7f9fb",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-fixed": "#ffdbcd",
+              "secondary-fixed": "#dbe1ff",
+              "surface-dim": "#d8dadc",
+              "primary": "#004ac6",
+              "inverse-primary": "#b4c5ff",
+              "on-surface-variant": "#434655",
+              "on-primary-fixed": "#00174b",
+              "surface": "#f7f9fb",
+              "surface-tint": "#0053db",
+              "surface-container-high": "#e6e8ea",
+              "tertiary-fixed-dim": "#ffb596",
+              "on-secondary-fixed-variant": "#31447b",
+              "on-error-container": "#93000a",
+              "inverse-surface": "#2d3133",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#2563eb",
+              "on-error": "#ffffff",
+              "tertiary": "#943700",
+              "tertiary-container": "#bc4800",
+              "on-tertiary-fixed": "#360f00",
+              "surface-variant": "#e0e3e5",
+              "outline": "#737686",
+              "on-primary-fixed-variant": "#003ea8",
+              "secondary-container": "#acbfff",
+              "secondary": "#495c95",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "on-secondary-container": "#394c84",
+              "secondary-fixed-dim": "#b4c5ff",
+              "error": "#ba1a1a",
+              "primary-fixed": "#dbe1ff",
+              "on-tertiary-container": "#ffede6",
+              "surface-container": "#eceef0",
+              "on-primary-container": "#eeefff",
+              "on-background": "#191c1e"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased">
+<!-- SideNavBar (Authority Source: JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 flex flex-col py-6 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl overflow-hidden bg-black flex items-center justify-center">
+<img alt="MR Digital Logo" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0uhB-ZF6hgcyPZGylcRvfWLcyueR3Jt3T-w9gZ7mJYDeCRXqzB-hie4yQU-58PNTRaB7YCo5xuQid-X-pG2B161xOVn7wOsQjkFVh2-ux4qFAOKiRPhm1chrkJyxka1zb1g7XmX5jLCEi9BmKX-Zbqw2NHi-xdBuSKyymCj51EYtVvyGqlHcGKm7xEp3kEIYQnLOHW0gGUpsK4GMCjt7UGpmu-3GIeBCZ1GxF-k97qEAHvn_2-iymQ6ukNc6uDeSdQKjnmmSBuRRxw"/>
+</div>
+<div>
+<h1 class="text-lg font-bold text-slate-900 dark:text-slate-100 tracking-tight">MR Digital</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">CRM Médico</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200 font-manrope text-sm font-semibold" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span>Análises</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200 font-manrope text-sm font-semibold" href="#">
+<span class="material-symbols-outlined">filter_alt</span>
+<span>Funil</span>
+</a>
+<!-- Active Navigation Logic: Conversas -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg border-l-4 border-blue-700 bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-400 font-manrope text-sm font-semibold scale-95 active:scale-100 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat</span>
+<span>Conversas</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200 font-manrope text-sm font-semibold" href="#">
+<span class="material-symbols-outlined">school</span>
+<span>Cursos</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<div class="p-4 bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-3 mb-2">
+<img alt="retrato profissional do Dr. Aris Thorne" class="w-8 h-8 rounded-full bg-slate-200 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvmR6wNXg3IMDp5atmdffOhbuh0N-rdP1zmT-MIfa703uTF8jkfV20u0Zz2WzINs2ACHDhL_JZ-ZouITOxoEINp9HHnvPPQsE_eb8BTBdl7KkmevO2F8HCcoaevb5Zci1boG9y7H5axUf2KLX0pbvKUAy3KozBaoN-DJr1ggKorS-drRspx8BTSaeg6F8BFmGWR8mnQWh_53_vav3bhba1xMg-ybul6UkxLqTrcU6CTVOj8vH_M2w1hhGFiknccUu2IZMVlp_mHl8z"/>
+<div class="overflow-hidden">
+<p class="text-xs font-bold truncate">Dr. Aris Thorne</p>
+<p class="text-[10px] text-slate-500">Administrador</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar (Authority Source: JSON) -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 flex justify-between items-center px-8 z-40 bg-white dark:bg-slate-950">
+<div class="flex-1 max-w-xl">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-sm focus:ring-2 ring-primary/20 transition-all" placeholder="Pesquisar conversas clínicas..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-slate-600">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-slate-600">settings</span>
+</button>
+<div class="h-8 w-px bg-surface-container-highest"></div>
+<div class="flex items-center gap-3">
+<span class="text-sm font-semibold text-blue-700">MR Digital</span>
+<div class="w-8 h-8 rounded-lg overflow-hidden bg-black flex items-center justify-center p-1">
+<img alt="Logo MR Digital" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0uhB-ZF6hgcyPZGylcRvfWLcyueR3Jt3T-w9gZ7mJYDeCRXqzB-hie4yQU-58PNTRaB7YCo5xuQid-X-pG2B161xOVn7wOsQjkFVh2-ux4qFAOKiRPhm1chrkJyxka1zb1g7XmX5jLCEi9BmKX-Zbqw2NHi-xdBuSKyymCj51EYtVvyGqlHcGKm7xEp3kEIYQnLOHW0gGUpsK4GMCjt7UGpmu-3GIeBCZ1GxF-k97qEAHvn_2-iymQ6ukNc6uDeSdQKjnmmSBuRRxw"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 h-screen flex overflow-hidden">
+<!-- Left Sidebar: Lead List -->
+<section class="w-80 flex flex-col bg-surface-container-low overflow-hidden">
+<div class="p-6">
+<h2 class="font-headline text-xl font-bold text-on-surface mb-4">Leads Ativos</h2>
+<div class="flex gap-2 mb-6">
+<span class="px-3 py-1 bg-primary text-white text-[10px] font-bold rounded-full uppercase tracking-tighter">Todos</span>
+<span class="px-3 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold rounded-full uppercase tracking-tighter">Não Lidos</span>
+<span class="px-3 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold rounded-full uppercase tracking-tighter">WhatsApp</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto hide-scrollbar px-3 space-y-1">
+<!-- Lead Card Active -->
+<div class="p-4 bg-surface-container-lowest rounded-xl shadow-sm cursor-pointer border-l-4 border-primary">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-bold text-on-surface">Elena Rodriguez</span>
+<span class="text-[10px] text-slate-400">12:45</span>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-2 leading-relaxed">Poderia esclarecer os pré-requisitos para o curso de Dermato-Cirurgia Avançada?</p>
+<div class="mt-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-green-600">chat</span>
+<span class="text-[10px] font-bold text-slate-500 uppercase">WhatsApp</span>
+</div>
+</div>
+<!-- Lead Card -->
+<div class="p-4 hover:bg-white/50 rounded-xl cursor-pointer transition-colors group">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-bold text-on-surface group-hover:text-primary transition-colors">Marcus Chen</span>
+<span class="text-[10px] text-slate-400">10:12</span>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-1">Enviei o comprovante de pagamento por e-mail.</p>
+<div class="mt-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-blue-500">mail</span>
+<span class="text-[10px] font-bold text-slate-500 uppercase">E-mail</span>
+</div>
+</div>
+<!-- Lead Card -->
+<div class="p-4 hover:bg-white/50 rounded-xl cursor-pointer transition-colors group">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-bold text-on-surface">Sarah Jenkins</span>
+<span class="text-[10px] text-slate-400">Ontem</span>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-1">Quando começa a próxima turma de Nutrição Pediátrica?</p>
+<div class="mt-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-green-600">chat</span>
+<span class="text-[10px] font-bold text-slate-500 uppercase">WhatsApp</span>
+</div>
+</div>
+<!-- Lead Card -->
+<div class="p-4 hover:bg-white/50 rounded-xl cursor-pointer transition-colors group">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-bold text-on-surface">Dr. Julian Voss</span>
+<span class="text-[10px] text-slate-400">24 Out</span>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-1">Os detalhes da certificação do conselho médico não foram anexados.</p>
+<div class="mt-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-blue-500">mail</span>
+<span class="text-[10px] font-bold text-slate-500 uppercase">E-mail</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Center Pane: Chat Interface -->
+<section class="flex-1 flex flex-col bg-surface overflow-hidden relative">
+<div class="h-16 px-8 flex items-center justify-between bg-white/50 backdrop-blur-md z-10 shrink-0">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-primary">ER</div>
+<div>
+<h3 class="font-headline text-sm font-bold">Elena Rodriguez</h3>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-[10px] text-on-surface-variant font-medium">Online • respondendo via WhatsApp</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">phone</span>
+</button>
+<button class="p-2 hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Messages Area -->
+<div class="flex-1 overflow-y-auto p-8 space-y-8 hide-scrollbar pb-12">
+<div class="flex justify-center">
+<span class="px-4 py-1 bg-surface-container-low text-[10px] font-bold text-slate-500 rounded-full uppercase tracking-widest">Hoje</span>
+</div>
+<!-- Incoming Message -->
+<div class="flex gap-4 max-w-2xl">
+<div class="w-8 h-8 rounded-full bg-slate-200 shrink-0 mt-1">
+<img alt="close de uma profissional de saúde" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHJsV9S21TsJHBzfzhkAfJ8iznO0UjIayeon8zm6xmAkQm9BabVjjaCPb9hWYOL9UHEIqg6T6d6P-6-xDWcPcU0nDWxPBUf6LvD6LegGXJDHlMFe4pn3X7X7V_TxajA6PJJ2TME_aMf4EMcmn0_xmA7G7CdVwjqZp6bJINDUXdaT3VlX86znPgB9g_hPfwsoQSOTLU7Pd-4FNYx7VL6UEKPnEW-NucTbWvIITR_wwQ4MZNATeh9L8Aqeox22SLzkSAflOMdy_mAJjV"/>
+</div>
+<div class="space-y-2">
+<div class="p-4 bg-surface-container-low rounded-2xl rounded-tl-none">
+<p class="text-sm leading-relaxed text-on-surface">Olá! Estou interessada no curso de Dermato-Cirurgia Avançada. Poderia esclarecer se as horas clínicas podem ser concluídas remotamente ou se a presença no local é obrigatória?</p>
+</div>
+<span class="text-[10px] text-slate-400 font-medium">12:42 • WhatsApp</span>
+</div>
+</div>
+<!-- Outgoing Message -->
+<div class="flex gap-4 max-w-2xl ml-auto flex-row-reverse">
+<div class="w-8 h-8 rounded-full bg-primary shrink-0 mt-1 flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px] text-white">support_agent</span>
+</div>
+<div class="space-y-2 text-right">
+<div class="p-4 bg-primary text-white rounded-2xl rounded-tr-none shadow-lg shadow-primary/10">
+<p class="text-sm leading-relaxed">Oi Elena! Para o programa de Dermato-Cirurgia Avançada, 40% das horas clínicas exigem participação presencial em nossas clínicas parceiras para procedimentos cirúrgicos supervisionados. O restante pode ser via simulação.</p>
+</div>
+<div class="flex items-center justify-end gap-1">
+<span class="text-[10px] text-slate-400 font-medium">12:45 • Lida</span>
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">done_all</span>
+</div>
+</div>
+</div>
+<!-- Incoming Message -->
+<div class="flex gap-4 max-w-2xl">
+<div class="w-8 h-8 rounded-full bg-slate-200 shrink-0 mt-1">
+<img alt="close de uma profissional de saúde" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1-ePWqggZnzLVIYHGVQkMJj4_f0-aRiXuMUKea50ek_jMzQzg-w4hYD8S1yVZgRAFtiZ1dFF4lh23Gr-Hv236LUgDFhLlyUjxmkLdFxymofbXfytdRvRXa2Zh7DJ-DwL4YPih5CJsfx6vfPyXAg5LFl_XQSiR0mdhLePofYmVYdDzUZPpViKd4BqAZ_0R7C_2Idxf-cQHEKF0foSLuts20PjurrbVINhQN15ClyXW4YVXxEkrIBdrCdtfGZdZCnfXBoOrKvOeMDF5"/>
+</div>
+<div class="space-y-2">
+<div class="p-4 bg-surface-container-low rounded-2xl rounded-tl-none">
+<p class="text-sm leading-relaxed text-on-surface">Poderia esclarecer os pré-requisitos para o curso de Dermato-Cirurgia Avançada?</p>
+</div>
+<span class="text-[10px] text-slate-400 font-medium">12:46 • WhatsApp</span>
+</div>
+</div>
+</div>
+<!-- Message Input Bar -->
+<div class="p-6 bg-white border-t border-surface-container-highest">
+<div class="flex items-center gap-4 bg-surface-container-low rounded-2xl px-4 py-2">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+<input class="flex-1 bg-transparent border-none text-sm focus:ring-0 placeholder:text-slate-400" placeholder="Digite uma mensagem..." type="text"/>
+<button class="text-primary hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Right Sidebar: Lead Details -->
+<aside class="w-80 bg-white border-l border-surface-container-highest flex flex-col overflow-hidden">
+<div class="p-6 text-center border-b border-surface-container-low">
+<div class="w-20 h-20 bg-surface-container-low rounded-3xl mx-auto mb-4 flex items-center justify-center relative">
+<img alt="Perfil de estudante de medicina" class="w-full h-full rounded-3xl object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBJWIPLLRUWbFqEU2wcjw3AaqHqOD1sKWBc9Nhwx7bw0ZQY7K-QuhTXo0m-_W2_n6FpT4pRzwZLs-CUahiIqA8VWzGAZMncwJxMOvoZdRF6n5ZWjws6ox1VEb99n41U520l4sXw5hLjGsSEdhfr8nLW8N6sR7UYBhlcgDLEM9pEzPpRv94TNTLLEbkiYujnxdk8pIeVMgA4JJ9iYtMLfNB71wLA7M_UOh_QT-Knuz5G0B0kKzBpGrdprES7GGJukjk0OwSCXMSJViC"/>
+<div class="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 border-4 border-white rounded-full"></div>
+</div>
+<h2 class="font-headline text-lg font-bold">Elena Rodriguez</h2>
+<p class="text-xs text-on-surface-variant mb-4">Candidata a M.D., 4º Ano</p>
+<div class="flex gap-2 justify-center">
+<button class="px-4 py-2 bg-primary/10 text-primary text-[10px] font-bold rounded-lg uppercase">Perfil</button>
+<button class="px-4 py-2 bg-slate-100 text-slate-600 text-[10px] font-bold rounded-lg uppercase">Matricular</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-8 hide-scrollbar">
+<!-- Info Blocks -->
+<div class="space-y-4">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary text-[20px]">school</span>
+<div>
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Curso de Interesse</p>
+<p class="text-sm font-semibold">Dermato-Cirurgia Avançada</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary text-[20px]">account_tree</span>
+<div>
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Estágio no Funil</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-2 py-0.5 bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold rounded">Negociação</span>
+<span class="text-[10px] text-slate-400">80% Prob.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Notes -->
+<div>
+<div class="flex justify-between items-center mb-4">
+<h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Notas Rápidas</h4>
+<span class="material-symbols-outlined text-[16px] text-primary cursor-pointer">add_circle</span>
+</div>
+<div class="space-y-3">
+<div class="p-3 bg-surface-container-low rounded-xl text-xs leading-relaxed text-on-surface-variant italic">
+                            "Interessada em trilhas de simulação clínica. Precisa de esclarecimentos sobre planos de pagamento até sexta-feira."
+                        </div>
+<div class="p-3 bg-surface-container-low rounded-xl text-xs leading-relaxed text-on-surface-variant italic">
+                            "Indicada pelo Dr. Aris. Lead com alta intenção de compra."
+                        </div>
+</div>
+</div>
+<!-- Activity Timeline -->
+<div>
+<h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Atividade Recente</h4>
+<div class="space-y-4 relative before:content-[''] before:absolute before:left-[9px] before:top-2 before:bottom-2 before:w-[2px] before:bg-surface-container-high">
+<div class="flex gap-4 relative">
+<div class="w-[20px] h-[20px] rounded-full bg-white border-4 border-primary z-10"></div>
+<div>
+<p class="text-xs font-bold">WhatsApp Recebido</p>
+<p class="text-[10px] text-slate-400">12:46 Hoje</p>
+</div>
+</div>
+<div class="flex gap-4 relative">
+<div class="w-[20px] h-[20px] rounded-full bg-white border-4 border-surface-container-high z-10"></div>
+<div>
+<p class="text-xs font-bold text-slate-500">E-mail Aberto</p>
+<p class="text-[10px] text-slate-400">09:12 Hoje</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+</body></html>
