@@ -1,6 +1,6 @@
 import { memo, lazy, Suspense } from 'react'
-import { Users, Zap, Target, Download, GitBranch } from 'lucide-react'
-import { analyticsData } from '../data/mock.js'
+import { Users, Zap, Target, Download, GitBranch, Sparkles, AlertCircle, TrendingUp, MessageSquare } from 'lucide-react'
+import { analyticsData, aiAnalysis } from '../data/mock.js'
 
 // ─── Lazy chart imports (bundle-dynamic-imports) ─────────────────────────────
 const LazyConversationChart = lazy(() =>
@@ -145,6 +145,106 @@ const KPI_CONFIG = [
     valueColor: 'text-slate-900',
   },
 ]
+
+// ─── ICP Card ────────────────────────────────────────────────────────────────
+const IcpCard = memo(function IcpCard({ icp }) {
+  return (
+    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
+      <div className="flex justify-between items-start mb-6">
+        <div>
+          <p className="text-[10px] font-bold text-[#2563EB] uppercase tracking-widest mb-1">Perfil de Cliente Ideal (ICP)</p>
+          <p className="text-sm text-slate-600 leading-relaxed max-w-2xl">{icp.summary}</p>
+        </div>
+        <div className="shrink-0 ml-6 p-3 bg-blue-50 rounded-xl">
+          <Users size={22} className="text-[#2563EB]" />
+        </div>
+      </div>
+      <div className="grid grid-cols-6 gap-3 mb-6">
+        {icp.attributes.map(attr => (
+          <div key={attr.label} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1">{attr.label}</p>
+            <p className="text-sm font-bold text-slate-900">{attr.value}</p>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-start gap-3 p-4 bg-blue-50/60 rounded-xl border-l-4 border-[#2563EB]">
+        <TrendingUp size={15} className="text-[#2563EB] mt-0.5 shrink-0" />
+        <p className="text-xs text-slate-600 leading-relaxed">{icp.insight}</p>
+      </div>
+    </div>
+  )
+})
+
+// ─── Persona Card ─────────────────────────────────────────────────────────────
+const PERSONA_COLORS = {
+  blue:    { bg: 'bg-blue-50',    text: 'text-blue-700',    badge: 'bg-blue-100 text-blue-700',       dot: 'bg-blue-500'    },
+  purple:  { bg: 'bg-purple-50',  text: 'text-purple-700',  badge: 'bg-purple-100 text-purple-700',   dot: 'bg-purple-500'  },
+  orange:  { bg: 'bg-orange-50',  text: 'text-orange-700',  badge: 'bg-orange-100 text-orange-700',   dot: 'bg-orange-500'  },
+  emerald: { bg: 'bg-emerald-50', text: 'text-emerald-700', badge: 'bg-emerald-100 text-emerald-700', dot: 'bg-emerald-500' },
+}
+
+const PersonaCard = memo(function PersonaCard({ persona }) {
+  const c = PERSONA_COLORS[persona.color]
+  return (
+    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col">
+      <div className="flex items-start justify-between mb-4">
+        <div className={`w-10 h-10 rounded-xl ${c.bg} flex items-center justify-center shrink-0`}>
+          <Users size={18} className={c.text} />
+        </div>
+        <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${c.badge}`}>
+          {persona.badge}
+        </span>
+      </div>
+      <h4 className="text-sm font-bold text-slate-900 mb-2 font-headline">{persona.name}</h4>
+      <p className="text-xs text-slate-500 leading-relaxed mb-4">{persona.description}</p>
+      <div className="space-y-1.5 mb-4">
+        {persona.traits.map(t => (
+          <div key={t} className="flex items-center gap-2">
+            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${c.dot}`} />
+            <span className="text-xs text-slate-600">{t}</span>
+          </div>
+        ))}
+      </div>
+      <div className="mt-auto pt-4 border-t border-slate-50">
+        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1">Principal Dor</p>
+        <p className="text-xs text-slate-600 leading-relaxed">{persona.painPoint}</p>
+      </div>
+      <div className="mt-3 flex items-center gap-1.5">
+        <MessageSquare size={11} className="text-slate-400" />
+        <span className="text-[10px] text-slate-400">{persona.channel}</span>
+      </div>
+    </div>
+  )
+})
+
+// ─── Pain Point Row ───────────────────────────────────────────────────────────
+const SEVERITY = {
+  high: { bar: 'bg-red-400', badge: 'bg-red-50 text-red-600' },
+  medium: { bar: 'bg-amber-400', badge: 'bg-amber-50 text-amber-600' },
+  low: { bar: 'bg-slate-300', badge: 'bg-slate-100 text-slate-500' },
+}
+
+const PainPointRow = memo(function PainPointRow({ point }) {
+  const s = SEVERITY[point.severity]
+  const pct = parseInt(point.affected)
+  return (
+    <div className="flex items-center gap-4 py-3.5 border-b border-slate-50 last:border-0">
+      <span className="text-xs font-extrabold text-slate-300 w-4 shrink-0">#{point.rank}</span>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-1">
+          <p className="text-sm font-bold text-slate-800 truncate">{point.title}</p>
+          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${s.badge}`}>
+            {point.affected}
+          </span>
+        </div>
+        <p className="text-xs text-slate-400 truncate">{point.description}</p>
+      </div>
+      <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden shrink-0">
+        <div className={`h-full ${s.bar} rounded-full`} style={{ width: `${pct}%` }} />
+      </div>
+    </div>
+  )
+})
 
 // Decreasing opacity per SPIN stage (matching prototype visual gradient)
 const SPIN_OPACITIES = [1.0, 0.8, 0.6, 0.4]
@@ -302,6 +402,48 @@ export default function Analytics() {
           <LazyRevenueChart />
         </Suspense>
       </div>
+
+      {/* ── AI Insights ── */}
+      <section className="mt-8 space-y-6">
+        <div className="flex items-center justify-between">
+          <h3 className="text-base font-bold text-slate-800 flex items-center gap-2 font-headline">
+            <Sparkles size={17} className="text-[#2563EB]" />
+            Análise de Inteligência Artificial
+          </h3>
+          <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-full uppercase tracking-widest">
+            Gerado por IA · Atualizado há 2h
+          </span>
+        </div>
+
+        {/* ICP */}
+        <IcpCard icp={aiAnalysis.icp} />
+
+        {/* Personas + Pain Points */}
+        <div className="grid grid-cols-12 gap-6">
+          {/* Personas — col-span-7 */}
+          <div className="col-span-7 space-y-4">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Personas Identificadas</p>
+            <div className="grid grid-cols-2 gap-4">
+              {aiAnalysis.personas.map(p => (
+                <PersonaCard key={p.id} persona={p} />
+              ))}
+            </div>
+          </div>
+
+          {/* Pain Points — col-span-5 */}
+          <div className="col-span-5 bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Principais Dores</p>
+              <AlertCircle size={14} className="text-slate-300" />
+            </div>
+            <div>
+              {aiAnalysis.painPoints.map(p => (
+                <PainPointRow key={p.rank} point={p} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

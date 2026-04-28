@@ -7,6 +7,7 @@ const Analytics = lazy(() => import('./pages/Analytics.jsx'))
 const Funil = lazy(() => import('./pages/Funil.jsx'))
 const Conversas = lazy(() => import('./pages/Conversas.jsx'))
 const Cursos = lazy(() => import('./pages/Cursos.jsx'))
+const Copiloto = lazy(() => import('./pages/Copiloto.jsx'))
 
 function PageSkeleton() {
   return (
@@ -56,6 +57,14 @@ export default function App() {
             element={
               <Suspense fallback={<PageSkeleton />}>
                 <Cursos />
+              </Suspense>
+            }
+          />
+          <Route
+            path="copiloto"
+            element={
+              <Suspense fallback={<PageSkeleton />}>
+                <Copiloto />
               </Suspense>
             }
           />

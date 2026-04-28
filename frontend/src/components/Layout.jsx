@@ -1,5 +1,5 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { BarChart2, Filter, MessageCircle, GraduationCap, Bell, Settings, Search } from 'lucide-react'
+import { NavLink, Outlet } from 'react-router-dom'
+import { BarChart2, Filter, MessageCircle, GraduationCap, Bot, Bell, Settings, Search } from 'lucide-react'
 import { currentUser } from '../data/mock.js'
 
 // ─── Sub-components defined outside render (rerender-no-inline-components) ───
@@ -27,6 +27,7 @@ const NAV_ITEMS = [
   { to: '/funil', label: 'Funil', Icon: Filter },
   { to: '/conversas', label: 'Conversas', Icon: MessageCircle },
   { to: '/cursos', label: 'Cursos', Icon: GraduationCap },
+  { to: '/copiloto', label: 'Copiloto', Icon: Bot },
 ]
 
 function NavItem({ to, label, Icon }) {
