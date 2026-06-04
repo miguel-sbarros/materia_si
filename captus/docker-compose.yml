@@ -1,0 +1,65 @@
+# docker-compose.yml — Aula 6, Part 6 / item 7.2 do roteiro
+#
+# Orquestra os três serviços do Captus em uma única rede Docker interna,
+# permitindo que se comuniquem pelo NOME do serviço:
+#   - frontend  -> backend  (http://backend:8000)
+#   - backend   -> database (host "database", porta 5432)
+#
+# Subir tudo com:  docker compose up --build
+
+services:
+  # --------------------------------------------------------------------- #
+  # 1) Banco de dados PostgreSQL (Aula 6 — Step 16 / Aula 7)
+  # --------------------------------------------------------------------- #
+  database:
+    image: postgres:15-alpine
+    container_name: captus_db
+    environment:
+      POSTGRES_USER: ${DB_USER:-user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+      POSTGRES_DB: ${DB_NAME:-postgres}
+    ports:
+      - "5432:5432"          # exposto para o DBeaver conectar (Aula 7)
+    volumes:
+      - captus_pgdata:/var/lib/postgresql/data
+      # Cria o schema automaticamente na primeira subida do container
+      - ./database/create_tables.sql:/docker-entrypoint-initdb.d/01_create_tables.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-user} -d ${DB_NAME:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # --------------------------------------------------------------------- #
+  # 2) Backend (FastAPI) — recebe credenciais por variáveis de ambiente
+  # --------------------------------------------------------------------- #
+  backend:
+    build: ./backend
+    container_name: captus_backend
+    environment:
+      DB_HOST: database          # nome do serviço na rede Docker (7.2)
+      DB_PORT: "5432"
+      DB_NAME: ${DB_NAME:-postgres}
+      DB_USER: ${DB_USER:-user}
+      DB_PASSWORD: ${DB_PASSWORD:-password}
+    ports:
+      - "8000:8000"
+    depends_on:
+      database:
+        condition: service_healthy
+
+  # --------------------------------------------------------------------- #
+  # 3) Frontend (Streamlit) — acessa o backend pela rede interna
+  # --------------------------------------------------------------------- #
+  frontend:
+    build: ./frontend
+    container_name: captus_frontend
+    environment:
+      BACKEND_URL: http://backend:8000   # comunicação pelo nome do serviço
+    ports:
+      - "8501:8501"
+    depends_on:
+      - backend
+
+volumes:
+  captus_pgdata:
