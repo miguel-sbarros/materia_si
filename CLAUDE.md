@@ -67,6 +67,15 @@ Phase 0 (foundations + CI) is built and verified: `docker compose up` boots db+b
 
 Frontend foundation + P1 Kanban: typed API client + TanStack Query + Login/auth context in `src/frontend/`, and the `GET/POST /leads`, `GET /leads/{id}`, deal-stage `PATCH` (writes `deal_events`) endpoints. Scope it with `/plan`.
 
+### Copiloto page (Feature 4 UI — built ahead, mock-only)
+
+The `/copiloto` page was adapted from the Claude-Design prototype (`prototype/Copiloto WhatsApp.dc.html` + `prototype/PRD Copiloto WhatsApp.dc.html`) ahead of its backend phase. **Frontend-only, runs entirely on mocks; the real LLM backend is P4.** Spec: `specs/copilot.md`.
+
+- Lives in `src/frontend/src/`: `pages/Copiloto.jsx` (container) · `hooks/useCopilot.js` (useReducer state) · `components/copiloto/{EmptyState,Composer,MentionMenu,CommandMenu,LeadContextChip,MessageList,DraftCard}.jsx` · `data/copilot.js` (mock leads/drafts/KB/commands) · `lib/copilotApi.js`.
+- **`lib/copilotApi.js` is the backend-swap seam** — async fns mirroring the PRD routes/contracts: `searchLeads(q)` → `GET /api/leads?q=`, `getLeadContext(id)` → `GET /api/leads/{id}/context`, `postCopilotChat({messages,leadId,command})` → `POST /api/copilot/chat`. P4 replaces the mock bodies with real fetches (LLM-generated `drafts` = Análise + tone variants); the page/components don't change. Contracts `Lead`/`Message`/`Draft` are JSDoc'd in the seam + `specs/copilot.md`. **Note:** this advisory copilot is distinct from the seller `SellerAdvice` planned in the master plan P4 — reconcile the two when P4 is scoped.
+- Behavior: `@` attaches a lead (profile + history → context), `/` runs slash-commands, responses are KB text or draft cards (3 tones, copy-to-clipboard).
+- The committed `.vite/` build cache was untracked + gitignored during this work; `eslint.config.js` now ignores `.vite`.
+
 ## Design principles (non-negotiable for grading)
 
 - **Dockerization** — everything runs via `docker compose up`.

@@ -79,6 +79,22 @@ def client():
 
 
 @pytest.fixture
+def api_client(db_session):
+    """TestClient com ``get_db`` apontando para a sessão isolada (savepoint-rollback).
+
+    Os services chamam ``db.commit()``; o rollback da transação externa do
+    ``db_session`` garante o isolamento entre testes.
+    """
+    from app.db.session import get_db
+    from app.main import app
+
+    app.dependency_overrides[get_db] = lambda: db_session
+    with TestClient(app) as test_client:
+        yield test_client
+    app.dependency_overrides.clear()
+
+
+@pytest.fixture
 def mock_anthropic(monkeypatch):
     """Stub de cliente Anthropic; ``set_return(obj)`` define o retorno de ``messages.parse``."""
 

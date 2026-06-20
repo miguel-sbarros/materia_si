@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:#E2E8F0;}
+.doc-scroll{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:24px;padding:40px 24px;background:#E2E8F0;}
+.page{width:820px;background:#fff;box-shadow:0 4px 24px rgba(15,23,42,0.10);padding:72px 76px;color:#1E293B;font-family:Inter,sans-serif;font-size:14px;line-height:1.65;}
+.page h1,.page h2,.page h3,.page h4{font-family:Manrope,sans-serif;color:#0F172A;}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;}
+@media print{
+  html,body{background:#fff;}
+  .doc-scroll{padding:0;gap:0;background:#fff;}
+  .page{width:100%;min-height:100vh;box-shadow:none;padding:48px 56px;page-break-after:always;}
+  .page:last-child{page-break-after:auto;}
+}
+</style>
+</helmet>
+
+<div class="doc-scroll" data-screen-label="PRD Document">
+
+  <!-- ========== PAGE 1 — COVER ========== -->
+  <section class="page" data-screen-label="Cover" style="min-height:1040px;display:flex;flex-direction:column;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:auto;">
+      <div style="width:40px;height:40px;border-radius:11px;overflow:hidden;flex:none;"><img src="assets/logo-mr.png" alt="MR" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div>
+        <div style="font-family:Manrope,sans-serif;font-weight:700;font-size:15px;color:#0F172A;line-height:1;">MR Digital</div>
+        <div style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#94A3B8;font-weight:600;margin-top:3px;">CRM Médico · Produto</div>
+      </div>
+    </div>
+
+    <div style="margin-top:60px;">
+      <div style="display:inline-block;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#2563EB;background:#EFF6FF;padding:6px 14px;border-radius:999px;margin-bottom:28px;">Product Requirements Document</div>
+      <h1 style="font-size:48px;font-weight:800;letter-spacing:-0.025em;line-height:1.05;margin:0 0 20px;">Copiloto de Vendas<br>para WhatsApp</h1>
+      <p style="font-size:18px;line-height:1.55;color:#475569;max-width:560px;margin:0;">Uma interface de copiloto que ajuda o vendedor a planejar e decidir a melhor mensagem de WhatsApp para cada lead — combinando base de conhecimento, contexto do lead e geração de mensagens.</p>
+    </div>
+
+    <div style="margin-top:auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;padding-top:48px;border-top:1px solid #E2E8F0;">
+      <div><div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#94A3B8;margin-bottom:5px;">Versão</div><div style="font-size:14px;font-weight:600;color:#334155;">Draft 1.0</div></div>
+      <div><div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#94A3B8;margin-bottom:5px;">Data</div><div style="font-size:14px;font-weight:600;color:#334155;">Junho 2026</div></div>
+      <div><div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#94A3B8;margin-bottom:5px;">Status</div><div style="font-size:14px;font-weight:600;color:#D97706;">Em definição</div></div>
+      <div><div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#94A3B8;margin-bottom:5px;">Stack</div><div style="font-size:14px;font-weight:600;color:#334155;">React · Vite · Tailwind</div></div>
+      <div><div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#94A3B8;margin-bottom:5px;">Superfície</div><div style="font-size:14px;font-weight:600;color:#334155;">Rota /copiloto</div></div>
+      <div><div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#94A3B8;margin-bottom:5px;">Owner</div><div style="font-size:14px;font-weight:600;color:#334155;">Produto + Comercial</div></div>
+    </div>
+  </section>
+
+  <!-- ========== PAGE 2 — CONTEXT & GOALS ========== -->
+  <section class="page" data-screen-label="Contexto e Objetivos">
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2563EB;margin-bottom:8px;">01 — Contexto</div>
+    <h2 style="font-size:28px;font-weight:800;letter-spacing:-0.02em;margin:0 0 18px;">Problema e oportunidade</h2>
+    <p style="margin:0 0 16px;color:#334155;">Os vendedores da MR Digital conduzem negociações de cursos de implantodontia digital majoritariamente por WhatsApp. Cada lead tem uma persona, um estágio no funil e um histórico de conversa distintos — e a qualidade da próxima mensagem determina a conversão. Hoje essa decisão é manual, depende da memória do vendedor e não é consistente entre a equipe.</p>
+    <p style="margin:0 0 16px;color:#334155;">O <strong>Copiloto de Vendas</strong> centraliza, em uma única superfície conversacional, três capacidades: (1) responder dúvidas sobre o portfólio e a metodologia comercial, (2) carregar o perfil e o histórico completo de um lead no contexto e (3) sugerir mensagens prontas para enviar, com a estratégia por trás de cada uma.</p>
+
+    <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:14px;padding:22px 24px;margin:24px 0 32px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#64748B;margin-bottom:12px;">Em uma frase</div>
+      <p style="margin:0;font-size:17px;line-height:1.55;color:#0F172A;font-weight:500;">"Como vendedor, quero perguntar ao copiloto qual é a melhor mensagem para um lead específico e receber opções prontas para copiar — fundamentadas no perfil e no histórico dele."</p>
+    </div>
+
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2563EB;margin-bottom:8px;">02 — Objetivos</div>
+    <h2 style="font-size:28px;font-weight:800;letter-spacing:-0.02em;margin:0 0 18px;">Metas e não-metas</h2>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#059669;margin-bottom:10px;display:flex;align-items:center;gap:6px;">✓ Metas</div>
+        <ul style="margin:0;padding-left:18px;color:#334155;display:flex;flex-direction:column;gap:8px;">
+          <li>Reduzir o tempo para redigir a próxima mensagem de um lead.</li>
+          <li>Padronizar a qualidade da abordagem entre toda a equipe comercial.</li>
+          <li>Tornar a metodologia SPIN e os gatilhos por persona acionáveis no fluxo de trabalho.</li>
+          <li>Servir como base de conhecimento viva sobre cursos e funil.</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#DC2626;margin-bottom:10px;display:flex;align-items:center;gap:6px;">✕ Não-metas (v1)</div>
+        <ul style="margin:0;padding-left:18px;color:#334155;display:flex;flex-direction:column;gap:8px;">
+          <li>Enviar mensagens automaticamente pelo WhatsApp (v1 é copiar e colar).</li>
+          <li>Integração bidirecional com a API oficial do WhatsApp.</li>
+          <li>Edição do CRM / movimentação de leads no funil a partir do copiloto.</li>
+          <li>Automação de cadências ou disparos em massa.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2563EB;margin:32px 0 8px;">03 — Métricas de sucesso</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+      <div style="border:1px solid #E2E8F0;border-radius:12px;padding:16px;"><div style="font-size:24px;font-weight:800;color:#2563EB;font-family:Manrope,sans-serif;">−40%</div><div style="font-size:12px;color:#64748B;margin-top:4px;">tempo médio para redigir a próxima mensagem</div></div>
+      <div style="border:1px solid #E2E8F0;border-radius:12px;padding:16px;"><div style="font-size:24px;font-weight:800;color:#2563EB;font-family:Manrope,sans-serif;">≥60%</div><div style="font-size:12px;color:#64748B;margin-top:4px;">das sugestões copiadas e usadas (taxa de aceite)</div></div>
+      <div style="border:1px solid #E2E8F0;border-radius:12px;padding:16px;"><div style="font-size:24px;font-weight:800;color:#2563EB;font-family:Manrope,sans-serif;">+5pt</div><div style="font-size:12px;color:#64748B;margin-top:4px;">na taxa de conversão de leads em negociação</div></div>
+    </div>
+  </section>
+
+  <!-- ========== PAGE 3 — USERS & SCOPE ========== -->
+  <section class="page" data-screen-label="Usuários e Escopo">
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2563EB;margin-bottom:8px;">04 — Usuários</div>
+    <h2 style="font-size:28px;font-weight:800;letter-spacing:-0.02em;margin:0 0 18px;">Quem usa</h2>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:32px;">
+      <div style="display:flex;gap:14px;border:1px solid #E2E8F0;border-radius:12px;padding:16px 18px;">
+        <div style="width:38px;height:38px;border-radius:10px;background:#EFF6FF;color:#2563EB;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none;font-family:Manrope,sans-serif;">V</div>
+        <div><div style="font-weight:700;color:#0F172A;">Vendedor / Consultor comercial</div><div style="color:#64748B;font-size:13px;margin-top:3px;">Usuário primário. Conduz negociações no WhatsApp e precisa decidir rápido a próxima mensagem. Quer respostas com a estratégia explícita, não só o texto pronto.</div></div>
+      </div>
+      <div style="display:flex;gap:14px;border:1px solid #E2E8F0;border-radius:12px;padding:16px 18px;">
+        <div style="width:38px;height:38px;border-radius:10px;background:#F5F3FF;color:#7C3AED;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none;font-family:Manrope,sans-serif;">C</div>
+        <div><div style="font-weight:700;color:#0F172A;">Coordenador comercial</div><div style="color:#64748B;font-size:13px;margin-top:3px;">Usuário secundário. Usa os comandos de visão geral (<span class="mono" style="font-size:12px;">/weekly-review</span>, <span class="mono" style="font-size:12px;">/at-risk</span>) para acompanhar o pipeline e padronizar a equipe.</div></div>
+      </div>
+    </div>
+
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2563EB;margin-bottom:8px;">05 — Escopo funcional</div>
+    <h2 style="font-size:28px;font-weight:800;letter-spacing:-0.02em;margin:0 0 18px;">As quatro capacidades</h2>
+
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div style="border-left:3px solid #2563EB;padding:2px 0 2px 18px;">
+        <div style="font-weight:700;color:#0F172A;font-size:15px;">A. Chat com base de conhecimento</div>
+        <div style="color:#475569;font-size:13.5px;margin-top:4px;">Sem nenhum lead anexado, o copiloto responde sobre cursos (Imersão, Master 3.0, Especialização), as 4 personas e suas taxas de conversão, a metodologia SPIN, leads em risco e o resumo da semana.</div>
+      </div>
+      <div style="border-left:3px solid #2563EB;padding:2px 0 2px 18px;">
+        <div style="font-weight:700;color:#0F172A;font-size:15px;">B. Anexar lead com <span class="mono" style="font-size:14px;">@</span></div>
+        <div style="color:#475569;font-size:13.5px;margin-top:4px;">Digitar <span class="mono" style="font-size:12px;">@nome</span> abre um seletor de leads. Ao escolher, o perfil (persona, estágio, ticket, origem, telefone) e o histórico completo de mensagens são carregados no contexto, exibidos em um chip recolhível acima do campo de entrada.</div>
+      </div>
+      <div style="border-left:3px solid #2563EB;padding:2px 0 2px 18px;">
+        <div style="font-weight:700;color:#0F172A;font-size:15px;">C. Comandos com <span class="mono" style="font-size:14px;">/</span></div>
+        <div style="color:#475569;font-size:13.5px;margin-top:4px;">Digitar <span class="mono" style="font-size:12px;">/</span> abre um menu de comandos: <span class="mono" style="font-size:12px;">/weekly-review</span>, <span class="mono" style="font-size:12px;">/today-tasks</span>, <span class="mono" style="font-size:12px;">/at-risk</span>, <span class="mono" style="font-size:12px;">/personas</span>, <span class="mono" style="font-size:12px;">/courses</span>, <span class="mono" style="font-size:12px;">/spin</span>. Filtra conforme digita; Enter executa o primeiro resultado.</div>
+      </div>
+      <div style="border-left:3px solid #2563EB;padding:2px 0 2px 18px;">
+        <div style="font-weight:700;color:#0F172A;font-size:15px;">D. Sugestão de mensagens</div>
+        <div style="color:#475569;font-size:13.5px;margin-top:4px;">Com um lead anexado, a resposta traz uma <strong>Análise</strong> (a estratégia) seguida de 3 variantes de mensagem com tons distintos (Consultivo, Objetivo, Caloroso), cada uma com botão <strong>Copiar</strong>.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PAGE 4 — FUNCTIONAL REQUIREMENTS ========== -->
+  <section class="page" data-screen-label="Requisitos Funcionais">
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2563EB;margin-bottom:8px;">06 — Requisitos funcionais</div>
+    <h2 style="font-size:28px;font-weight:800;letter-spacing:-0.02em;margin:0 0 20px;">Detalhamento</h2>
+
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <thead>
+        <tr style="text-align:left;border-bottom:2px solid #E2E8F0;">
+          <th style="padding:8px 10px 8px 0;font-family:Manrope,sans-serif;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:#94A3B8;width:52px;">ID</th>
+          <th style="padding:8px 10px;font-family:Manrope,sans-serif;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:#94A3B8;">Requisito</th>
+          <th style="padding:8px 0 8px 10px;font-family:Manrope,sans-serif;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:#94A3B8;width:70px;">Prior.</th>
+        </tr>
+      </thead>
+      <tbody style="color:#334155;">
+        <tr style="border-bottom:1px solid #F1F5F9;"><td style="padding:11px 10px 11px 0;font-weight:600;color:#2563EB;" class="mono">F-01</td><td style="padding:11px 10px;">Estado vazio com saudação personalizada e campo de entrada centralizado (estilo Granola, paleta MR).</td><td style="padding:11px 0 11px 10px;"><span style="background:#FEE2E2;color:#B91C1C;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">P0</span></td></tr>
+        <tr style="border-bottom:1px solid #F1F5F9;"><td style="padding:11px 10px 11px 0;font-weight:600;color:#2563EB;" class="mono">F-02</td><td style="padding:11px 10px;">Detecção de <span class="mono" style="font-size:12px;">@</span> no input abre seletor de leads filtrável por nome; Enter seleciona o primeiro.</td><td style="padding:11px 0 11px 10px;"><span style="background:#FEE2E2;color:#B91C1C;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">P0</span></td></tr>
+        <tr style="border-bottom:1px solid #F1F5F9;"><td style="padding:11px 10px 11px 0;font-weight:600;color:#2563EB;" class="mono">F-03</td><td style="padding:11px 10px;">Chip de contexto do lead recolhível: cabeçalho sempre visível; expandido mostra atributos, ângulo recomendado e histórico (rolável).</td><td style="padding:11px 0 11px 10px;"><span style="background:#FEE2E2;color:#B91C1C;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">P0</span></td></tr>
+        <tr style="border-bottom:1px solid #F1F5F9;"><td style="padding:11px 10px 11px 0;font-weight:600;color:#2563EB;" class="mono">F-04</td><td style="padding:11px 10px;">Resposta com lead anexado = Análise + 3 variantes (Consultivo / Objetivo / Caloroso), cada uma copiável.</td><td style="padding:11px 0 11px 10px;"><span style="background:#FEE2E2;color:#B91C1C;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">P0</span></td></tr>
+        <tr style="border-bottom:1px solid #F1F5F9;"><td style="padding:11px 10px 11px 0;font-weight:600;color:#2563EB;" class="mono">F-05</td><td style="padding:11px 10px;">Botão Copiar usa a Clipboard API e dá feedback visual ("Copiado") por ~1,6s.</td><td style="padding:11px 0 11px 10px;"><span style="background:#FEE2E2;color:#B91C1C;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">P0</span></td></tr>
+        <tr style="border-bottom:1px solid #F1F5F9;"><td style="padding:11px 10px 11px 0;font-weight:600;color:#2563EB;" class="mono">F-06</td><td style="padding:11px 10px;">Modo base de conhecimento (sem lead): responde cursos, personas, SPIN, risco e resumo semanal.</td><td style="padding:11px 0 11px 10px;"><span style="background:#FEF3C7;color:#B45309;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">P1</span></td></tr>
+        <tr style="border-bottom:1px solid #F1F5F9;"><td style="padding:11px 10px 11px 0;font-weight:600;color:#2563EB;" class="mono">F-07</td><td style="padding:11px 10px;">Detecção de <span class="mono" style="font-size:12px;">/</span> abre menu de comandos filtrável; executar comando insere a resposta na conversa.</td><td style="padding:11px 0 11px 10px;"><span style="background:#FEF3C7;color:#B45309;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">P1</span></td></tr>
+        <tr style="border-bottom:1px solid #F1F5F9;"><td style="padding:11px 10px 11px 0;font-weight:600;color:#2563EB;" class="mono">F-08</td><td style="padding:11px 10px;">"Nova conversa" limpa mensagens, lead anexado e retorna ao estado vazio.</td><td style="padding:11px 0 11px 10px;"><span style="background:#FEF3C7;color:#B45309;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">P1</span></td></tr>
+        <tr style="border-bottom:1px solid #F1F5F9;"><td style="padding:11px 10px 11px 0;font-weight:600;color:#2563EB;" class="mono">F-09</td><td style="padding:11px 10px;">Indicador de "digitando" enquanto a resposta é gerada; auto-scroll para a última mensagem.</td><td style="padding:11px 0 11px 10px;"><span style="background:#FEF3C7;color:#B45309;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">P1</span></td></tr>
+        <tr style="border-bottom:1px solid #F1F5F9;"><td style="padding:11px 10px 11px 0;font-weight:600;color:#2563EB;" class="mono">F-10</td><td style="padding:11px 10px;">Persistência da conversa por sessão (recarregar a página não perde o histórico ativo).</td><td style="padding:11px 0 11px 10px;"><span style="background:#E0E7FF;color:#4338CA;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">P2</span></td></tr>
+        <tr><td style="padding:11px 10px 11px 0;font-weight:600;color:#2563EB;" class="mono">F-11</td><td style="padding:11px 10px;">Regenerar variantes / pedir mais tons a partir de uma resposta existente.</td><td style="padding:11px 0 11px 10px;"><span style="background:#E0E7FF;color:#4338CA;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">P2</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ========== PAGE 5 — ARCHITECTURE ========== -->
+  <section class="page" data-screen-label="Arquitetura">
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2563EB;margin-bottom:8px;">07 — Arquitetura no stack atual</div>
+    <h2 style="font-size:28px;font-weight:800;letter-spacing:-0.02em;margin:0 0 16px;">Componentes & estado</h2>
+    <p style="margin:0 0 18px;color:#334155;">A página vive na rota <span class="mono" style="font-size:12.5px;">/copiloto</span> dentro do <span class="mono" style="font-size:12.5px;">&lt;Layout/&gt;</span> existente (sidebar + topbar), seguindo o padrão das demais páginas em <span class="mono" style="font-size:12.5px;">src/pages</span>. Stack: <strong>React + Vite + Tailwind v4</strong>, ícones <span class="mono" style="font-size:12.5px;">lucide-react</span>, fontes Manrope/Inter.</p>
+
+    <div style="background:#0F172A;border-radius:12px;padding:20px 22px;margin-bottom:24px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;color:#CBD5E1;overflow:auto;white-space:pre;">
+<span style="color:#64748B;">src/</span>
+<span style="color:#64748B;">├─ pages/</span>
+<span style="color:#64748B;">│  └─</span> Copiloto.jsx          <span style="color:#64748B;">// container: estado + orquestração</span>
+<span style="color:#64748B;">├─ components/copiloto/</span>
+<span style="color:#64748B;">│  ├─</span> EmptyState.jsx        <span style="color:#64748B;">// saudação + composer central</span>
+<span style="color:#64748B;">│  ├─</span> Composer.jsx          <span style="color:#64748B;">// textarea + @ e / detection</span>
+<span style="color:#64748B;">│  ├─</span> MentionMenu.jsx       <span style="color:#64748B;">// seletor de leads</span>
+<span style="color:#64748B;">│  ├─</span> CommandMenu.jsx       <span style="color:#64748B;">// menu de slash-commands</span>
+<span style="color:#64748B;">│  ├─</span> LeadContextChip.jsx   <span style="color:#64748B;">// chip recolhível</span>
+<span style="color:#64748B;">│  ├─</span> MessageList.jsx       <span style="color:#64748B;">// thread + auto-scroll</span>
+<span style="color:#64748B;">│  └─</span> DraftCard.jsx         <span style="color:#64748B;">// variante + copiar</span>
+<span style="color:#64748B;">├─ hooks/</span>
+<span style="color:#64748B;">│  └─</span> useCopilot.js         <span style="color:#64748B;">// reducer da conversa</span>
+<span style="color:#64748B;">└─ lib/</span>
+<span style="color:#64748B;">   └─</span> copilotApi.js         <span style="color:#64748B;">// chamadas ao backend</span>
+    </div>
+
+    <h3 style="font-size:16px;font-weight:700;margin:0 0 10px;">Gestão de estado</h3>
+    <p style="margin:0 0 16px;color:#334155;">Um <span class="mono" style="font-size:12.5px;">useReducer</span> em <span class="mono" style="font-size:12.5px;">useCopilot.js</span> mantém: <span class="mono" style="font-size:12px;">messages[]</span>, <span class="mono" style="font-size:12px;">attachedLead</span>, <span class="mono" style="font-size:12px;">input</span>, <span class="mono" style="font-size:12px;">isTyping</span> e o estado dos menus (<span class="mono" style="font-size:12px;">mention</span> / <span class="mono" style="font-size:12px;">slash</span>). A detecção de <span class="mono" style="font-size:12px;">@</span> e <span class="mono" style="font-size:12px;">/</span> usa regex sobre o final do input — exatamente como no protótipo. Sem necessidade de store global; o estado é local à página.</p>
+
+    <h3 style="font-size:16px;font-weight:700;margin:0 0 10px;">Fonte de dados</h3>
+    <p style="margin:0;color:#334155;">No protótipo, leads, personas e histórico vêm de <span class="mono" style="font-size:12.5px;">src/data/mock.js</span>. Na implementação, <span class="mono" style="font-size:12.5px;">copilotApi.js</span> substitui o mock por chamadas reais, mantendo o mesmo formato de dados para troca transparente.</p>
+  </section>
+
+  <!-- ========== PAGE 6 — DATA MODEL & API ========== -->
+  <section class="page" data-screen-label="Modelo de Dados e API">
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2563EB;margin-bottom:8px;">08 — Modelo de dados</div>
+    <h2 style="font-size:28px;font-weight:800;letter-spacing:-0.02em;margin:0 0 16px;">Contratos</h2>
+
+    <div style="background:#0F172A;border-radius:12px;padding:20px 22px;margin-bottom:18px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.65;color:#CBD5E1;overflow:auto;white-space:pre;">
+<span style="color:#7DD3FC;">Lead</span> {
+  id, name, initials, persona, stage,
+  course, value, source, phone, lastContact,
+  angle,        <span style="color:#64748B;">// ângulo recomendado (string)</span>
+  history: [{ fromLead: bool, text, at }]
+}
+
+<span style="color:#7DD3FC;">Message</span> {
+  id, role: <span style="color:#A7F3D0;">"user" | "assistant"</span>,
+  kind: <span style="color:#A7F3D0;">"text" | "drafts"</span>,
+  text?, reasoning?, variants?: <span style="color:#7DD3FC;">Draft</span>[]
+}
+
+<span style="color:#7DD3FC;">Draft</span> {
+  tone: <span style="color:#A7F3D0;">"Consultivo" | "Objetivo" | "Caloroso"</span>,
+  text
+}
+    </div>
+
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2563EB;margin:24px 0 12px;">09 — Endpoints da API</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="border:1px solid #E2E8F0;border-radius:10px;padding:12px 14px;">
+        <div style="display:flex;align-items:center;gap:10px;"><span style="background:#DBEAFE;color:#1D4ED8;font-size:11px;font-weight:700;padding:2px 8px;border-radius:5px;" class="mono">GET</span><span class="mono" style="font-size:13px;color:#0F172A;font-weight:600;">/api/leads?q={query}</span></div>
+        <div style="font-size:12.5px;color:#64748B;margin-top:5px;">Autocomplete do seletor <span class="mono" style="font-size:11px;">@</span>. Retorna leads resumidos (id, nome, persona, estágio).</div>
+      </div>
+      <div style="border:1px solid #E2E8F0;border-radius:10px;padding:12px 14px;">
+        <div style="display:flex;align-items:center;gap:10px;"><span style="background:#DBEAFE;color:#1D4ED8;font-size:11px;font-weight:700;padding:2px 8px;border-radius:5px;" class="mono">GET</span><span class="mono" style="font-size:13px;color:#0F172A;font-weight:600;">/api/leads/{id}/context</span></div>
+        <div style="font-size:12.5px;color:#64748B;margin-top:5px;">Perfil completo + histórico de mensagens para carregar no contexto ao anexar.</div>
+      </div>
+      <div style="border:1px solid #E2E8F0;border-radius:10px;padding:12px 14px;">
+        <div style="display:flex;align-items:center;gap:10px;"><span style="background:#DCFCE7;color:#15803D;font-size:11px;font-weight:700;padding:2px 8px;border-radius:5px;" class="mono">POST</span><span class="mono" style="font-size:13px;color:#0F172A;font-weight:600;">/api/copilot/chat</span></div>
+        <div style="font-size:12.5px;color:#64748B;margin-top:5px;">Corpo: <span class="mono" style="font-size:11px;">{ messages[], leadId?, command? }</span>. Retorna uma <span class="mono" style="font-size:11px;">Message</span> (texto KB ou <span class="mono" style="font-size:11px;">drafts</span> com Análise + variantes). Suporta streaming (SSE) para o indicador de digitando.</div>
+      </div>
+    </div>
+
+    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:14px 16px;margin-top:22px;">
+      <div style="font-size:12px;font-weight:700;color:#92400E;margin-bottom:5px;">Camada de IA</div>
+      <div style="font-size:12.5px;color:#78350F;line-height:1.55;">O backend monta o prompt com o perfil + histórico do lead e injeta a base de conhecimento (cursos, personas, SPIN) como sistema. As respostas <span class="mono" style="font-size:11px;">drafts</span> devem retornar JSON estruturado para renderização determinística dos cards.</div>
+    </div>
+  </section>
+
+  <!-- ========== PAGE 7 — MILESTONES, NFR, RISKS ========== -->
+  <section class="page" data-screen-label="Milestones e Riscos">
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2563EB;margin-bottom:8px;">10 — Faseamento</div>
+    <h2 style="font-size:28px;font-weight:800;letter-spacing:-0.02em;margin:0 0 18px;">Roadmap de entrega</h2>
+
+    <div style="display:flex;flex-direction:column;gap:0;margin-bottom:30px;">
+      <div style="display:flex;gap:16px;">
+        <div style="display:flex;flex-direction:column;align-items:center;"><div style="width:13px;height:13px;border-radius:50%;background:#2563EB;flex:none;"></div><div style="width:2px;flex:1;background:#E2E8F0;"></div></div>
+        <div style="padding-bottom:18px;"><div style="font-weight:700;color:#0F172A;">Fase 1 — UI shell + drafts mockados <span style="font-size:12px;font-weight:600;color:#94A3B8;">(~1 sem)</span></div><div style="font-size:13px;color:#64748B;margin-top:3px;">Portar o protótipo para componentes React no stack. Mention, chip de contexto e cards de variante rodando sobre <span class="mono" style="font-size:11px;">mock.js</span>. F-01 a F-05.</div></div>
+      </div>
+      <div style="display:flex;gap:16px;">
+        <div style="display:flex;flex-direction:column;align-items:center;"><div style="width:13px;height:13px;border-radius:50%;background:#2563EB;flex:none;"></div><div style="width:2px;flex:1;background:#E2E8F0;"></div></div>
+        <div style="padding-bottom:18px;"><div style="font-weight:700;color:#0F172A;">Fase 2 — KB + slash commands <span style="font-size:12px;font-weight:600;color:#94A3B8;">(~1 sem)</span></div><div style="font-size:13px;color:#64748B;margin-top:3px;">Modo base de conhecimento e menu de comandos. F-06 a F-09.</div></div>
+      </div>
+      <div style="display:flex;gap:16px;">
+        <div style="display:flex;flex-direction:column;align-items:center;"><div style="width:13px;height:13px;border-radius:50%;background:#2563EB;flex:none;"></div><div style="width:2px;flex:1;background:#E2E8F0;"></div></div>
+        <div style="padding-bottom:18px;"><div style="font-weight:700;color:#0F172A;">Fase 3 — Backend + IA real <span style="font-size:12px;font-weight:600;color:#94A3B8;">(~2 sem)</span></div><div style="font-size:13px;color:#64748B;margin-top:3px;">Endpoints reais, geração via LLM com prompt estruturado, streaming. Substitui o mock.</div></div>
+      </div>
+      <div style="display:flex;gap:16px;">
+        <div style="display:flex;flex-direction:column;align-items:center;"><div style="width:13px;height:13px;border-radius:50%;background:#94A3B8;flex:none;"></div></div>
+        <div><div style="font-weight:700;color:#0F172A;">Fase 4 — Persistência + refinamentos <span style="font-size:12px;font-weight:600;color:#94A3B8;">(~1 sem)</span></div><div style="font-size:13px;color:#64748B;margin-top:3px;">Histórico por sessão, regenerar variantes, telemetria de aceite. F-10, F-11.</div></div>
+      </div>
+    </div>
+
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2563EB;margin-bottom:10px;">11 — Requisitos não-funcionais</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;margin-bottom:28px;font-size:13px;color:#334155;">
+      <div style="display:flex;gap:8px;"><span style="color:#2563EB;font-weight:700;">·</span>Primeira resposta visível em &lt;1,5s (com streaming).</div>
+      <div style="display:flex;gap:8px;"><span style="color:#2563EB;font-weight:700;">·</span>Acessível por teclado: Enter envia, Shift+Enter quebra linha.</div>
+      <div style="display:flex;gap:8px;"><span style="color:#2563EB;font-weight:700;">·</span>Responsivo dentro do shell existente (desktop-first).</div>
+      <div style="display:flex;gap:8px;"><span style="color:#2563EB;font-weight:700;">·</span>Dados de lead nunca persistidos no cliente além da sessão.</div>
+    </div>
+
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2563EB;margin-bottom:10px;">12 — Riscos & questões em aberto</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="display:flex;gap:10px;border:1px solid #FECACA;background:#FEF2F2;border-radius:10px;padding:11px 14px;"><span style="color:#DC2626;font-weight:700;font-size:13px;flex:none;">Risco</span><span style="font-size:13px;color:#7F1D1D;">Qualidade/tom das mensagens geradas por IA — exige curadoria de prompt e avaliação humana antes do go-live.</span></div>
+      <div style="display:flex;gap:10px;border:1px solid #FDE68A;background:#FFFBEB;border-radius:10px;padding:11px 14px;"><span style="color:#B45309;font-weight:700;font-size:13px;flex:none;">Aberto</span><span style="font-size:13px;color:#78350F;">Onde mora o histórico real de WhatsApp? Integração com a fonte (CRM / API) precisa ser confirmada.</span></div>
+      <div style="display:flex;gap:10px;border:1px solid #FDE68A;background:#FFFBEB;border-radius:10px;padding:11px 14px;"><span style="color:#B45309;font-weight:700;font-size:13px;flex:none;">Aberto</span><span style="font-size:13px;color:#78350F;">Envio direto pelo WhatsApp (deep link <span class="mono" style="font-size:11px;">wa.me</span> vs. API oficial) fica para v2 — confirmar prioridade.</span></div>
+    </div>
+
+    <div style="margin-top:40px;padding-top:20px;border-top:1px solid #E2E8F0;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:11px;color:#94A3B8;">MR Digital · PRD Copiloto de Vendas para WhatsApp</span>
+      <span style="font-size:11px;color:#94A3B8;">Draft 1.0 · Junho 2026</span>
+    </div>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:900,&quot;height&quot;:1100}}"></script>
+</body>
+</html>

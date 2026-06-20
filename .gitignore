@@ -16,3 +16,6 @@ venv/
 # Node (frontend tem seu próprio .gitignore também)
 node_modules/
 dist/
+
+# Corpora reais de WhatsApp — só local (PII + binários grandes), não versionar
+data/
