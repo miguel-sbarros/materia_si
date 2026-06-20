@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: captus
+          POSTGRES_PASSWORD: captus
+          POSTGRES_DB: captus
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U captus"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql+psycopg://captus:captus@localhost:5432/captus
+    defaults:
+      run:
+        working-directory: src/backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - run: alembic upgrade head
+      - run: pytest -q
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t captus-backend ./src/backend
+      - run: docker build -t captus-frontend ./src/frontend
+
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compose up
+        run: docker compose up -d --build
+      - name: Wait for /health
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fs http://localhost:8000/health; then echo " OK"; exit 0; fi
+            sleep 5
+          done
+          echo "backend não ficou saudável; logs:"
+          docker compose logs backend
+          exit 1
+      - name: Compose down
+        if: always()
+        run: docker compose down -v

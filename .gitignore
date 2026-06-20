@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.venv/
+venv/
+
+# Env / secrets
+.env
+
+# Node (frontend tem seu próprio .gitignore também)
+node_modules/
+dist/
