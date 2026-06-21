@@ -1,11 +1,10 @@
-// Colunas do quadro (id = valor de `column` no DealCard). As 3 primeiras são estágios
-// abertos; Matriculado/Perdido são transições terminais (won/lost).
+// Colunas do quadro (id = valor de `column` no DealCard). Todas são estágios abertos;
+// Matriculado (won) / Perdido (lost) são transições terminais feitas pela close drop-zone.
 export const COLUMNS = [
   { id: 'Novo', label: 'NOVO', dotColor: 'bg-blue-500' },
   { id: 'Contatado', label: 'CONTATADO', dotColor: 'bg-amber-500' },
   { id: 'Negociando', label: 'NEGOCIANDO', dotColor: 'bg-blue-600' },
-  { id: 'Matriculado', label: 'MATRICULADO', dotColor: 'bg-emerald-500' },
-  { id: 'Perdido', label: 'PERDIDO', dotColor: 'bg-red-400' },
+  { id: 'Aprovado', label: 'APROVADO', dotColor: 'bg-green-500' },
 ]
 
 export const SOURCE_COLORS = {
@@ -21,8 +20,9 @@ export const SOURCES = ['Instagram', 'WhatsApp', 'Site Direto', 'Indicação', '
 export const INPUT_CLASS =
   'w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white'
 
-// Estágios abertos do Funil (3 primeiras colunas; Matriculado/Perdido são terminais).
-export const OPEN_STAGES = COLUMNS.slice(0, 3)
+// Estágios abertos do Funil — todas as colunas são abertas; o fechamento (won/lost)
+// acontece arrastando o card para a close drop-zone.
+export const OPEN_STAGES = COLUMNS
 
 // Estado inicial dos campos de posicionamento no Funil (estágio começa em Novo).
 export const EMPTY_PLACEMENT = { courseId: '', cohortId: '', stage: 'Novo' }

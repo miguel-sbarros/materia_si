@@ -15,6 +15,15 @@ class LeadCreate(BaseModel):
     cohort_id: int
 
 
+class LeadUpdate(BaseModel):
+    """Edição dos dados de contato do lead (parcial). Campos de IA/deals não entram aqui."""
+
+    name: str | None = None
+    email: str | None = None
+    phone: str | None = None
+    source: str | None = None
+
+
 class AttributeOut(BaseModel):
     """Par rótulo/valor da grade de atributos da página do lead (PT, null-safe)."""
 

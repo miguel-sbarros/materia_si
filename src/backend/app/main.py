@@ -3,7 +3,16 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import catalog, conversations, copilot, deals, health, imports, leads
+from app.api.routes import (
+    analytics,
+    catalog,
+    conversations,
+    copilot,
+    deals,
+    health,
+    imports,
+    leads,
+)
 from app.core.config import get_settings
 
 
@@ -26,6 +35,7 @@ def create_app() -> FastAPI:
     app.include_router(imports.router)
     app.include_router(conversations.router)
     app.include_router(copilot.router)
+    app.include_router(analytics.router)
     return app
 
 

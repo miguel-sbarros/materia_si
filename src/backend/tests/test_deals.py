@@ -9,11 +9,12 @@ from app.services.deals import card_column, create_closed_deal
 from tests.factories import make_course, make_deal, make_lead, make_seller
 
 
-def test_board_feed_maps_columns(api_client, db_session):
-    """won→Matriculado, lost→Perdido, senão stage."""
+def test_board_feed_only_open_deals(api_client, db_session):
+    """O quadro lista SOMENTE deals abertos; won/lost (Matriculado/Perdido) não aparecem."""
     _course, [cohort] = make_course(db_session)
     make_deal(db_session, cohort, stage=DealStage.NOVO, status=DealStatus.OPEN)
     make_deal(db_session, cohort, stage=DealStage.NEGOCIANDO, status=DealStatus.OPEN)
+    make_deal(db_session, cohort, stage=DealStage.APROVADO, status=DealStatus.OPEN)
     make_deal(db_session, cohort, stage=DealStage.NEGOCIANDO, status=DealStatus.WON)
     make_deal(
         db_session, cohort, stage=DealStage.NEGOCIANDO, status=DealStatus.LOST,
@@ -22,9 +23,14 @@ def test_board_feed_maps_columns(api_client, db_session):
 
     resp = api_client.get("/deals")
     assert resp.status_code == 200
-    assert sorted(c["column"] for c in resp.json()) == sorted(
-        ["Novo", "Negociando", "Matriculado", "Perdido"]
+    cards = resp.json()
+    # Só os 3 abertos; nenhum Matriculado/Perdido.
+    assert sorted(c["column"] for c in cards) == sorted(
+        ["Novo", "Negociando", "Aprovado"]
     )
+    assert all(c["status"] == "open" for c in cards)
+    assert "Matriculado" not in {c["column"] for c in cards}
+    assert "Perdido" not in {c["column"] for c in cards}
 
 
 def test_board_filters(api_client, db_session):
@@ -64,6 +70,27 @@ def test_move_stage_writes_event(api_client, db_session):
     assert events[0].to_stage == DealStage.CONTATADO
 
 
+def test_move_to_aprovado_stays_open_and_on_board(api_client, db_session):
+    """Mover para 'Aprovado' mantém status=open, coluna=Aprovado e segue no quadro."""
+    _course, [cohort] = make_course(db_session)
+    deal = make_deal(db_session, cohort, stage=DealStage.NEGOCIANDO)
+
+    resp = api_client.patch(f"/deals/{deal.id}", json={"column": "Aprovado"})
+    assert resp.status_code == 200
+    card = resp.json()
+    assert card["column"] == "Aprovado"
+    assert card["stage"] == "Aprovado"
+    assert card["status"] == "open"
+
+    refreshed = db_session.get(Deal, deal.id)
+    assert refreshed.stage == DealStage.APROVADO
+    assert refreshed.status == DealStatus.OPEN
+
+    # Continua no feed do quadro (é um estágio aberto).
+    board = api_client.get("/deals").json()
+    assert any(c["id"] == deal.id and c["column"] == "Aprovado" for c in board)
+
+
 def test_move_to_perdido_requires_reason(api_client, db_session):
     _course, [cohort] = make_course(db_session)
     deal = make_deal(db_session, cohort, stage=DealStage.NEGOCIANDO)
@@ -87,6 +114,10 @@ def test_move_to_perdido_requires_reason(api_client, db_session):
     events = db_session.scalars(select(DealEvent).where(DealEvent.deal_id == deal.id)).all()
     assert any(e.to_status == DealStatus.LOST for e in events)
 
+    # Fechado (lost) → sai do quadro de deals abertos.
+    board = api_client.get("/deals").json()
+    assert all(c["id"] != deal.id for c in board)
+
 
 def test_move_to_matriculado_sets_won(api_client, db_session):
     _course, [cohort] = make_course(db_session)
@@ -103,6 +134,10 @@ def test_move_to_matriculado_sets_won(api_client, db_session):
     assert refreshed.status == DealStatus.WON
     events = db_session.scalars(select(DealEvent).where(DealEvent.deal_id == deal.id)).all()
     assert any(e.to_status == DealStatus.WON for e in events)
+
+    # Fechado (won) → sai do quadro de deals abertos.
+    board = api_client.get("/deals").json()
+    assert all(c["id"] != deal.id for c in board)
 
 
 def test_create_deal_for_lead(api_client, db_session):

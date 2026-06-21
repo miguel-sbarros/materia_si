@@ -5,12 +5,8 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts'
-import { analyticsData } from '../../data/mock.js'
-
-const { conversationTrends } = analyticsData
 
 const tooltipStyle = {
   fontSize: 12,
@@ -20,18 +16,37 @@ const tooltipStyle = {
   boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
 }
 
-export default function ConversationTrendsChart() {
+// Formata 'YYYY-MM-DD' → 'DD/MM' (eixo X compacto)
+function weekTickFormatter(iso) {
+  if (!iso) return ''
+  const [, m, d] = iso.split('-')
+  return `${d}/${m}`
+}
+
+function tooltipFormatter(value) {
+  return [value, 'Mensagens']
+}
+
+export default function ConversationTrendsChart({ data = [] }) {
+  if (data.length === 0) {
+    return (
+      <div className="h-60 flex items-center justify-center rounded-xl bg-slate-50 border border-slate-100">
+        <p className="text-sm text-slate-400">Sem atividade de mensagens no período.</p>
+      </div>
+    )
+  }
+
   return (
     <ResponsiveContainer width="100%" height={240}>
       <BarChart
-        data={conversationTrends}
-        barGap={4}
+        data={data}
         barCategoryGap="32%"
         margin={{ top: 4, right: 4, left: -16, bottom: 0 }}
       >
         <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
         <XAxis
-          dataKey="period"
+          dataKey="week"
+          tickFormatter={weekTickFormatter}
           tick={{ fontSize: 11, fill: '#94a3b8', fontFamily: 'Inter, sans-serif' }}
           axisLine={false}
           tickLine={false}
@@ -45,13 +60,11 @@ export default function ConversationTrendsChart() {
           contentStyle={tooltipStyle}
           labelStyle={{ fontWeight: 600, color: '#0f172a', marginBottom: 4 }}
           itemStyle={{ color: '#475569', fontSize: 12 }}
+          labelFormatter={weekTickFormatter}
+          formatter={tooltipFormatter}
           cursor={{ fill: 'rgba(37, 99, 235, 0.04)' }}
         />
-        <Legend
-          wrapperStyle={{ fontSize: 11, fontFamily: 'Inter, sans-serif', paddingTop: 12 }}
-        />
-        <Bar dataKey="whatsapp" name="WhatsApp" fill="#2563EB" radius={[3, 3, 0, 0]} />
-        <Bar dataKey="calls" name="Chamadas CRM" fill="#cbd5e1" radius={[3, 3, 0, 0]} />
+        <Bar dataKey="count" name="Mensagens" fill="#2563EB" radius={[3, 3, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   )

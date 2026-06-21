@@ -1,6 +1,7 @@
 import { memo, lazy, Suspense } from 'react'
-import { Users, Zap, Target, Download, GitBranch, Sparkles, AlertCircle, TrendingUp, MessageSquare } from 'lucide-react'
-import { analyticsData, aiAnalysis } from '../data/mock.js'
+import { useQuery } from '@tanstack/react-query'
+import { Users, Zap, Target, Download, GitBranch, Sparkles, AlertCircle, TrendingUp } from 'lucide-react'
+import { getAnalytics } from '../lib/api.js'
 
 // ─── Lazy chart imports (bundle-dynamic-imports) ─────────────────────────────
 const LazyConversationChart = lazy(() =>
@@ -22,9 +23,6 @@ const KpiCard = memo(function KpiCard({
   iconColor,
   label,
   value,
-  badge,
-  badgeBg,
-  badgeText,
   subtext,
   valueColor,
 }) {
@@ -34,9 +32,6 @@ const KpiCard = memo(function KpiCard({
         <div className="flex justify-between items-start mb-4">
           <span className={`p-2 ${iconBg} ${iconColor} rounded-lg`}>
             <Icon size={22} />
-          </span>
-          <span className={`text-xs font-bold px-2 py-1 rounded-full ${badgeBg} ${badgeText}`}>
-            {badge}
           </span>
         </div>
         <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider">{label}</p>
@@ -83,70 +78,28 @@ const FunnelStageCard = memo(function FunnelStageCard({
 // ─── SPIN Row ─────────────────────────────────────────────────────────────────
 const SpinRow = memo(function SpinRow({ stage, retained, churned, opacity }) {
   const label = stage === 'Necessidade' ? 'Necessidade de Solução' : stage
-  const churnedBg = churned > 30 ? '#fecaca' : '#fee2e2'
+  const total = retained + churned
+  const retainedPct = total > 0 ? (retained / total) * 100 : 0
+  const churnedPct = total > 0 ? (churned / total) * 100 : 0
+  const churnedBg = churnedPct > 30 ? '#fecaca' : '#fee2e2'
 
   return (
     <div>
       <div className="flex justify-between mb-2">
         <span className="text-sm font-bold text-slate-900">{label}</span>
-        <span className="text-sm font-medium text-slate-500">{churned}% Churn</span>
+        <span className="text-sm font-medium text-slate-500">{Math.round(churnedPct)}% Churn</span>
       </div>
       <div className="h-12 w-full bg-white rounded-lg flex overflow-hidden">
         <div
-          style={{ width: `${retained}%`, backgroundColor: `rgba(37, 99, 235, ${opacity})` }}
+          style={{ width: `${retainedPct}%`, backgroundColor: `rgba(37, 99, 235, ${opacity})` }}
         />
-        <div style={{ width: `${churned}%`, backgroundColor: churnedBg }} />
+        <div style={{ width: `${churnedPct}%`, backgroundColor: churnedBg }} />
       </div>
     </div>
   )
 })
 
-// ─── Derived data (rerender-derived-state-no-effect) ─────────────────────────
-const { kpis, funnelStages, spinAbandonment, avgResponseTime, peakHour, totalRevenue, revenueGrowth } =
-  analyticsData
-
-const maxFunnelCount = Math.max(...funnelStages.map(s => s.count))
-
-const KPI_CONFIG = [
-  {
-    Icon: Users,
-    iconBg: 'bg-blue-50',
-    iconColor: 'text-blue-700',
-    label: 'Total de Leads',
-    value: kpis.totalLeads,
-    badge: '+4.2%',
-    badgeBg: 'bg-emerald-50',
-    badgeText: 'text-emerald-600',
-    subtext: 'Leads qualificados no funil atual',
-    valueColor: 'text-[#2563EB]',
-  },
-  {
-    Icon: Zap,
-    iconBg: 'bg-orange-50',
-    iconColor: 'text-orange-700',
-    label: 'Novos Leads Hoje',
-    value: kpis.newLeadsToday,
-    badge: 'Ativos Agora',
-    badgeBg: 'bg-orange-50',
-    badgeText: 'text-orange-600',
-    subtext: 'Novas oportunidades identificadas desde 00:00',
-    valueColor: 'text-slate-900',
-  },
-  {
-    Icon: Target,
-    iconBg: 'bg-purple-50',
-    iconColor: 'text-purple-700',
-    label: 'Taxa de Conversão',
-    value: `${kpis.conversionRate}%`,
-    badge: 'Top 5%',
-    badgeBg: 'bg-purple-50',
-    badgeText: 'text-purple-600',
-    subtext: 'Taxa de lead para matriculado',
-    valueColor: 'text-slate-900',
-  },
-]
-
-// ─── ICP Card ────────────────────────────────────────────────────────────────
+// ─── ICP Card (resumo derivado da persona dominante) ──────────────────────────
 const IcpCard = memo(function IcpCard({ icp }) {
   return (
     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
@@ -159,32 +112,28 @@ const IcpCard = memo(function IcpCard({ icp }) {
           <Users size={22} className="text-[#2563EB]" />
         </div>
       </div>
-      <div className="grid grid-cols-6 gap-3 mb-6">
-        {icp.attributes.map(attr => (
-          <div key={attr.label} className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1">{attr.label}</p>
-            <p className="text-sm font-bold text-slate-900">{attr.value}</p>
-          </div>
-        ))}
-      </div>
-      <div className="flex items-start gap-3 p-4 bg-blue-50/60 rounded-xl border-l-4 border-[#2563EB]">
-        <TrendingUp size={15} className="text-[#2563EB] mt-0.5 shrink-0" />
-        <p className="text-xs text-slate-600 leading-relaxed">{icp.insight}</p>
-      </div>
+      {icp.insight && (
+        <div className="flex items-start gap-3 p-4 bg-blue-50/60 rounded-xl border-l-4 border-[#2563EB]">
+          <TrendingUp size={15} className="text-[#2563EB] mt-0.5 shrink-0" />
+          <p className="text-xs text-slate-600 leading-relaxed">{icp.insight}</p>
+        </div>
+      )}
     </div>
   )
 })
 
 // ─── Persona Card ─────────────────────────────────────────────────────────────
-const PERSONA_COLORS = {
-  blue:    { bg: 'bg-blue-50',    text: 'text-blue-700',    badge: 'bg-blue-100 text-blue-700',       dot: 'bg-blue-500'    },
-  purple:  { bg: 'bg-purple-50',  text: 'text-purple-700',  badge: 'bg-purple-100 text-purple-700',   dot: 'bg-purple-500'  },
-  orange:  { bg: 'bg-orange-50',  text: 'text-orange-700',  badge: 'bg-orange-100 text-orange-700',   dot: 'bg-orange-500'  },
-  emerald: { bg: 'bg-emerald-50', text: 'text-emerald-700', badge: 'bg-emerald-100 text-emerald-700', dot: 'bg-emerald-500' },
-}
+const PERSONA_COLORS = [
+  { bg: 'bg-blue-50',    text: 'text-blue-700',    badge: 'bg-blue-100 text-blue-700',       dot: 'bg-blue-500'    },
+  { bg: 'bg-purple-50',  text: 'text-purple-700',  badge: 'bg-purple-100 text-purple-700',   dot: 'bg-purple-500'  },
+  { bg: 'bg-orange-50',  text: 'text-orange-700',  badge: 'bg-orange-100 text-orange-700',   dot: 'bg-orange-500'  },
+  { bg: 'bg-emerald-50', text: 'text-emerald-700', badge: 'bg-emerald-100 text-emerald-700', dot: 'bg-emerald-500' },
+]
 
-const PersonaCard = memo(function PersonaCard({ persona }) {
-  const c = PERSONA_COLORS[persona.color]
+const PersonaCard = memo(function PersonaCard({ persona, colorIndex }) {
+  const c = PERSONA_COLORS[colorIndex % PERSONA_COLORS.length]
+  const dores = persona.topDores ?? []
+  const desejos = persona.topDesejos ?? []
   return (
     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col">
       <div className="flex items-start justify-between mb-4">
@@ -192,55 +141,47 @@ const PersonaCard = memo(function PersonaCard({ persona }) {
           <Users size={18} className={c.text} />
         </div>
         <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${c.badge}`}>
-          {persona.badge}
+          {persona.conversionRate}% conv.
         </span>
       </div>
-      <h4 className="text-sm font-bold text-slate-900 mb-2 font-headline">{persona.name}</h4>
-      <p className="text-xs text-slate-500 leading-relaxed mb-4">{persona.description}</p>
-      <div className="space-y-1.5 mb-4">
-        {persona.traits.map(t => (
-          <div key={t} className="flex items-center gap-2">
-            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${c.dot}`} />
-            <span className="text-xs text-slate-600">{t}</span>
-          </div>
-        ))}
-      </div>
+      <h4 className="text-sm font-bold text-slate-900 mb-1 font-headline">{persona.persona}</h4>
+      <p className="text-[11px] font-semibold text-slate-400 mb-2">{persona.leads} leads</p>
+      <p className="text-xs text-slate-500 leading-relaxed mb-4">{persona.description ?? '—'}</p>
+      {desejos.length > 0 && (
+        <div className="space-y-1.5 mb-4">
+          {desejos.slice(0, 3).map(t => (
+            <div key={t} className="flex items-center gap-2">
+              <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${c.dot}`} />
+              <span className="text-xs text-slate-600">{t}</span>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="mt-auto pt-4 border-t border-slate-50">
-        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1">Principal Dor</p>
-        <p className="text-xs text-slate-600 leading-relaxed">{persona.painPoint}</p>
-      </div>
-      <div className="mt-3 flex items-center gap-1.5">
-        <MessageSquare size={11} className="text-slate-400" />
-        <span className="text-[10px] text-slate-400">{persona.channel}</span>
+        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1">Principais Dores</p>
+        <p className="text-xs text-slate-600 leading-relaxed">
+          {dores.length > 0 ? dores.slice(0, 3).join(' · ') : '—'}
+        </p>
       </div>
     </div>
   )
 })
 
 // ─── Pain Point Row ───────────────────────────────────────────────────────────
-const SEVERITY = {
-  high: { bar: 'bg-red-400', badge: 'bg-red-50 text-red-600' },
-  medium: { bar: 'bg-amber-400', badge: 'bg-amber-50 text-amber-600' },
-  low: { bar: 'bg-slate-300', badge: 'bg-slate-100 text-slate-500' },
-}
-
-const PainPointRow = memo(function PainPointRow({ point }) {
-  const s = SEVERITY[point.severity]
-  const pct = parseInt(point.affected)
+const PainPointRow = memo(function PainPointRow({ point, barPct }) {
   return (
     <div className="flex items-center gap-4 py-3.5 border-b border-slate-50 last:border-0">
       <span className="text-xs font-extrabold text-slate-300 w-4 shrink-0">#{point.rank}</span>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
           <p className="text-sm font-bold text-slate-800 truncate">{point.title}</p>
-          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${s.badge}`}>
-            {point.affected}
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 bg-red-50 text-red-600">
+            {point.count} leads
           </span>
         </div>
-        <p className="text-xs text-slate-400 truncate">{point.description}</p>
       </div>
       <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden shrink-0">
-        <div className={`h-full ${s.bar} rounded-full`} style={{ width: `${pct}%` }} />
+        <div className="h-full bg-red-400 rounded-full" style={{ width: `${barPct}%` }} />
       </div>
     </div>
   )
@@ -249,8 +190,121 @@ const PainPointRow = memo(function PainPointRow({ point }) {
 // Decreasing opacity per SPIN stage (matching prototype visual gradient)
 const SPIN_OPACITIES = [1.0, 0.8, 0.6, 0.4]
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function fmtSeconds(s) {
+  if (s == null) return '—'
+  if (s < 60) return `${s}s`
+  const m = Math.floor(s / 60)
+  const rest = s % 60
+  return rest ? `${m}m ${rest}s` : `${m}min`
+}
+
+function fmtHour(h) {
+  if (h == null) return '—'
+  return `${String(h).padStart(2, '0')}h`
+}
+
+// Resumo de ICP derivado da persona dominante (sem números fabricados)
+function deriveIcp(personas) {
+  if (!personas || personas.length === 0) {
+    return { summary: 'Ainda não há leads analisados suficientes para inferir um perfil ideal.', insight: null }
+  }
+  const top = [...personas].sort((a, b) => b.leads - a.leads)[0]
+  const dores = (top.topDores ?? []).slice(0, 2).join(', ')
+  const desejos = (top.topDesejos ?? []).slice(0, 2).join(', ')
+  const summary = `Perfil predominante: ${top.persona} (${top.leads} leads, ${top.conversionRate}% de conversão).` +
+    (top.description ? ` ${top.description}` : '')
+  const insight = (dores || desejos)
+    ? `Principais dores: ${dores || '—'}. Principais desejos: ${desejos || '—'}.`
+    : null
+  return { summary, insight }
+}
+
+// ─── Loading / Error states ─────────────────────────────────────────────────
+function AnalyticsSkeleton() {
+  return (
+    <div className="pb-8 space-y-8">
+      <div className="h-10 w-80 bg-slate-100 rounded-lg animate-pulse" />
+      <div className="grid grid-cols-3 gap-6">
+        {[0, 1, 2].map(i => (
+          <div key={i} className="h-44 rounded-2xl bg-slate-100 animate-pulse" />
+        ))}
+      </div>
+      <div className="h-32 rounded-2xl bg-slate-100 animate-pulse" />
+      <div className="h-72 rounded-2xl bg-slate-100 animate-pulse" />
+    </div>
+  )
+}
+
+function AnalyticsError() {
+  return (
+    <div className="pb-8">
+      <div className="flex flex-col items-center justify-center gap-3 py-24 text-center">
+        <AlertCircle size={40} className="text-red-400" />
+        <p className="text-lg font-bold text-slate-800">Não foi possível carregar as análises</p>
+        <p className="text-sm text-slate-500">Verifique a conexão com o servidor e tente novamente.</p>
+      </div>
+    </div>
+  )
+}
+
 // ─── Analytics Page ───────────────────────────────────────────────────────────
 export default function Analytics() {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['analytics'],
+    queryFn: getAnalytics,
+  })
+
+  if (isLoading) return <AnalyticsSkeleton />
+  if (isError || !data) return <AnalyticsError />
+
+  const {
+    kpis,
+    funnelStages,
+    spin,
+    personas,
+    painPoints,
+    revenue,
+    latency,
+    abandonmentRate,
+    messageActivity,
+  } = data
+
+  const kpiCards = [
+    {
+      Icon: Users,
+      iconBg: 'bg-blue-50',
+      iconColor: 'text-blue-700',
+      label: 'Total de Leads',
+      value: kpis.totalLeads,
+      subtext: 'Leads qualificados no funil atual',
+      valueColor: 'text-[#2563EB]',
+    },
+    {
+      Icon: Zap,
+      iconBg: 'bg-orange-50',
+      iconColor: 'text-orange-700',
+      label: 'Novos Leads Hoje',
+      value: kpis.newLeadsToday,
+      subtext: 'Novas oportunidades identificadas desde 00:00',
+      valueColor: 'text-slate-900',
+    },
+    {
+      Icon: Target,
+      iconBg: 'bg-purple-50',
+      iconColor: 'text-purple-700',
+      label: 'Taxa de Conversão',
+      value: `${kpis.conversionRate}%`,
+      subtext: 'Taxa de lead para matriculado',
+      valueColor: 'text-slate-900',
+    },
+  ]
+
+  const maxFunnelCount = Math.max(1, ...funnelStages.map(s => s.count))
+  const maxPainCount = Math.max(1, ...painPoints.map(p => p.count))
+  const icp = deriveIcp(personas)
+  const abandonPct = Math.round((abandonmentRate ?? 0) * 100)
+
   return (
     <div className="pb-8">
       {/* ── Page Header ── */}
@@ -276,7 +330,7 @@ export default function Analytics() {
 
       {/* ── KPI Cards ── */}
       <div className="grid grid-cols-3 gap-6 mb-8">
-        {KPI_CONFIG.map(card => (
+        {kpiCards.map(card => (
           <KpiCard key={card.label} {...card} />
         ))}
       </div>
@@ -287,7 +341,7 @@ export default function Analytics() {
           <GitBranch size={17} className="text-[#2563EB]" />
           Status do Funil de Leads
         </h3>
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-6 gap-4">
           {funnelStages.map(stage => (
             <FunnelStageCard
               key={stage.name}
@@ -311,25 +365,25 @@ export default function Analytics() {
               Abandono por Estágio (SPIN)
             </h3>
             <span className="text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded-full">
-              Últimos 30 dias
+              Conversas analisadas
             </span>
           </div>
           <div className="space-y-7">
-            {spinAbandonment.map((row, i) => (
+            {spin.map((row, i) => (
               <SpinRow
                 key={row.stage}
                 stage={row.stage}
                 retained={row.retained}
                 churned={row.churned}
-                opacity={SPIN_OPACITIES[i]}
+                opacity={SPIN_OPACITIES[i] ?? 0.4}
               />
             ))}
           </div>
           <div className="mt-8 p-4 bg-blue-50/60 rounded-xl border-l-4 border-[#2563EB]">
             <p className="text-xs leading-relaxed text-slate-600 italic">
-              O abandono é maior no estágio de{' '}
-              <strong className="text-slate-800">Implicação</strong>. Considere
-              refinar os roteiros de proposta de valor para o paciente.
+              Taxa geral de abandono das conversas:{' '}
+              <strong className="text-slate-800">{abandonPct}%</strong>. Cada barra
+              compara leads que avançaram (azul) vs. que abandonaram (vermelho) no estágio SPIN.
             </p>
           </div>
         </div>
@@ -339,36 +393,36 @@ export default function Analytics() {
           <div className="flex justify-between items-start mb-6">
             <div>
               <h3 className="text-base font-bold text-slate-900 font-headline">
-                Tendências de Conversa
+                Volume de Mensagens (WhatsApp)
               </h3>
               <p className="text-xs text-slate-400 mt-1">
-                Interações em todos os canais médicos
+                Mensagens trocadas por semana
               </p>
             </div>
-            <div className="flex gap-2">
-              <span className="flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-bold">
-                <span className="w-2 h-2 rounded-full bg-blue-700" />
-                WhatsApp
-              </span>
-              <span className="flex items-center gap-1.5 px-3 py-1 bg-slate-50 text-slate-500 rounded-full text-xs font-bold">
-                <span className="w-2 h-2 rounded-full bg-slate-300" />
-                Chamadas
-              </span>
-            </div>
+            <span className="flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-bold">
+              <span className="w-2 h-2 rounded-full bg-blue-700" />
+              WhatsApp
+            </span>
           </div>
 
           <Suspense fallback={<ChartSkeleton height="h-60" />}>
-            <LazyConversationChart />
+            <LazyConversationChart data={messageActivity.weekly} />
           </Suspense>
 
-          <div className="mt-6 grid grid-cols-2 gap-4">
+          <div className="mt-6 grid grid-cols-3 gap-4">
             <div className="p-4 bg-slate-50 rounded-xl">
               <p className="text-xs text-slate-500 mb-1">Tempo Médio de Resposta</p>
-              <p className="text-xl font-bold text-slate-900">{avgResponseTime}</p>
+              <p className="text-xl font-bold text-slate-900">
+                {fmtSeconds(messageActivity.avgResponseSeconds ?? latency.medianSellerSeconds)}
+              </p>
+            </div>
+            <div className="p-4 bg-slate-50 rounded-xl">
+              <p className="text-xs text-slate-500 mb-1">1ª Resposta (mediana)</p>
+              <p className="text-xl font-bold text-slate-900">{fmtSeconds(latency.firstResponseSeconds)}</p>
             </div>
             <div className="p-4 bg-slate-50 rounded-xl">
               <p className="text-xs text-slate-500 mb-1">Horário de Pico</p>
-              <p className="text-xl font-bold text-slate-900">{peakHour}</p>
+              <p className="text-xl font-bold text-slate-900">{fmtHour(messageActivity.peakHour)}</p>
             </div>
           </div>
         </div>
@@ -379,27 +433,24 @@ export default function Analytics() {
         <div className="flex justify-between items-start mb-6">
           <div>
             <h3 className="text-base font-bold text-slate-900 font-headline">
-              Histórico de Receita Mensal e Projeção de Crescimento
+              Histórico de Receita Mensal
             </h3>
             <p className="text-xs text-slate-400 mt-1">
-              Barras sólidas = realizado · Barras tracejadas = projeção
+              Receita realizada por mês (matrículas fechadas)
             </p>
           </div>
           <div className="text-right">
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
-              Faturamento Total (Ano)
+              Faturamento Total
             </p>
             <p className="text-2xl font-extrabold text-[#2563EB]">
-              R$ {totalRevenue.toLocaleString('pt-BR')}
-            </p>
-            <p className="text-sm font-semibold text-emerald-600 mt-0.5">
-              {revenueGrowth} vs. ano anterior
+              R$ {revenue.total.toLocaleString('pt-BR')}
             </p>
           </div>
         </div>
 
         <Suspense fallback={<ChartSkeleton height="h-72" />}>
-          <LazyRevenueChart />
+          <LazyRevenueChart data={revenue.byMonth} />
         </Suspense>
       </div>
 
@@ -411,23 +462,27 @@ export default function Analytics() {
             Análise de Inteligência Artificial
           </h3>
           <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-full uppercase tracking-widest">
-            Gerado por IA · Atualizado há 2h
+            Gerado por IA
           </span>
         </div>
 
         {/* ICP */}
-        <IcpCard icp={aiAnalysis.icp} />
+        <IcpCard icp={icp} />
 
         {/* Personas + Pain Points */}
         <div className="grid grid-cols-12 gap-6">
           {/* Personas — col-span-7 */}
           <div className="col-span-7 space-y-4">
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Personas Identificadas</p>
-            <div className="grid grid-cols-2 gap-4">
-              {aiAnalysis.personas.map(p => (
-                <PersonaCard key={p.id} persona={p} />
-              ))}
-            </div>
+            {personas.length > 0 ? (
+              <div className="grid grid-cols-2 gap-4">
+                {personas.map((p, i) => (
+                  <PersonaCard key={p.persona} persona={p} colorIndex={i} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-slate-400">Nenhuma persona identificada ainda.</p>
+            )}
           </div>
 
           {/* Pain Points — col-span-5 */}
@@ -436,11 +491,19 @@ export default function Analytics() {
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Principais Dores</p>
               <AlertCircle size={14} className="text-slate-300" />
             </div>
-            <div>
-              {aiAnalysis.painPoints.map(p => (
-                <PainPointRow key={p.rank} point={p} />
-              ))}
-            </div>
+            {painPoints.length > 0 ? (
+              <div>
+                {painPoints.map(p => (
+                  <PainPointRow
+                    key={p.rank}
+                    point={p}
+                    barPct={Math.round((p.count / maxPainCount) * 100)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-slate-400">Nenhuma dor recorrente identificada.</p>
+            )}
           </div>
         </div>
       </section>

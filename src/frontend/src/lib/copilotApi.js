@@ -91,22 +91,17 @@ export async function createSession(leadId) {
 
 /**
  * `PATCH /copilot/sessions/{id}` — anexa um lead à sessão atual (sem novo thread).
- * Defensivo: se o backend recusar com 409 (sessão já tem lead), cai para criar
- * uma nova sessão com o lead — na prática o modal de confirmação evita esse caminho.
+ * Propaga o 409 do backend (sessão já vinculada a um lead) para quem chama decidir —
+ * NÃO cria silenciosamente uma nova sessão (isso é decisão da UI: confirmar primeiro).
  * @param {number} sessionId
  * @param {number} leadId
  * @returns {Promise<SessionOut>}
  */
 export async function attachLead(sessionId, leadId) {
-  try {
-    return await request(`/copilot/sessions/${sessionId}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ leadId }),
-    })
-  } catch (err) {
-    if (err.status === 409) return createSession(leadId)
-    throw err
-  }
+  return request(`/copilot/sessions/${sessionId}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ leadId }),
+  })
 }
 
 /** `GET /copilot/sessions` — lista de sessões (mais recentes primeiro). */

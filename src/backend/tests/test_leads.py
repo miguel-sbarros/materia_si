@@ -166,3 +166,56 @@ def test_search_leads(api_client, db_session):
 
     assert api_client.get("/leads", params={"q": ""}).json() == []
     assert api_client.get("/leads", params={"q": "zzz"}).json() == []
+
+
+def test_update_lead_edits_contact_fields(api_client, db_session):
+    """PATCH /leads/{id} edita nome/telefone/origem e devolve o LeadDetail completo."""
+    _course, [cohort] = make_course(db_session, name="Imersão")
+    lead = make_lead(db_session, name="Antigo Nome", email="edit@x.com", source="E-mail")
+    db_session.add(Deal(lead_id=lead.id, cohort_id=cohort.id, stage=DealStage.CONTATADO))
+    db_session.flush()
+
+    resp = api_client.patch(
+        f"/leads/{lead.id}",
+        json={"name": "Novo Nome", "phone": "(11) 98888-0000", "source": "Instagram"},
+    )
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["name"] == "Novo Nome"
+    assert data["phone"] == "(11) 98888-0000"
+    assert data["source"] == "Instagram"
+    # devolve o shape completo (deals/attributes preservados)
+    assert len(data["deals"]) == 1
+    assert data["deals"][0]["column"] == "Contatado"
+
+    refreshed = db_session.get(Lead, lead.id)
+    db_session.refresh(refreshed)
+    assert refreshed.name == "Novo Nome"
+    assert refreshed.source == "Instagram"
+
+
+def test_update_lead_duplicate_email_409(api_client, db_session):
+    """Mudar o email para um já usado por OUTRO lead → 409 (dedupe REQF01)."""
+    make_lead(db_session, name="Dono do Email", email="taken@x.com")
+    lead = make_lead(db_session, name="Editável", email="mine@x.com")
+    db_session.flush()
+
+    resp = api_client.patch(f"/leads/{lead.id}", json={"email": "taken@x.com"})
+    assert resp.status_code == 409
+
+
+def test_update_lead_same_email_ok(api_client, db_session):
+    """Manter o próprio email (sem trocar) não dispara 409."""
+    lead = make_lead(db_session, name="Estável", email="same@x.com")
+    db_session.flush()
+
+    resp = api_client.patch(
+        f"/leads/{lead.id}", json={"name": "Estável II", "email": "same@x.com"}
+    )
+    assert resp.status_code == 200
+    assert resp.json()["name"] == "Estável II"
+
+
+def test_update_lead_not_found_404(api_client, db_session):
+    resp = api_client.patch("/leads/999999", json={"name": "X"})
+    assert resp.status_code == 404

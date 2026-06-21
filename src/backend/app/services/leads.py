@@ -13,7 +13,7 @@ from app.core.constants import DealStage, DealStatus, UserRole
 from app.models import Cohort, Deal, DealEvent, Lead, User
 from app.schemas.analysis import LeadProfileOut
 from app.schemas.deal import DealBrief, DealCard
-from app.schemas.lead import AttributeOut, LeadCreate, LeadDetail, LeadSummary
+from app.schemas.lead import AttributeOut, LeadCreate, LeadDetail, LeadSummary, LeadUpdate
 from app.services.conversations import get_lead_conversation
 from app.services.deals import _deal_value, card_column, to_card
 
@@ -74,6 +74,31 @@ def create_lead(db: Session, payload: LeadCreate) -> DealCard:
     db.commit()
     db.refresh(deal)
     return to_card(deal)
+
+
+def update_lead(db: Session, lead_id: int, payload: LeadUpdate) -> LeadDetail:
+    """Atualiza os dados de contato do lead (nome/email/telefone/origem) — parcial.
+
+    Dedupe de email (REQF01): se o email mudar para um já usado por OUTRO lead → 409.
+    404 se o lead não existir. Retorna o ``LeadDetail`` completo (mesmo shape do GET).
+    """
+    lead = db.get(Lead, lead_id)
+    if lead is None:
+        raise HTTPException(status_code=404, detail="Lead não encontrado")
+
+    data = payload.model_dump(exclude_unset=True)
+    new_email = data.get("email")
+    if new_email and new_email != lead.email:
+        clash = db.scalar(
+            select(Lead).where(Lead.email == new_email, Lead.id != lead_id)
+        )
+        if clash is not None:
+            raise HTTPException(status_code=409, detail="Já existe um lead com este email")
+
+    for field, value in data.items():
+        setattr(lead, field, value)
+    db.commit()
+    return get_lead(db, lead_id)
 
 
 def _format_money(value) -> str:

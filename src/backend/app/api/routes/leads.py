@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.schemas.analysis import LeadProfileOut
 from app.schemas.deal import DealCard, DealCreate
-from app.schemas.lead import LeadCreate, LeadDetail, LeadSummary
+from app.schemas.lead import LeadCreate, LeadDetail, LeadSummary, LeadUpdate
 from app.services import analysis as analysis_service
 from app.services import deals as deals_service
 from app.services import leads as leads_service
@@ -38,6 +38,14 @@ def search_leads(q: str = "", db: Session = Depends(get_db)) -> list[LeadSummary
 @router.get("/leads/{lead_id}", response_model=LeadDetail)
 def get_lead(lead_id: int, db: Session = Depends(get_db)) -> LeadDetail:
     return leads_service.get_lead(db, lead_id)
+
+
+@router.patch("/leads/{lead_id}", response_model=LeadDetail)
+def update_lead(
+    lead_id: int, payload: LeadUpdate, db: Session = Depends(get_db)
+) -> LeadDetail:
+    """Edita os dados de contato do lead (nome/email/telefone/origem). 404/409."""
+    return leads_service.update_lead(db, lead_id, payload)
 
 
 @router.post("/leads/{lead_id}/analyze", response_model=LeadProfileOut)

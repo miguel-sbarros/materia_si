@@ -68,6 +68,7 @@ def list_deal_cards(
             joinedload(Deal.cohort).joinedload(Cohort.course),
             joinedload(Deal.lead).joinedload(Lead.assignee),
         )
+        .where(Deal.status == DealStatus.OPEN)
         .order_by(Deal.id)
     )
     if cohort_id is not None:

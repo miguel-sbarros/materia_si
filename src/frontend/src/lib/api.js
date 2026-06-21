@@ -77,6 +77,35 @@ export async function getCourseEmenta(courseId) {
 }
 
 /**
+ * `POST /courses` — cria um curso. Retorna o CourseOut criado.
+ * @param {{name:string, description?:string, modality?:string, price?:number|string, duration?:string}} payload
+ */
+export async function createCourse(payload) {
+  return request('/courses', { method: 'POST', body: JSON.stringify(payload) })
+}
+
+/** `PUT /courses/{id}` — edita campos do curso (parcial). Retorna o CourseOut. */
+export async function updateCourse(courseId, payload) {
+  return request(`/courses/${courseId}`, { method: 'PUT', body: JSON.stringify(payload) })
+}
+
+/**
+ * `POST /courses/{id}/cohorts` — cria uma turma no curso. Retorna o CohortOut.
+ * @param {{name:string, start_date?:string, end_date?:string, capacity?:number, price_per_slot?:number|string, status?:string}} payload
+ */
+export async function createCohort(courseId, payload) {
+  return request(`/courses/${courseId}/cohorts`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
+/** `PUT /cohorts/{id}` — edita campos da turma (parcial). Retorna o CohortOut. */
+export async function updateCohort(cohortId, payload) {
+  return request(`/cohorts/${cohortId}`, { method: 'PUT', body: JSON.stringify(payload) })
+}
+
+/**
  * `POST /leads` — cria lead + deal inicial; retorna o DealCard (em Novo).
  * @param {{name: string, email?: string, phone?: string, source?: string, cohort_id: number}} payload
  * @returns {Promise<DealCard>}
@@ -103,6 +132,16 @@ export async function moveDeal(dealId, { column, lostReason } = {}) {
 /** `GET /leads/{id}` — detalhe do lead com seus deals (usado por P2). */
 export async function getLead(id) {
   return request(`/leads/${id}`)
+}
+
+/**
+ * `PATCH /leads/{id}` — edita os dados de contato do lead (parcial). 409 se email duplicado.
+ * Retorna o LeadDetail completo (mesmo shape de GET /leads/{id}).
+ * @param {number} id
+ * @param {{name?:string, email?:string, phone?:string, source?:string}} payload
+ */
+export async function updateLead(id, payload) {
+  return request(`/leads/${id}`, { method: 'PATCH', body: JSON.stringify(payload) })
 }
 
 /**
@@ -205,6 +244,15 @@ export async function importChat(file, { leadId, leadName } = {}) {
     throw err
   }
   return resp.json()
+}
+
+// ─── Analytics (Análises) ───────────────────────────────────────────────────────
+/**
+ * `GET /analytics` — métricas agregadas reais (KPIs, funil, SPIN, personas, dores,
+ * receita, latência, abandono, atividade de mensagens).
+ */
+export async function getAnalytics() {
+  return request('/analytics')
 }
 
 // Extrai HH:MM de um ISO timestamp (bolhas do chat). '' se ausente.

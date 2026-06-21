@@ -166,9 +166,6 @@ function reducer(state, action) {
     case 'STOP_TYPING':
       return { ...state, isTyping: false }
 
-    case 'REMOVE_LEAD':
-      return { ...state, attachedLead: null }
-
     case 'TOGGLE_LEAD_EXPANDED':
       return { ...state, leadExpanded: !state.leadExpanded }
 
@@ -252,25 +249,32 @@ export default function useCopilot() {
   }, [])
 
   // Anexar lead via @:
-  //  • sessão atual SEM lead → anexa o lead à sessão atual (mantém o thread);
-  //    sem sessão ainda → cria uma com o lead.
   //  • sessão atual JÁ COM lead → não anexa; abre confirmação de "nova conversa".
+  //  • sessão atual SEM lead → anexa o lead à sessão atual (mantém o thread);
+  //    sem sessão ainda → cria a primeira com o lead.
+  //  • se o backend recusar o anexo (409: a sessão já está vinculada a um lead, ex.:
+  //    o chip foi removido mas o vínculo persiste) → cai na confirmação de nova conversa,
+  //    NUNCA cria uma sessão silenciosamente.
   const pickLead = useCallback(async (summary) => {
     const input = state.input.replace(/(^|\s)@[^\s@]*$/u, '$1')
+    const full = await getLeadContext(summary.id)
     if (state.attachedLead) {
-      // Já existe lead anexado → pede confirmação antes de iniciar nova conversa.
-      const full = await getLeadContext(summary.id)
       dispatch({ type: 'SET_PENDING_LEAD', lead: full, input })
       return
     }
-    const full = await getLeadContext(summary.id)
     if (state.currentSessionId) {
-      const session = await attachLead(state.currentSessionId, summary.id)
-      dispatch({ type: 'ATTACH_LEAD', lead: full, sessionId: session.id, input })
-    } else {
-      const session = await createSession(summary.id)
-      dispatch({ type: 'ATTACH_LEAD', lead: full, sessionId: session.id, input })
+      try {
+        const session = await attachLead(state.currentSessionId, summary.id)
+        dispatch({ type: 'ATTACH_LEAD', lead: full, sessionId: session.id, input })
+        refreshSessions()
+      } catch (err) {
+        if (err.status !== 409) throw err
+        dispatch({ type: 'SET_PENDING_LEAD', lead: full, input })
+      }
+      return
     }
+    const session = await createSession(summary.id)
+    dispatch({ type: 'ATTACH_LEAD', lead: full, sessionId: session.id, input })
     refreshSessions()
   }, [state.input, state.attachedLead, state.currentSessionId, refreshSessions])
 
@@ -366,7 +370,11 @@ export default function useCopilot() {
     }
   }, [state.slashOpen, state.showMentions, state.mentionResults, slashResults, runSlash, pickLead, onSend])
 
-  const removeLead = useCallback(() => dispatch({ type: 'REMOVE_LEAD' }), [])
+  // Remover o lead anexado: como o vínculo lead↔sessão é fixo no backend, "tirar o lead"
+  // significa sair da conversa dele → reinicia num chat limpo (a sessão fica na sidebar).
+  // Isso evita o dessincronismo (chip sem lead, mas sessão ainda vinculada) que fazia o
+  // próximo anexo criar uma sessão nova silenciosamente.
+  const removeLead = useCallback(() => dispatch({ type: 'NEW_CHAT' }), [])
 
   const toggleLeadExpanded = useCallback(
     () => dispatch({ type: 'TOGGLE_LEAD_EXPANDED' }),

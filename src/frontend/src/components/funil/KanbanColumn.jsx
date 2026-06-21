@@ -5,7 +5,6 @@ import LeadCard from './LeadCard.jsx'
 
 function KanbanColumn({ column, cards, activeId }) {
   const { setNodeRef: setDropRef, isOver } = useDroppable({ id: column.id })
-  const isPerdido = column.id === 'Perdido'
   const cardIds = cards.map((c) => c.id)
 
   return (
@@ -29,10 +28,9 @@ function KanbanColumn({ column, cards, activeId }) {
           ref={setDropRef}
           className={`space-y-3 min-h-[100px] rounded-xl transition-colors duration-150 ${isOver ? 'bg-blue-50/60' : ''}`}
         >
-          {isPerdido && cards.length === 0 ? (
-            <div className="bg-slate-50 p-6 rounded-xl border border-dashed border-slate-200 flex flex-col items-center justify-center text-center opacity-60">
-              <span className="text-2xl mb-2">🗑️</span>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Área de Arquivo</p>
+          {cards.length === 0 ? (
+            <div className="rounded-xl border border-dashed border-slate-200 py-8 flex items-center justify-center text-center">
+              <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Sem leads</p>
             </div>
           ) : (
             cards.map((card) => (

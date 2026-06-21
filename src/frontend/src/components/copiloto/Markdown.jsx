@@ -1,8 +1,11 @@
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
-// Renderiza markdown do agente (títulos, negrito, listas, parágrafos) com estilo
-// alinhado ao chat. @tailwindcss/typography não está instalado, então cada
-// elemento ganha classes explícitas via overrides de `components`.
+// Renderiza markdown do agente (títulos, negrito, listas, parágrafos, TABELAS) com
+// estilo alinhado ao chat. `remark-gfm` habilita tabelas/strikethrough/autolinks — os
+// comandos de barra (/courses, /analytics, /icp) respondem em tabelas. @tailwindcss/
+// typography não está instalado, então cada elemento ganha classes explícitas via
+// overrides de `components`.
 const COMPONENTS = {
   h1: ({ children }) => (
     <h1 className="text-[15px] font-bold text-slate-900 font-headline mt-3 mb-1.5 first:mt-0">
@@ -52,12 +55,30 @@ const COMPONENTS = {
     </blockquote>
   ),
   hr: () => <hr className="my-3 border-slate-100" />,
+  table: ({ children }) => (
+    <div className="my-2 overflow-x-auto rounded-lg border border-slate-200">
+      <table className="w-full border-collapse text-[13px]">{children}</table>
+    </div>
+  ),
+  thead: ({ children }) => <thead className="bg-slate-50">{children}</thead>,
+  tbody: ({ children }) => <tbody>{children}</tbody>,
+  tr: ({ children }) => <tr className="border-b border-slate-100 last:border-0">{children}</tr>,
+  th: ({ children }) => (
+    <th className="px-3 py-2 text-left font-semibold text-slate-700 whitespace-nowrap">
+      {children}
+    </th>
+  ),
+  td: ({ children }) => (
+    <td className="px-3 py-2 align-top text-slate-600">{children}</td>
+  ),
 }
 
 export default function Markdown({ children, className = '' }) {
   return (
     <div className={className}>
-      <ReactMarkdown components={COMPONENTS}>{children || ''}</ReactMarkdown>
+      <ReactMarkdown remarkPlugins={[remarkGfm]} components={COMPONENTS}>
+        {children || ''}
+      </ReactMarkdown>
     </div>
   )
 }

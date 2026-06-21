@@ -15,6 +15,7 @@ import KanbanColumn from '../components/funil/KanbanColumn.jsx'
 import OverlayCard from '../components/funil/OverlayCard.jsx'
 import NewLeadModal from '../components/funil/NewLeadModal.jsx'
 import LostReasonModal from '../components/funil/LostReasonModal.jsx'
+import CloseDropZone from '../components/funil/CloseDropZone.jsx'
 
 export default function Funil() {
   const queryClient = useQueryClient()
@@ -101,6 +102,17 @@ export default function Funil() {
       const card = cards.find((c) => c.id === active.id)
       if (!card) return
 
+      // Close drop-zone: fecha o deal (sai do quadro, pois passa a won/lost).
+      if (over.id === 'close-matriculado') {
+        moveMutation.mutate({ dealId: card.id, column: 'Matriculado' })
+        return
+      }
+      if (over.id === 'close-perdido') {
+        setPendingLost(card) // pede o motivo antes de transicionar para lost
+        return
+      }
+
+      // Coluna alvo: id de coluna, ou a coluna do card sob o cursor.
       const isColumnTarget = COLUMNS.some((c) => c.id === over.id)
       const targetColumn = isColumnTarget
         ? over.id
@@ -108,10 +120,6 @@ export default function Funil() {
       // Mesma coluna ou alvo inválido: ordem dentro da coluna não é persistida (sem grão).
       if (!targetColumn || targetColumn === card.column) return
 
-      if (targetColumn === 'Perdido') {
-        setPendingLost(card) // pede o motivo antes de transicionar para lost
-        return
-      }
       moveMutation.mutate({ dealId: card.id, column: targetColumn })
     },
     [cards, moveMutation],
@@ -205,6 +213,8 @@ export default function Funil() {
               />
             ))}
           </div>
+
+          <CloseDropZone active={activeId != null} />
 
           <DragOverlay dropAnimation={{ duration: 150, easing: 'ease' }}>
             {activeCard ? <OverlayCard card={activeCard} /> : null}

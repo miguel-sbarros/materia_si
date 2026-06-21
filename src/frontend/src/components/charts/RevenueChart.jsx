@@ -5,12 +5,8 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Cell,
   ResponsiveContainer,
 } from 'recharts'
-import { analyticsData } from '../../data/mock.js'
-
-const { revenue } = analyticsData
 
 const tooltipStyle = {
   fontSize: 12,
@@ -24,46 +20,23 @@ function yTickFormatter(v) {
   return `R$ ${(v / 1000).toFixed(0)}k`
 }
 
-function tooltipFormatter(value, _name, entry) {
-  const label = entry.payload.projected ? 'Projeção' : 'Receita'
-  return [`R$ ${value.toLocaleString('pt-BR')}`, label]
+function tooltipFormatter(value) {
+  return [`R$ ${value.toLocaleString('pt-BR')}`, 'Receita']
 }
 
-// Custom bar shape so projected bars get a dashed stroke
-function ProjectedBar(props) {
-  const { x, y, width, height } = props
-  if (height <= 0) return null
-  return (
-    <rect
-      x={x}
-      y={y}
-      width={width}
-      height={height}
-      rx={4}
-      ry={4}
-      fill="rgba(37, 99, 235, 0.22)"
-      stroke="#2563EB"
-      strokeWidth={1.5}
-      strokeDasharray="5 3"
-    />
-  )
-}
+export default function RevenueChart({ data = [] }) {
+  if (data.length === 0) {
+    return (
+      <div className="h-72 flex items-center justify-center rounded-xl bg-slate-50 border border-slate-100">
+        <p className="text-sm text-slate-400">Sem receita registrada no período.</p>
+      </div>
+    )
+  }
 
-function SolidBar(props) {
-  const { x, y, width, height } = props
-  if (height <= 0) return null
-  return <rect x={x} y={y} width={width} height={height} rx={4} ry={4} fill="#2563EB" />
-}
-
-function CustomBar(props) {
-  return props.projected ? <ProjectedBar {...props} /> : <SolidBar {...props} />
-}
-
-export default function RevenueChart() {
   return (
     <ResponsiveContainer width="100%" height={280}>
       <BarChart
-        data={revenue}
+        data={data}
         barCategoryGap="28%"
         margin={{ top: 4, right: 4, left: 4, bottom: 0 }}
       >
@@ -88,7 +61,7 @@ export default function RevenueChart() {
           formatter={tooltipFormatter}
           cursor={{ fill: 'rgba(37, 99, 235, 0.04)' }}
         />
-        <Bar dataKey="value" shape={<CustomBar />} />
+        <Bar dataKey="value" fill="#2563EB" radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   )

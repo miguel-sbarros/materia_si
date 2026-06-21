@@ -3,9 +3,18 @@
 ``icp_summary`` (conversão por persona) e ``funnel_analytics`` (taxas + latência), via DB real.
 """
 
+from datetime import UTC, datetime
+
 from app.core.constants import DealStage, DealStatus
-from app.models import Persona
-from app.services.analytics import funnel_analytics, icp_summary
+from app.models import Conversation, Message, Persona
+from app.schemas.analysis import SPINStage
+from app.services.analytics import (
+    funnel_analytics,
+    icp_summary,
+    kpis,
+    revenue_summary,
+    spin_abandonment,
+)
 from tests.factories import make_course, make_deal, make_lead, make_profile
 
 
@@ -145,3 +154,154 @@ def test_funnel_analytics_empty_is_null_safe(db_session):
     assert funnel["conversionRate"] == 0.0
     assert funnel["abandonmentRate"] == 0.0
     assert funnel["medianSellerLatencySeconds"] is None
+
+
+# --- Agregadores do painel GET /analytics --------------------------------------------------
+
+
+def test_kpis_total_and_conversion(db_session):
+    """totalLeads = nº de leads; conversionRate = won/total escalado a % (1 casa)."""
+    _course, [cohort] = make_course(db_session)
+    won = make_lead(db_session, name="Won")
+    make_deal(db_session, cohort, lead=won, status=DealStatus.WON)
+    open_lead = make_lead(db_session, name="Open")
+    make_deal(db_session, cohort, lead=open_lead, status=DealStatus.OPEN)
+
+    result = kpis(db_session)
+    assert result["totalLeads"] == 2
+    # 1 won / 2 deals = 0.5 → 50.0%.
+    assert result["conversionRate"] == 50.0
+    # Leads recém-criados → newLeadsToday cobre os de hoje (>= 0, int).
+    assert isinstance(result["newLeadsToday"], int)
+    assert result["newLeadsToday"] >= 0
+
+
+def test_spin_abandonment_buckets_churn_at_stage(db_session):
+    """Um perfil abandonado em IMPLICATION mostra churn no bucket 'Implicação'."""
+    lead = make_lead(db_session, name="Abandonado")
+    make_profile(
+        db_session, lead, is_abandoned=True,
+        abandon_spin_stage=SPINStage.IMPLICATION.value,
+    )
+
+    rows = spin_abandonment(db_session)
+    assert [r["stage"] for r in rows] == ["Situação", "Problema", "Implicação", "Necessidade"]
+    by_stage = {r["stage"]: r for r in rows}
+    # 1 de 1 perfil abandonado em Implicação → 100% churn.
+    assert by_stage["Implicação"]["churned"] == 100
+    assert by_stage["Implicação"]["retained"] == 0
+    # Estágios sem abandono → 0% churn.
+    assert by_stage["Situação"]["churned"] == 0
+    assert by_stage["Situação"]["retained"] == 100
+
+
+def test_spin_abandonment_empty_is_null_safe(db_session):
+    """Sem perfis: todos os estágios 0% churn / 100% retained."""
+    rows = spin_abandonment(db_session)
+    assert len(rows) == 4
+    assert all(r["churned"] == 0 and r["retained"] == 100 for r in rows)
+
+
+def test_revenue_summary_sums_won_deals(db_session):
+    """total = soma dos valores dos deals ganhos (price_per_slot da turma)."""
+    _course, [cohort] = make_course(db_session, price="5900.00")
+    won1 = make_lead(db_session, name="W1")
+    make_deal(db_session, cohort, lead=won1, status=DealStatus.WON)
+    won2 = make_lead(db_session, name="W2")
+    make_deal(db_session, cohort, lead=won2, status=DealStatus.WON)
+    # Um deal aberto não conta para a receita.
+    open_lead = make_lead(db_session, name="O1")
+    make_deal(db_session, cohort, lead=open_lead, status=DealStatus.OPEN)
+
+    revenue = revenue_summary(db_session)
+    assert revenue["total"] == 11800.0  # 2 × 5900
+    assert isinstance(revenue["byMonth"], list)
+    assert sum(m["value"] for m in revenue["byMonth"]) == 11800.0
+
+
+def test_revenue_summary_empty(db_session):
+    """Sem deals ganhos: total 0.0 e byMonth vazio."""
+    revenue = revenue_summary(db_session)
+    assert revenue["total"] == 0.0
+    assert revenue["byMonth"] == []
+
+
+def test_get_analytics_endpoint_shape(api_client, db_session):
+    """GET /analytics → 200 com todas as chaves de topo e tipos corretos."""
+    _course, [cohort] = make_course(db_session)
+    won = make_lead(db_session, name="Won")
+    make_deal(db_session, cohort, lead=won, status=DealStatus.WON)
+    make_profile(
+        db_session, won, matched_persona="Especialista Analógico",
+        dores=["medo da tecnologia"], desejos=["proteger o legado"],
+        is_abandoned=True, abandon_spin_stage=SPINStage.PROBLEM.value,
+    )
+    # Mensagem com timestamp → alimenta messageActivity.
+    conv = Conversation(lead_id=won.id, channel="WhatsApp")
+    db_session.add(conv)
+    db_session.flush()
+    db_session.add(
+        Message(
+            conversation_id=conv.id, text="oi", sent=False, sequence=0,
+            sent_at=datetime(2025, 10, 30, 14, 0, tzinfo=UTC),
+        )
+    )
+    db_session.flush()
+
+    resp = api_client.get("/analytics")
+    assert resp.status_code == 200
+    body = resp.json()
+
+    for key in (
+        "kpis", "funnelStages", "spin", "personas", "painPoints",
+        "revenue", "latency", "abandonmentRate", "messageActivity",
+    ):
+        assert key in body, f"chave ausente: {key}"
+
+    assert set(body["kpis"]) == {"totalLeads", "newLeadsToday", "conversionRate"}
+    assert isinstance(body["funnelStages"], list)
+    assert all({"name", "count"} <= set(s) for s in body["funnelStages"])
+    assert len(body["spin"]) == 4
+    assert {"stage", "retained", "churned"} <= set(body["spin"][0])
+    assert isinstance(body["personas"], list)
+    assert all(
+        {"persona", "leads", "conversionRate", "topDores", "topDesejos", "description"}
+        == set(p)
+        for p in body["personas"]
+    )
+    assert all({"rank", "title", "count"} <= set(p) for p in body["painPoints"])
+    assert {"total", "byMonth"} <= set(body["revenue"])
+    assert {"medianSellerSeconds", "medianLeadSeconds", "firstResponseSeconds"} == set(
+        body["latency"]
+    )
+    assert isinstance(body["abandonmentRate"], (int, float))
+    assert {"weekly", "peakHour", "avgResponseSeconds"} == set(body["messageActivity"])
+    # painPoints reflete a dor verbalizada.
+    assert body["painPoints"][0]["title"] == "medo da tecnologia"
+    # messageActivity tem a semana e a hora de pico da mensagem com timestamp.
+    assert body["messageActivity"]["peakHour"] == 14
+    assert len(body["messageActivity"]["weekly"]) == 1
+
+
+def test_get_analytics_empty_db_is_null_safe(api_client):
+    """Banco vazio: o endpoint ainda devolve a forma completa com zeros/None/[]."""
+    resp = api_client.get("/analytics")
+    assert resp.status_code == 200
+    body = resp.json()
+
+    assert body["kpis"] == {"totalLeads": 0, "newLeadsToday": 0, "conversionRate": 0.0}
+    assert body["personas"] == []
+    assert body["painPoints"] == []
+    assert body["revenue"] == {"total": 0.0, "byMonth": []}
+    assert body["abandonmentRate"] == 0.0
+    assert body["latency"] == {
+        "medianSellerSeconds": None,
+        "medianLeadSeconds": None,
+        "firstResponseSeconds": None,
+    }
+    assert body["messageActivity"] == {
+        "weekly": [], "peakHour": None, "avgResponseSeconds": None,
+    }
+    # funnelStages e spin têm sempre as colunas/estágios fixos, mesmo zerados.
+    assert len(body["spin"]) == 4
+    assert all(s["count"] == 0 for s in body["funnelStages"])

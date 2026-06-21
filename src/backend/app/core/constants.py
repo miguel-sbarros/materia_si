@@ -24,6 +24,7 @@ class DealStage(StrEnum):
     NOVO = "Novo"
     CONTATADO = "Contatado"
     NEGOCIANDO = "Negociando"
+    APROVADO = "Aprovado"
 
 
 class DealStatus(StrEnum):
