@@ -6,6 +6,8 @@
 - ``mock_anthropic``: faz monkeypatch de ``get_client`` para devolver Pydantic real, sem rede.
 """
 
+from types import SimpleNamespace
+
 import psycopg
 import pytest
 from fastapi.testclient import TestClient
@@ -94,15 +96,52 @@ def api_client(db_session):
     app.dependency_overrides.clear()
 
 
+def _text_block(text: str):
+    return SimpleNamespace(type="text", text=text)
+
+
+def _tool_use_block(name: str, inp: dict, tool_use_id: str):
+    return SimpleNamespace(type="tool_use", name=name, input=inp, id=tool_use_id)
+
+
+def _fake_message(content: list, stop_reason: str):
+    return SimpleNamespace(content=content, stop_reason=stop_reason)
+
+
 @pytest.fixture
 def mock_anthropic(monkeypatch):
-    """Stub de cliente Anthropic; ``set_return(obj)`` define o retorno de ``messages.parse``."""
+    """Stub de cliente Anthropic para ``messages.parse`` (análise P3) e ``messages.create``
+    (loop de agente do copiloto P4).
+
+    parse:
+    - ``set_return(obj)``: devolve sempre o mesmo objeto Pydantic.
+    - ``set_returns([a, b, ...])``: um por chamada (análise = 2 chamadas).
+
+    create (loop de tool-use):
+    - ``set_create_turns([msg, ...])``: um *Message* falso por turno, em ordem.
+      Construa-os com ``mock_anthropic.tool_use(name, input)`` (stop_reason='tool_use')
+      e ``mock_anthropic.final_text(texto_ou_json)`` (stop_reason='end_turn').
+    """
 
     class _Messages:
-        return_value = None
+        def __init__(self) -> None:
+            self.return_value = None
+            self.queue: list | None = None
+            self.create_queue: list | None = None
 
         def parse(self, *args, **kwargs):
+            if self.queue is not None:
+                assert self.queue, (
+                    "mock_anthropic: mais chamadas parse do que retornos configurados"
+                )
+                return self.queue.pop(0)
             return self.return_value
+
+        def create(self, *args, **kwargs):
+            assert self.create_queue, (
+                "mock_anthropic: mais chamadas create do que turnos configurados"
+            )
+            return self.create_queue.pop(0)
 
     class _Stub:
         def __init__(self) -> None:
@@ -110,8 +149,51 @@ def mock_anthropic(monkeypatch):
 
         def set_return(self, obj):
             self.messages.return_value = obj
+            self.messages.queue = None
             return obj
+
+        def set_returns(self, objs):
+            self.messages.queue = list(objs)
+            return objs
+
+        def set_create_turns(self, turns):
+            self.messages.create_queue = list(turns)
+            return turns
+
+        # Builders de Message falso para o loop do agente.
+        def tool_use(self, name, inp=None, tool_use_id="tu_1"):
+            return _fake_message([_tool_use_block(name, inp or {}, tool_use_id)], "tool_use")
+
+        def final_text(self, text):
+            return _fake_message([_text_block(text)], "end_turn")
 
     stub = _Stub()
     monkeypatch.setattr("app.services.llm.client.get_client", lambda: stub)
     return stub
+
+
+def _deterministic_embed(text: str) -> list[float]:
+    """Embedding determinístico p/ testes: bag-of-words → 1536-d (hash da palavra → índice).
+
+    Textos que compartilham palavras ficam próximos por cosseno — torna a ordenação do
+    ``retrieve`` assertável com fixtures em linguagem natural, sem carregar modelo real.
+    """
+    dim = get_settings().embedding_dim
+    vec = [0.0] * dim
+    for word in (text or "").lower().split():
+        vec[hash(word) % dim] += 1.0
+    return vec
+
+
+@pytest.fixture
+def mock_embedder(monkeypatch):
+    """Faz monkeypatch de ``app.services.rag.embed_query``/``embed_texts`` → vetores
+    determinísticos (sem chamada OpenAI). Devolve a função de embed p/ os testes
+    construírem os ``KnowledgeChunk`` com o mesmo esquema."""
+
+    monkeypatch.setattr("app.services.rag.embed_query", _deterministic_embed)
+    monkeypatch.setattr(
+        "app.services.rag.embed_texts",
+        lambda texts: [_deterministic_embed(t) for t in texts],
+    )
+    return _deterministic_embed

@@ -1,4 +1,5 @@
 import { memo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { Clock, Calendar, CheckCircle } from 'lucide-react'
@@ -7,9 +8,15 @@ import { relativeTime } from '../../lib/api.js'
 
 // Card do quadro (um DealCard). `id` do sortable = id do deal (alvo do PATCH).
 function LeadCard({ card, isDragging }) {
+  const navigate = useNavigate()
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: card.id,
   })
+
+  // Clique genuíno abre a página do lead. O PointerSensor exige 8px de movimento
+  // para iniciar o drag, então o dnd-kit suprime o click após um drag de verdade —
+  // só um clique sem arrasto chega aqui.
+  const openLead = () => navigate(`/leadpage/${card.leadId}`)
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -27,7 +34,8 @@ function LeadCard({ card, isDragging }) {
         style={style}
         {...attributes}
         {...listeners}
-        className="bg-emerald-50/40 p-5 rounded-xl shadow-sm border-2 border-dashed border-emerald-100 cursor-grab active:cursor-grabbing"
+        onClick={openLead}
+        className="bg-emerald-50/40 p-5 rounded-xl shadow-sm border-2 border-dashed border-emerald-100 cursor-pointer active:cursor-grabbing"
       >
         <div className="mb-3">
           <CheckCircle size={16} className="text-emerald-500" />
@@ -44,7 +52,8 @@ function LeadCard({ card, isDragging }) {
       style={style}
       {...attributes}
       {...listeners}
-      className="bg-white p-5 rounded-xl shadow-sm border-b-2 border-transparent hover:border-blue-200 transition-all cursor-grab active:cursor-grabbing group"
+      onClick={openLead}
+      className="bg-white p-5 rounded-xl shadow-sm border-b-2 border-transparent hover:border-blue-200 transition-all cursor-pointer active:cursor-grabbing group"
     >
       {/* Source badge + priority label */}
       <div className="flex justify-between items-start mb-3">

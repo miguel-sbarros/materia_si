@@ -12,7 +12,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base
 
 if TYPE_CHECKING:
+    from app.models.conversation import Conversation
     from app.models.deal import Deal
+    from app.models.lead_profile import LeadProfile
     from app.models.user import User
 
 
@@ -41,6 +43,12 @@ class Lead(Base):
     assignee: Mapped["User | None"] = relationship()
     deals: Mapped[list["Deal"]] = relationship(
         back_populates="lead", cascade="all, delete-orphan"
+    )
+    conversations: Mapped[list["Conversation"]] = relationship(
+        back_populates="lead", cascade="all, delete-orphan"
+    )
+    profile: Mapped["LeadProfile | None"] = relationship(
+        back_populates="lead", uselist=False, cascade="all, delete-orphan"
     )
 
     __table_args__ = (

@@ -77,3 +77,28 @@ Proporcionar um desenvolvimento continuado e aprofundado em Implantodontia Conte
     - Atendimento clínico focado na fase protética dos pacientes 1 e 2 (condicionamento, escaneamento, prova e instalação).
     - Aulas teóricas sobre temas avançados (guias para desdentados totais, cirurgias avançadas).
     - Discussão final dos casos clínicos e encerramento do curso.
+
+---
+
+### **3. ESPECIALIZAÇÃO EM IMPLANTODONTIA DIGITAL**
+
+### **Objetivo Central**
+
+Oferecer a formação mais completa do portfólio MR, unindo teoria, prática e tecnologia ao longo de 24 meses (1.200 horas). O foco é o desenvolvimento de habilidades cirúrgicas e protéticas em alto nível, preparando o profissional para decisões clínicas seguras e resultados de excelência, dos conceitos biológicos às técnicas mais avançadas. Certificado pela USP-SP.
+
+### **Temas Abordados**
+
+- **Fundamentos Biológicos:** Conceitos biológicos aplicados à implantodontia como base para todas as decisões clínicas.
+- **Técnicas Cirúrgicas Avançadas:** Regeneração tecidual guiada, enxertos ósseos e conjuntivos, PRF e levantamento de seio maxilar.
+- **Habilidades Protéticas:** Foco no domínio cirúrgico e protético para reabilitações de excelência.
+- **Tecnologias Digitais:** Planejamento digital, scanners intraorais, softwares CAD/CAM e confecção de guias cirúrgicos e próteses temporárias impressas em 3D.
+- **Treinamento Laboratorial:** Metodologia com forte componente laboratorial integrado ao fluxo digital.
+- **Prática Clínica Multidisciplinar:** Discussões de casos, seminários e reabilitação multidisciplinar para decisões clínicas seguras.
+
+### **Cronograma Geral (24 meses - 1.200 horas)**
+
+- **Formação Completa (24 meses):**
+    - Teoria, prática e tecnologia integradas ao longo de todo o curso.
+    - Da fundamentação biológica às técnicas avançadas (regeneração, enxertos, PRF, levantamento de seio).
+    - Muita prática clínica com discussão de casos e reabilitação multidisciplinar.
+    - Certificação USP-SP.

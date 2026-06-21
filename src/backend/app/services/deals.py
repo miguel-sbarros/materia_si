@@ -15,7 +15,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.core.constants import DealStage, DealStatus
 from app.models import Cohort, Deal, DealEvent, Lead
-from app.schemas.deal import DealCard, DealMove
+from app.schemas.deal import DealCard, DealCreate, DealMove
 
 MATRICULADO = "Matriculado"
 PERDIDO = "Perdido"
@@ -119,3 +119,119 @@ def move_deal(db: Session, deal_id: int, move: DealMove) -> DealCard:
     db.commit()
     db.refresh(deal)
     return to_card(deal)
+
+
+def create_deal_for_lead(db: Session, lead_id: int, payload: DealCreate) -> DealCard:
+    """Cria um deal para um lead existente numa turma + estágio aberto escolhidos.
+
+    Usado quando um import cria um novo lead e o usuário o posiciona no Funil.
+    Apenas estágios abertos (Novo/Contatado/Negociando); registra o DealEvent inicial.
+    """
+    if payload.stage not in OPEN_COLUMNS:
+        raise HTTPException(
+            status_code=422,
+            detail=f"Estágio inválido: {payload.stage}. Use Novo, Contatado ou Negociando.",
+        )
+
+    lead = db.get(Lead, lead_id)
+    if lead is None:
+        raise HTTPException(status_code=404, detail="Lead não encontrado")
+
+    cohort = db.get(Cohort, payload.cohort_id)
+    if cohort is None:
+        raise HTTPException(status_code=422, detail="Turma não encontrada")
+
+    existing = db.scalar(
+        select(Deal).where(Deal.lead_id == lead_id, Deal.cohort_id == cohort.id)
+    )
+    if existing is not None:
+        raise HTTPException(
+            status_code=409, detail="Já existe um deal deste lead nesta turma"
+        )
+
+    stage = DealStage(payload.stage)
+    deal = Deal(
+        lead_id=lead_id, cohort_id=cohort.id, stage=stage, status=DealStatus.OPEN
+    )
+    db.add(deal)
+    db.flush()
+
+    db.add(
+        DealEvent(
+            deal_id=deal.id,
+            to_stage=stage,
+            to_status=DealStatus.OPEN,
+            reason="Deal criado via import",
+            user_id=lead.assignee_id,
+        )
+    )
+    db.commit()
+    db.refresh(deal)
+    return to_card(deal)
+
+
+def create_closed_deal(
+    db: Session,
+    *,
+    lead_id: int,
+    cohort_id: int,
+    status: DealStatus,
+    lost_reason: str | None = None,
+) -> Deal:
+    """Cria (idempotente) um deal JÁ FECHADO (won/lost) — cold-start de dados históricos.
+
+    A turma já aconteceu, então o deal nasce fechado: ``won`` (Matriculado) ou ``lost``
+    (Perdido, exige ``lost_reason``). Stage = Negociando (chegou a negociar antes de fechar).
+    Registra o histórico (criação Novo/open → fechamento). Se já existir um deal para
+    ``(lead, cohort)``, devolve o existente sem duplicar (``UNIQUE(lead_id, cohort_id)``).
+    """
+    if status not in (DealStatus.WON, DealStatus.LOST):
+        raise ValueError("create_closed_deal aceita apenas won ou lost")
+    if status == DealStatus.LOST and not (lost_reason and lost_reason.strip()):
+        raise ValueError("lost_reason é obrigatório para um deal perdido")
+
+    existing = db.scalar(
+        select(Deal).where(Deal.lead_id == lead_id, Deal.cohort_id == cohort_id)
+    )
+    if existing is not None:
+        return existing
+
+    lead = db.get(Lead, lead_id)
+    if lead is None:
+        raise ValueError("Lead não encontrado")
+
+    reason = lost_reason.strip() if status == DealStatus.LOST else None
+    deal = Deal(
+        lead_id=lead_id,
+        cohort_id=cohort_id,
+        stage=DealStage.NEGOCIANDO,
+        status=status,
+        lost_reason=reason,
+    )
+    db.add(deal)
+    db.flush()
+
+    uid = lead.assignee_id
+    db.add(
+        DealEvent(
+            deal_id=deal.id,
+            to_stage=DealStage.NOVO,
+            to_status=DealStatus.OPEN,
+            reason="Lead importado (cold start)",
+            user_id=uid,
+        )
+    )
+    db.add(
+        DealEvent(
+            deal_id=deal.id,
+            from_stage=DealStage.NOVO,
+            to_stage=DealStage.NEGOCIANDO,
+            from_status=DealStatus.OPEN,
+            to_status=status,
+            reason=reason if status == DealStatus.LOST else "Matriculado",
+            user_id=uid,
+        )
+    )
+    db.commit()
+    db.refresh(deal)
+    return deal

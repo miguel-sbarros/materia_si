@@ -19,10 +19,12 @@ Abaixo estão os requisitos funcionais detalhados do sistema:
 •	FR-04 (Prioridade: Alta): O sistema deve permitir criar, editar e desativar cursos (ex.: Implantodontia Digital) e suas respectivas turmas.
 •	FR-05 (Prioridade: Alta): O sistema deve acompanhar o número de vagas disponíveis por turma e atualizá-lo automaticamente após uma matrícula.
 •	FR-06 (Prioridade: Alta): O sistema deve permitir associar um lead a uma turma de curso e registrar a matrícula.
-•	FR-07 (Prioridade: Média): O sistema deve enviar e-mails automatizados para leads em etapas configuráveis do funil de vendas.
-•	FR-08 (Prioridade: Média): O sistema deve suportar o envio automatizado ou manual de mensagens de WhatsApp para leads.
+•	FR-07 (Prioridade: Média): O sistema deve permitir visualização de métricas de conversão entre estágios de venda e de projeção financeira.
+•	FR-08 (Prioridade: Baixa): O sistema deve suportar o envio automatizado ou manual de mensagens de WhatsApp para leads.
 •	FR-09 (Prioridade: Média): O sistema deve fornecer um painel com métricas do pipeline: total de leads, taxa de conversão por etapa e próximas turmas.
 •	FR-10 (Prioridade: Alta): O sistema deve suportar controle de acesso baseado em papéis com pelo menos três níveis: Usuário, Admin e Super Admin.
+•	FR-11 (Prioridade: Baixa): O sistema deve suportar a análise de conversas e extração de dados estruturados para classificação de leads
+•	FR-12 (Prioridade: Baixa): O sistema deve ser capaz de instruir o vendedor a guiar as conversas no WhatsApp por meio de um Agente Copiloto.
 ________________________________________
 3. Requisitos Não Funcionais
 Abaixo estão as métricas e metas para os requisitos não funcionais:

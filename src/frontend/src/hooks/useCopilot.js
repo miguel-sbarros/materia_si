@@ -1,28 +1,30 @@
-// ─── useCopilot — state keystone do Copiloto ────────────────────────────────
-// Porta a lógica de prototype/Copiloto WhatsApp.dc.html (class DCLogic) para um
-// hook React idiomático. Toda a geração de resposta passa pela seam assíncrona
-// em lib/copilotApi.js (searchLeads / getLeadContext / postCopilotChat).
+// ─── useCopilot — state keystone do Copiloto (P4, backend real) ─────────────
+// Estado dirigido por SESSÕES persistidas: a sidebar lista as sessões, anexar um
+// lead via @ cria uma NOVA sessão por lead, e cada mensagem vai/volta pela seam
+// lib/copilotApi.js. O Send de um path grava no histórico WhatsApp do lead via
+// sendMessage() (lib/api.js) — não chama API externa.
 
 import { useCallback, useEffect, useReducer, useRef } from 'react'
-import { COPILOT_LEADS, DRAFTS, COMMANDS } from '../data/copilot.js'
+import { COMMANDS } from '../data/copilot.js'
 import {
   searchLeads,
   getLeadContext,
-  postCopilotChat,
+  createSession,
+  attachLead,
+  listSessions,
+  getSession,
+  postChat,
 } from '../lib/copilotApi.js'
+import { sendMessage } from '../lib/api.js'
 
 // Primeiro nome do lead para o placeholder: remove "Dr."/"Dra." inicial e pega
 // o primeiro token (mesma regra do protótipo).
 const firstNameOf = (lead) =>
   lead.name.replace(/^Dr[a]?\.\s*/, '').split(' ')[0]
 
-// ─── Estado inicial (seed = Elena, id 10) ───────────────────────────────────
-const seedLead = COPILOT_LEADS.find((l) => l.id === 10)
-const seedDraft = DRAFTS[10]
-
 const initialState = {
   input: '',
-  attachedLead: seedLead,
+  attachedLead: null,
   leadExpanded: false,
   showMentions: false,
   mentionQuery: '',
@@ -31,11 +33,12 @@ const initialState = {
   slashQuery: '',
   isTyping: false,
   copiedKey: null,
-  nextId: 3,
-  messages: [
-    { id: 1, role: 'user', kind: 'text', text: 'Qual a melhor mensagem para destravar a matrícula dela na Especialização?' },
-    { id: 2, role: 'assistant', kind: 'drafts', reasoning: seedDraft.reasoning, variants: seedDraft.variants },
-  ],
+  sentKey: null,
+  nextId: 1, // ids locais (otimistas) das mensagens do usuário
+  sessions: [],
+  currentSessionId: null,
+  messages: [],
+  pendingLead: null, // lead aguardando confirmação de "nova conversa"
 }
 
 function reducer(state, action) {
@@ -76,18 +79,71 @@ function reducer(state, action) {
     case 'SET_MENTION_RESULTS':
       return { ...state, mentionResults: action.results }
 
-    case 'PICK_LEAD':
+    case 'SET_SESSIONS':
+      return { ...state, sessions: action.sessions }
+
+    case 'ATTACH_LEAD': // anexa o lead à sessão ATUAL (mantém o thread)
       return {
         ...state,
         attachedLead: action.lead,
+        currentSessionId: action.sessionId,
         input: action.input,
         showMentions: false,
         mentionQuery: '',
         mentionResults: [],
         leadExpanded: false,
+        pendingLead: null,
       }
 
-    case 'PUSH_USER': // push user msg + open typing, clearing menus/input
+    case 'PICK_LEAD': // nova sessão por lead: thread limpo + lead anexado
+      return {
+        ...state,
+        attachedLead: action.lead,
+        currentSessionId: action.sessionId,
+        messages: [],
+        input: action.input,
+        showMentions: false,
+        mentionQuery: '',
+        mentionResults: [],
+        leadExpanded: false,
+        isTyping: false,
+        pendingLead: null,
+      }
+
+    case 'SET_PENDING_LEAD': // sessão já tem lead → pede confirmação de nova conversa
+      return {
+        ...state,
+        pendingLead: action.lead,
+        input: action.input,
+        showMentions: false,
+        mentionQuery: '',
+        mentionResults: [],
+      }
+
+    case 'CLEAR_PENDING_LEAD':
+      return { ...state, pendingLead: null }
+
+    case 'OPEN_SESSION': // abre sessão existente da sidebar
+      return {
+        ...state,
+        currentSessionId: action.sessionId,
+        messages: action.messages,
+        attachedLead: action.lead,
+        input: '',
+        showMentions: false,
+        mentionQuery: '',
+        mentionResults: [],
+        slashOpen: false,
+        slashQuery: '',
+        leadExpanded: false,
+        isTyping: false,
+        pendingLead: null,
+      }
+
+    case 'SET_SESSION': // fixa a sessão atual (criada sob demanda no onSend/runSlash)
+      return { ...state, currentSessionId: action.sessionId }
+
+    case 'PUSH_USER': // push user msg + abre typing, limpando menus/input
       return {
         ...state,
         messages: [...state.messages, action.message],
@@ -104,9 +160,11 @@ function reducer(state, action) {
       return {
         ...state,
         messages: [...state.messages, action.message],
-        nextId: state.nextId + 1,
         isTyping: false,
       }
+
+    case 'STOP_TYPING':
+      return { ...state, isTyping: false }
 
     case 'REMOVE_LEAD':
       return { ...state, attachedLead: null }
@@ -117,6 +175,7 @@ function reducer(state, action) {
     case 'NEW_CHAT':
       return {
         ...state,
+        currentSessionId: null,
         messages: [],
         attachedLead: null,
         input: '',
@@ -127,10 +186,14 @@ function reducer(state, action) {
         slashQuery: '',
         leadExpanded: false,
         isTyping: false,
+        pendingLead: null,
       }
 
     case 'SET_COPIED':
       return { ...state, copiedKey: action.key }
+
+    case 'SET_SENT':
+      return { ...state, sentKey: action.key }
 
     default:
       return state
@@ -141,6 +204,21 @@ export default function useCopilot() {
   const [state, dispatch] = useReducer(reducer, initialState)
   const scrollRef = useRef(null)
   const copyTimer = useRef(null)
+  const sentTimer = useRef(null)
+
+  // Carrega a lista de sessões da sidebar no mount.
+  const refreshSessions = useCallback(async () => {
+    try {
+      const sessions = await listSessions()
+      dispatch({ type: 'SET_SESSIONS', sessions })
+    } catch {
+      /* backend indisponível — sidebar fica vazia */
+    }
+  }, [])
+
+  useEffect(() => {
+    refreshSessions()
+  }, [refreshSessions])
 
   // Auto-scroll para o fim a cada nova mensagem ou enquanto "digitando".
   useEffect(() => {
@@ -148,8 +226,11 @@ export default function useCopilot() {
     if (el) el.scrollTop = el.scrollHeight
   }, [state.messages, state.isTyping])
 
-  // Limpa o timeout de "copiado" ao desmontar.
-  useEffect(() => () => clearTimeout(copyTimer.current), [])
+  // Limpa timeouts pendentes ao desmontar.
+  useEffect(() => () => {
+    clearTimeout(copyTimer.current)
+    clearTimeout(sentTimer.current)
+  }, [])
 
   const onInputChange = useCallback((e) => {
     const val = e.target.value
@@ -170,39 +251,93 @@ export default function useCopilot() {
     dispatch({ type: 'CLOSE_MENUS', value: val })
   }, [])
 
+  // Anexar lead via @:
+  //  • sessão atual SEM lead → anexa o lead à sessão atual (mantém o thread);
+  //    sem sessão ainda → cria uma com o lead.
+  //  • sessão atual JÁ COM lead → não anexa; abre confirmação de "nova conversa".
   const pickLead = useCallback(async (summary) => {
-    const full = await getLeadContext(summary.id)
-    // Remove o "@query" final do input (mesma regra do protótipo).
     const input = state.input.replace(/(^|\s)@[^\s@]*$/u, '$1')
-    dispatch({ type: 'PICK_LEAD', lead: full, input })
-  }, [state.input])
+    if (state.attachedLead) {
+      // Já existe lead anexado → pede confirmação antes de iniciar nova conversa.
+      const full = await getLeadContext(summary.id)
+      dispatch({ type: 'SET_PENDING_LEAD', lead: full, input })
+      return
+    }
+    const full = await getLeadContext(summary.id)
+    if (state.currentSessionId) {
+      const session = await attachLead(state.currentSessionId, summary.id)
+      dispatch({ type: 'ATTACH_LEAD', lead: full, sessionId: session.id, input })
+    } else {
+      const session = await createSession(summary.id)
+      dispatch({ type: 'ATTACH_LEAD', lead: full, sessionId: session.id, input })
+    }
+    refreshSessions()
+  }, [state.input, state.attachedLead, state.currentSessionId, refreshSessions])
+
+  // Confirma o pendingLead → cria NOVA sessão (thread limpo) com esse lead.
+  const confirmNewSession = useCallback(async () => {
+    const pending = state.pendingLead
+    if (!pending) return
+    const session = await createSession(pending.id)
+    dispatch({ type: 'PICK_LEAD', lead: pending, sessionId: session.id, input: '' })
+    refreshSessions()
+  }, [state.pendingLead, refreshSessions])
+
+  const cancelNewSession = useCallback(
+    () => dispatch({ type: 'CLEAR_PENDING_LEAD' }),
+    [],
+  )
+
+  // Abre uma sessão da sidebar: carrega mensagens (+ contexto do lead se houver).
+  const openSession = useCallback(async (sessionId) => {
+    const { session, messages } = await getSession(sessionId)
+    let lead = null
+    if (session.leadId) {
+      try {
+        lead = await getLeadContext(session.leadId)
+      } catch {
+        /* lead removido — segue sem chip */
+      }
+    }
+    dispatch({ type: 'OPEN_SESSION', sessionId, messages, lead })
+  }, [])
+
+  // Garante uma sessão atual; cria uma (com o lead anexado, se houver) sob demanda.
+  const ensureSession = useCallback(async () => {
+    if (state.currentSessionId) return state.currentSessionId
+    const session = await createSession(state.attachedLead?.id ?? null)
+    dispatch({ type: 'SET_SESSION', sessionId: session.id })
+    return session.id
+  }, [state.currentSessionId, state.attachedLead])
 
   const onSend = useCallback(async () => {
     const text = state.input.trim()
     if (!text) return
-    const userMsg = { id: state.nextId, role: 'user', kind: 'text', text }
-    const nextMessages = [...state.messages, userMsg]
+    const userMsg = { id: `u-${state.nextId}`, role: 'user', kind: 'text', text }
     dispatch({ type: 'PUSH_USER', message: userMsg })
-    const result = await postCopilotChat({
-      messages: nextMessages,
-      leadId: state.attachedLead?.id,
-    })
-    dispatch({
-      type: 'PUSH_ASSISTANT',
-      message: { id: userMsg.id + 1, ...result },
-    })
-  }, [state.input, state.nextId, state.messages, state.attachedLead])
+    try {
+      const sessionId = await ensureSession()
+      const reply = await postChat(sessionId, { text })
+      dispatch({ type: 'PUSH_ASSISTANT', message: reply })
+      refreshSessions()
+    } catch {
+      dispatch({ type: 'STOP_TYPING' })
+    }
+  }, [state.input, state.nextId, ensureSession, refreshSessions])
 
   const runSlash = useCallback(async (cmd) => {
     const label = COMMANDS.find((c) => c.cmd === cmd)?.label || cmd
-    const userMsg = { id: state.nextId, role: 'user', kind: 'text', text: label }
+    const userMsg = { id: `u-${state.nextId}`, role: 'user', kind: 'text', text: label }
     dispatch({ type: 'PUSH_USER', message: userMsg })
-    const result = await postCopilotChat({ messages: state.messages, command: cmd })
-    dispatch({
-      type: 'PUSH_ASSISTANT',
-      message: { id: userMsg.id + 1, ...result },
-    })
-  }, [state.nextId, state.messages])
+    try {
+      const sessionId = await ensureSession()
+      const reply = await postChat(sessionId, { command: cmd })
+      dispatch({ type: 'PUSH_ASSISTANT', message: reply })
+      refreshSessions()
+    } catch {
+      dispatch({ type: 'STOP_TYPING' })
+    }
+  }, [state.nextId, ensureSession, refreshSessions])
 
   // slashResults: COMMANDS filtrado pela slashQuery (cmd ou label).
   const slashQ = state.slashQuery.toLowerCase()
@@ -254,6 +389,24 @@ export default function useCopilot() {
     )
   }, [])
 
+  // Envia o texto de um path para o histórico WhatsApp do lead anexado.
+  const sendToHistory = useCallback(async (key, text) => {
+    const leadId = state.attachedLead?.id
+    if (!leadId) return
+    dispatch({ type: 'SET_SENT', key: `${key}:sending` })
+    try {
+      await sendMessage(leadId, text)
+      dispatch({ type: 'SET_SENT', key: `${key}:sent` })
+      clearTimeout(sentTimer.current)
+      sentTimer.current = setTimeout(
+        () => dispatch({ type: 'SET_SENT', key: null }),
+        1600
+      )
+    } catch {
+      dispatch({ type: 'SET_SENT', key: null })
+    }
+  }, [state.attachedLead])
+
   const placeholder = state.attachedLead
     ? `Pergunte sobre ${firstNameOf(state.attachedLead)}...`
     : 'Pergunte, digite / para comandos ou @ para anexar um lead...'
@@ -272,15 +425,23 @@ export default function useCopilot() {
     slashOpen: state.slashOpen,
     slashResults,
     copiedKey: state.copiedKey,
+    sentKey: state.sentKey,
+    sessions: state.sessions,
+    currentSessionId: state.currentSessionId,
+    pendingLead: state.pendingLead,
     scrollRef,
     onInputChange,
     onKeyDown,
     onSend,
     pickLead,
+    confirmNewSession,
+    cancelNewSession,
     runSlash,
     removeLead,
     toggleLeadExpanded,
     newChat,
+    openSession,
     copyVariant,
+    sendToHistory,
   }
 }

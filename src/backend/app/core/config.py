@@ -18,11 +18,13 @@ class Settings(BaseSettings):
 
     # LLM
     anthropic_api_key: str | None = None
-    model_copilot: str = "claude-opus-4-8"
+    model_copilot: str = "claude-sonnet-4-6"
     model_extraction: str = "claude-haiku-4-5"
 
-    # Embeddings (constante de configuração — trocável via migração)
-    embedding_dim: int = 384
+    # Embeddings — OpenAI (geração continua na Anthropic; só embeddings usam OpenAI).
+    openai_api_key: str | None = None
+    embedding_model: str = "text-embedding-3-small"
+    embedding_dim: int = 1536
 
     # CORS (origem do frontend Vite em dev)
     cors_origins: list[str] = ["http://localhost:5173"]

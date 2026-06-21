@@ -1,0 +1,3 @@
+Este é um arquivo de texto comum, sem qualquer estrutura de exportação do WhatsApp.
+Não há timestamps no formato de colchetes, nem remetentes separados por dois pontos.
+Apenas prosa solta que não deve ser interpretada como uma conversa exportada.

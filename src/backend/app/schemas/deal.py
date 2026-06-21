@@ -37,3 +37,8 @@ class DealBrief(BaseModel):
 class DealMove(BaseModel):
     column: str
     lost_reason: str | None = None
+
+
+class DealCreate(BaseModel):
+    cohort_id: int
+    stage: str  # estágio aberto: Novo | Contatado | Negociando

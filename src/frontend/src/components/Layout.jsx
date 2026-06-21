@@ -1,6 +1,8 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { BarChart2, Filter, MessageCircle, GraduationCap, Bot, Bell, Settings, Search } from 'lucide-react'
 import { currentUser } from '../data/mock.js'
+import { searchLeads } from '../lib/api.js'
 
 // ─── Sub-components defined outside render (rerender-no-inline-components) ───
 
@@ -15,7 +17,7 @@ function Logo() {
           MR Digital
         </h1>
         <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold mt-0.5">
-          CRM Médico
+          CRM Educacional
         </p>
       </div>
     </div>
@@ -30,7 +32,7 @@ const NAV_ITEMS = [
   { to: '/copiloto', label: 'Copiloto', Icon: Bot },
 ]
 
-function NavItem({ to, label, Icon }) {
+function NavItem( {to, label, Icon} ) {
   return (
     <NavLink
       to={to}
@@ -63,18 +65,90 @@ function SidebarFooter() {
   )
 }
 
+function LeadSearch() {
+  const navigate = useNavigate()
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState([])
+  const [open, setOpen] = useState(false)
+  const boxRef = useRef(null)
+
+  // Busca debounced (300ms) na rota /leads?q=. A limpeza acontece no callback do
+  // timeout (não síncrono no corpo do effect) — searchLeads resolve [] para termo vazio.
+  useEffect(() => {
+    const term = query.trim()
+    const t = setTimeout(() => {
+      searchLeads(term)
+        .then(setResults)
+        .catch(() => setResults([]))
+    }, term ? 300 : 0)
+    return () => clearTimeout(t)
+  }, [query])
+
+  // Fecha o dropdown ao clicar fora.
+  useEffect(() => {
+    function onClick(e) {
+      if (boxRef.current && !boxRef.current.contains(e.target)) setOpen(false)
+    }
+    document.addEventListener('mousedown', onClick)
+    return () => document.removeEventListener('mousedown', onClick)
+  }, [])
+
+  function selectLead(id) {
+    navigate(`/leadpage/${id}`)
+    setQuery('')
+    setResults([])
+    setOpen(false)
+  }
+
+  return (
+    <div ref={boxRef} className="relative w-80">
+      <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => {
+          setQuery(e.target.value)
+          setOpen(true)
+        }}
+        onFocus={() => setOpen(true)}
+        placeholder="Buscar leads, pacientes ou cursos..."
+        className="w-full bg-slate-100 rounded-xl pl-9 pr-4 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+      />
+      {open && query.trim() ? (
+        <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-50">
+          {results.length === 0 ? (
+            <div className="px-4 py-3 text-sm text-slate-400">Nenhum lead encontrado.</div>
+          ) : (
+            results.map((lead) => (
+              <button
+                key={lead.id}
+                type="button"
+                onClick={() => selectLead(lead.id)}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-slate-50 transition-colors"
+              >
+                <span className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[11px] font-bold text-slate-500 shrink-0">
+                  {lead.initials}
+                </span>
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold text-slate-800 truncate">{lead.name}</div>
+                  <div className="text-[11px] text-slate-400 truncate">
+                    {lead.persona || lead.stage || 'Lead'}
+                  </div>
+                </div>
+              </button>
+            ))
+          )}
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
 function Topbar() {
   return (
     <header className="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 flex justify-between items-center px-8 z-40 bg-white border-b border-slate-100">
       {/* Search */}
-      <div className="relative w-80">
-        <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-        <input
-          type="text"
-          placeholder="Buscar leads, pacientes ou cursos..."
-          className="w-full bg-slate-100 rounded-xl pl-9 pr-4 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
-        />
-      </div>
+      <LeadSearch />
 
       {/* Right cluster */}
       <div className="flex items-center gap-5">

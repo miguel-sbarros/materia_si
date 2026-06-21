@@ -19,11 +19,15 @@ import LostReasonModal from '../components/funil/LostReasonModal.jsx'
 export default function Funil() {
   const queryClient = useQueryClient()
   const [courseId, setCourseId] = useState('') // '' = todos os cursos
+  const [cohortId, setCohortId] = useState('') // '' = todas as turmas
   const [activeId, setActiveId] = useState(null)
   const [showNewLead, setShowNewLead] = useState(false)
   const [pendingLost, setPendingLost] = useState(null) // card aguardando motivo da perda
 
-  const dealsKey = useMemo(() => ['deals', courseId || null], [courseId])
+  const dealsKey = useMemo(
+    () => ['deals', courseId || null, cohortId || null],
+    [courseId, cohortId],
+  )
 
   const {
     data: cards = [],
@@ -31,10 +35,23 @@ export default function Funil() {
     isError,
   } = useQuery({
     queryKey: dealsKey,
-    queryFn: () => getDeals({ courseId: courseId ? Number(courseId) : undefined }),
+    queryFn: () =>
+      getDeals({
+        courseId: courseId ? Number(courseId) : undefined,
+        cohortId: cohortId ? Number(cohortId) : undefined,
+      }),
   })
 
   const { data: courses = [] } = useQuery({ queryKey: ['courses'], queryFn: getCourses })
+
+  // Turmas do curso selecionado (ou todas as turmas quando nenhum curso está filtrado).
+  const cohortOptions = useMemo(() => {
+    if (courseId) {
+      const c = courses.find((co) => String(co.id) === String(courseId))
+      return c?.cohorts ?? []
+    }
+    return courses.flatMap((co) => co.cohorts ?? [])
+  }, [courses, courseId])
 
   const moveMutation = useMutation({
     mutationFn: ({ dealId, column, lostReason }) => moveDeal(dealId, { column, lostReason }),
@@ -130,12 +147,25 @@ export default function Funil() {
         <div className="flex gap-3">
           <select
             value={courseId}
-            onChange={(e) => setCourseId(e.target.value)}
+            onChange={(e) => {
+              setCourseId(e.target.value)
+              setCohortId('') // turma pertence ao curso → reseta ao trocar de curso
+            }}
             className="px-4 py-2.5 border border-slate-200 text-slate-700 font-semibold text-sm rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Todos os cursos</option>
             {courses.map((c) => (
               <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+          <select
+            value={cohortId}
+            onChange={(e) => setCohortId(e.target.value)}
+            className="px-4 py-2.5 border border-slate-200 text-slate-700 font-semibold text-sm rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Todas as turmas</option>
+            {cohortOptions.map((co) => (
+              <option key={co.id} value={co.id}>{co.name}</option>
             ))}
           </select>
           <button className="flex items-center gap-2 px-5 py-2.5 border border-slate-200 text-slate-700 font-semibold text-sm rounded-lg hover:bg-slate-50 transition-colors">

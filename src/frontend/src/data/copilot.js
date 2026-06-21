@@ -195,12 +195,12 @@ export function kbResponse(text) {
 // ─── Slash-commands ─────────────────────────────────────────────────────────
 const TODAY_TASKS = 'Suas tarefas de hoje:\n\n☐ Reativar Dr. Paulo Ferreira — Negociando há 2 dias sem contato (Imersão)\n☐ Enviar proposta do Master 3.0 para Dra. Helena Martins\n☐ Confirmar matrícula de Marcus Chen (comprovante recebido)\n☐ Responder Elena Rodriguez sobre os pré-requisitos da Especialização\n☐ Follow-up com Sarah Jenkins (scanner Straumann parado)\n\n5 ações priorizadas por probabilidade de conversão. Anexe qualquer lead com @ que eu redijo a mensagem.'
 
+// Comandos reais do copiloto (P4) — cada um dispara um workflow no backend
+// (analytics determinista ou RAG sobre a base de conhecimento).
 export const COMMANDS = [
-  { cmd: '/weekly-review', label: 'Revisão da semana', desc: 'Resumo de leads, conversas, receita e alertas' },
-  { cmd: '/today-tasks', label: 'Tarefas de hoje', desc: 'Ações priorizadas por probabilidade de conversão' },
-  { cmd: '/at-risk', label: 'Leads em risco', desc: 'Quem está esfriando e precisa de reativação' },
-  { cmd: '/personas', label: 'Personas do funil', desc: 'As 4 personas e suas taxas de conversão' },
-  { cmd: '/courses', label: 'Cursos da MR', desc: 'Portfólio completo: Imersão, Master 3.0 e Especialização' },
+  { cmd: '/icp', label: 'Análise de ICP', desc: 'Personas, conversão, dores e desejos' },
+  { cmd: '/analytics', label: 'Analytics', desc: 'Conversão, latência e funil' },
+  { cmd: '/courses', label: 'Cursos', desc: 'Portfólio e ementas' },
   { cmd: '/spin', label: 'Método SPIN', desc: 'A abordagem consultiva de vendas da MR' },
 ]
 

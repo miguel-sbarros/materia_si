@@ -3,7 +3,7 @@
 from decimal import Decimal
 
 from app.core.constants import DealStage, DealStatus, UserRole
-from app.models import Cohort, Course, Deal, Lead, User
+from app.models import Cohort, Course, Deal, Lead, LeadProfile, User
 
 
 def make_seller(session, email="ana.costa@mr.com", initials="AC"):
@@ -49,3 +49,32 @@ def make_deal(
     session.add(deal)
     session.flush()
     return deal
+
+
+def make_profile(
+    session,
+    lead,
+    matched_persona="Especialista Analógico",
+    dores=None,
+    desejos=None,
+    median_seller_latency_seconds=None,
+    median_lead_latency_seconds=None,
+    first_response_latency_seconds=None,
+    is_abandoned=False,
+    **kwargs,
+):
+    """Cria um LeadProfile (1:1 com o lead) para os testes de analytics."""
+    profile = LeadProfile(
+        lead_id=lead.id,
+        matched_persona=matched_persona,
+        dores_verbalizadas=dores if dores is not None else [],
+        desejos_expressos=desejos if desejos is not None else [],
+        median_seller_latency_seconds=median_seller_latency_seconds,
+        median_lead_latency_seconds=median_lead_latency_seconds,
+        first_response_latency_seconds=first_response_latency_seconds,
+        is_abandoned=is_abandoned,
+        **kwargs,
+    )
+    session.add(profile)
+    session.flush()
+    return profile

@@ -1,0 +1,3114 @@
+[
+  {
+    "graph_json": {
+      "nodes": [
+        {
+          "id": 0,
+          "labels": [
+            "Persona"
+          ],
+          "properties": {
+            "id": "O Especialista Analógico",
+            "desejos_principais": "Preservar o legado, alcançar previsibilidade total, ter paz de espírito operacional.",
+            "medos": "Obsolescência, irrelevância, curva de aprendizagem da tecnologia, perda do protético de confiança.",
+            "volume_leads": "58%",
+            "taxa_conversao": "16%",
+            "resumo": "Um mestre da implantodontia analógica que, confrontado com a inevitabilidade da tecnologia, busca uma ponte segura para o futuro digital a fim de preservar seu legado.",
+            "nome": "O Especialista Analógico",
+            "descricao": "Profissional com mais de 10 anos de experiência clínica, que construiu sua carreira com métodos convencionais (\\'à mão livre\\'). Sua principal motivação é a busca por previsibilidade, segurança e otimização de um processo que ele já domina. Só adotará o digital se entender que a tecnologia serve para potencializar – e não substituir – seu julgamento clínico.",
+            "palavras_chave": [
+              "sistema convencional",
+              "faço implante há X anos",
+              "décadas de experiência",
+              "necessito atualização",
+              "meus princípios",
+              "protocolo",
+              "preciso entrar nesse meio",
+              "nunca fiz essa parte de guiada",
+              "não sou expert em informática"
+            ]
+          }
+        },
+        {
+          "id": 1,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Imprevisibilidade Protética",
+            "tipo": "Clínica",
+            "nome": "Imprevisibilidade Protética",
+            "descricao": "A frustração de precisar usar componentes protéticos angulados para corrigir um posicionamento de implante ideal para o osso, mas desfavorável para a prótese final."
+          }
+        },
+        {
+          "id": 2,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Surpresas Cirúrgicas",
+            "tipo": "Clínica",
+            "nome": "Surpresas Cirúrgicas",
+            "descricao": "Lidar com variações anatômicas não totalmente previstas no planejamento 2D, o que aumenta o estresse intraoperatório."
+          }
+        },
+        {
+          "id": 3,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Dependência Crítica do Laboratório",
+            "tipo": "Operacional",
+            "nome": "Dependência Crítica do Laboratório",
+            "descricao": "O fluxo de trabalho depende de um protético de confiança, cuja aposentadoria ou falha representa um risco existencial para a prática."
+          }
+        },
+        {
+          "id": 4,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Ineficiência do Fluxo Analógico",
+            "tipo": "Operacional",
+            "nome": "Ineficiência do Fluxo Analógico",
+            "descricao": "Gasto excessivo de tempo e múltiplas consultas para moldagens, provas e ajustes protéticos."
+          }
+        },
+        {
+          "id": 5,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Medo da Obsolescência",
+            "tipo": "Emocional",
+            "nome": "Medo da Obsolescência",
+            "descricao": "A dor mais profunda: o receio de que a vasta experiência perca valor em um mercado que privilegia a tecnologia."
+          }
+        },
+        {
+          "id": 6,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Ansiedade com a Curva de Aprendizagem",
+            "tipo": "Emocional",
+            "nome": "Ansiedade com a Curva de Aprendizagem",
+            "descricao": "O medo de não se adaptar à tecnologia e parecer \\'iniciante\\' após uma carreira inteira como especialista."
+          }
+        },
+        {
+          "id": 7,
+          "labels": [
+            "Desejo"
+          ],
+          "properties": {
+            "id": "Preservar o Legado e a Relevância",
+            "tipo": "Profissional",
+            "nome": "Preservar o Legado e a Relevância",
+            "descricao": "Continuar a ser uma referência na sua área, integrando sua vasta experiência com as novas ferramentas digitais."
+          }
+        },
+        {
+          "id": 8,
+          "labels": [
+            "Desejo"
+          ],
+          "properties": {
+            "id": "Alcançar a Previsibilidade de Engenharia",
+            "tipo": "Profissional",
+            "nome": "Alcançar a Previsibilidade de Engenharia",
+            "descricao": "Transformar a intuição clínica em um processo de engenharia de precisão, eliminando surpresas e inconsistências."
+          }
+        },
+        {
+          "id": 9,
+          "labels": [
+            "Desejo"
+          ],
+          "properties": {
+            "id": "Paz de Espírito Operacional",
+            "tipo": "Qualidade_de_Vida",
+            "nome": "Paz de Espírito Operacional",
+            "descricao": "Reduzir o estresse cirúrgico e a dependência de terceiros, tendo mais controle sobre o resultado final do tratamento."
+          }
+        },
+        {
+          "id": 10,
+          "labels": [
+            "Desejo"
+          ],
+          "properties": {
+            "id": "Renovação do Propósito Profissional",
+            "tipo": "Qualidade_de_Vida",
+            "nome": "Renovação do Propósito Profissional",
+            "descricao": "Encontrar um novo estímulo e paixão pela profissão ao dominar um novo e avançado campo do conhecimento."
+          }
+        },
+        {
+          "id": 11,
+          "labels": [
+            "Citacao"
+          ],
+          "properties": {
+            "id": "Citacao_Protetico_Aposentando",
+            "texto": "meu protetico esta se aposentando",
+            "lead_id": "Não especificado",
+            "contexto": "Lead verbalizando a dor da Dependência Crítica do Laboratório."
+          }
+        },
+        {
+          "id": 12,
+          "labels": [
+            "Citacao"
+          ],
+          "properties": {
+            "id": "Citacao_Nao_Quero_Parar",
+            "texto": "Não quero parar. Preciso me atualizar",
+            "lead_id": "Não especificado",
+            "contexto": "Lead expressando o Medo da Obsolescência e o desejo de se manter relevante."
+          }
+        },
+        {
+          "id": 13,
+          "labels": [
+            "Citacao"
+          ],
+          "properties": {
+            "id": "Citacao_Nao_Sou_Expert",
+            "texto": "Não sou uma expert em informática. 3 dias serão suficientes?",
+            "lead_id": "Não especificado",
+            "contexto": "Lead manifestando a Ansiedade com a Curva de Aprendizagem da nova tecnologia."
+          }
+        },
+        {
+          "id": 14,
+          "labels": [
+            "Curso"
+          ],
+          "properties": {
+            "id": "Imersão em Implantodontia Digital",
+            "duracao": "3 dias (24 horas)",
+            "publico_alvo": [
+              "Especialista Analógico",
+              "Iniciado Digital",
+              "Focado em Prótese (como nivelamento)",
+              "Recém-Especializado (solução ideal)"
+            ],
+            "nome": "Imersão em Implantodontia Digital",
+            "descricao": "Curso intensivo projetado para desmistificar o fluxo de trabalho digital e capacitar o aluno a aplicar os conceitos fundamentais imediatamente. O foco é 100% prático e estratégico, mostrando não apenas \\'o que fazer\\', mas \\'por que fazer\\', com base na filosofia de que a biologia justifica a tecnologia. É a porta de entrada para o digital, focando em softwares acessíveis e com hands-on em manequins para um ambiente de aprendizado seguro. Funciona como uma \\'ponte segura\\' para o analógico, um \\'manual avançado\\' para o iniciado digital e a compra de um método \\'passo a passo\\' para o recém-especializado."
+          }
+        },
+        {
+          "id": 15,
+          "labels": [
+            "Curso"
+          ],
+          "properties": {
+            "id": "Master - Aperfeiçoamento Clínico",
+            "duracao": "10 meses (160 horas)",
+            "publico_alvo": [
+              "Especialista Analógico que já decidiu entrar no mundo digital",
+              "Iniciado Digital que busca autonomia total",
+              "Focado em Prótese (solução ideal)",
+              "Recém-Especializado (pós-Imersão)",
+              "Ex-alunos da Imersão",
+              "Iniciado Digital (Avançado)"
+            ],
+            "nome": "Master - Aperfeiçoamento Clínico",
+            "descricao": "É a ponte definitiva entre a teoria e a maestria clínica, oferecendo \\'horas de voo\\' supervisionadas. O diferencial crucial é a aplicação de todo o conhecimento em pacientes reais, do planejamento à finalização protética, sob a mentoria de professores da FOUSP. Exige compreensão básica do fluxo digital e um comprometimento de tempo significativo. É a solução ideal para o Focado em Prótese e o caminho para o Recém-Especializado se tornar referência."
+          }
+        },
+        {
+          "id": 16,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "A Atualização do Legado",
+            "descricao_valor": "Oferece uma transição segura para o digital que potencializa, em vez de substituir, as décadas de experiência do profissional, garantindo sua relevância futura.",
+            "categoria": "Resultado",
+            "tipo": "Curso_Especifico",
+            "nome": "A Atualização do Legado",
+            "curso_relacionado": "Imersão em Implantodontia Digital"
+          }
+        },
+        {
+          "id": 17,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "A Consolidação da Maestria",
+            "descricao_valor": "Permite que o especialista transforme o domínio de uma nova ferramenta em maestria clínica real, aplicando o fluxo digital em casos complexos e consolidando seu status como mestre.",
+            "categoria": "Resultado",
+            "tipo": "Curso_Especifico",
+            "nome": "A Consolidação da Maestria",
+            "curso_relacionado": "Master - Aperfeiçoamento Clínico"
+          }
+        },
+        {
+          "id": 18,
+          "labels": [
+            "Persona"
+          ],
+          "properties": {
+            "id": "O Iniciado Digital",
+            "volume_leads": "19%",
+            "taxa_conversao": "12.5%",
+            "resumo": "O profissional que já investiu em tecnologia (scanner), mas sofre com a subutilização e a falta de controlo, procurando autonomia e ROI.",
+            "nome": "O Iniciado Digital",
+            "descricao": "Este profissional já deu o primeiro passo e investiu em tecnologia, tipicamente um scanner intraoral. No entanto, ele sofre da \\'dor do segundo passo\\': a subutilização de um equipamento caro. Ele depende de laboratórios para a parte \\'inteligente\\' do processo e busca autonomia, controle e a maximização do retorno sobre seu investimento (ROI).",
+            "palavras_chave": [
+              "já tenho scanner",
+              "comecei agora com o scanner",
+              "estou gatinhando",
+              "quero me aprofundar",
+              "dependo do laboratório",
+              "simplificar meus planejamentos",
+              "fazer direto no programa"
+            ]
+          }
+        },
+        {
+          "id": 19,
+          "labels": [
+            "Hardware"
+          ],
+          "properties": {
+            "id": "Scanner Intraoral",
+            "preco_medio": "100000 BRL",
+            "categoria": "Digitalização",
+            "nome": "Scanner Intraoral",
+            "descricao": "Equipamento de última geração usado para moldagens digitais. No contexto desta persona, é um ativo caro (R$100.000) que está sendo subutilizado."
+          }
+        },
+        {
+          "id": 20,
+          "labels": [
+            "Software"
+          ],
+          "properties": {
+            "id": "Software de Planejamento de Implantes",
+            "categoria": "Planejamento",
+            "nome": "Software de Planejamento de Implantes",
+            "descricao": "Software que permite a fusão de arquivos de escaneamento intraoral (STL) com arquivos de tomografia (DICOM) para realizar o planejamento reverso e o desenho de guias cirúrgicas."
+          }
+        },
+        {
+          "id": 21,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Subutilização do Investimento (ROI Baixo)",
+            "tipo": "Operacional",
+            "nome": "Subutilização do Investimento (ROI Baixo)",
+            "descricao": "A dor central: O scanner é usado como um \\'substituto caro\\' da moldagem, não como uma central de planejamento e produção, resultando em baixo retorno sobre o investimento."
+          }
+        },
+        {
+          "id": 22,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Dependência Digital do Laboratório",
+            "tipo": "Operacional",
+            "nome": "Dependência Digital do Laboratório",
+            "descricao": "Delega a parte mais inteligente, lucrativa e controlável do processo (planejamento digital) para um laboratório externo, ficando refém de prazos, custos e qualidade de terceiros."
+          }
+        },
+        {
+          "id": 23,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Insegurança no Planejamento de Implantes",
+            "tipo": "Clínica",
+            "nome": "Insegurança no Planejamento de Implantes",
+            "descricao": "Não se sente seguro para desenhar uma guia cirúrgica ou para fazer a fusão dos ficheiros DICOM e STL, etapas críticas do fluxo digital."
+          }
+        },
+        {
+          "id": 24,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Medo do Investimento Errado",
+            "tipo": "Emocional",
+            "nome": "Medo do Investimento Errado",
+            "descricao": "A ansiedade de ter gasto uma quantia significativa de dinheiro num equipamento que pode tornar-se obsoleto antes que ele consiga dominá-lo."
+          }
+        },
+        {
+          "id": 25,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Frustração do Artesão Tecnológico",
+            "tipo": "Emocional",
+            "nome": "Frustração do Artesão Tecnológico",
+            "descricao": "O sentimento de ter as melhores ferramentas, mas não saber usá-las em todo o seu potencial, o que atinge o orgulho profissional."
+          }
+        },
+        {
+          "id": 26,
+          "labels": [
+            "Desejo"
+          ],
+          "properties": {
+            "id": "Alcançar a Autonomia Total (Fluxo Chairside)",
+            "tipo": "Profissional",
+            "nome": "Alcançar a Autonomia Total (Fluxo Chairside)",
+            "descricao": "O sonho de controlar todo o processo, do escaneamento à produção da guia ou da coroa, dentro da própria clínica."
+          }
+        },
+        {
+          "id": 27,
+          "labels": [
+            "Desejo"
+          ],
+          "properties": {
+            "id": "Maximizar o ROI do Scanner",
+            "tipo": "Profissional",
+            "nome": "Maximizar o ROI do Scanner",
+            "descricao": "Transformar o scanner de um centro de custo para um centro de lucro, oferecendo tratamentos mais sofisticados e rentáveis."
+          }
+        },
+        {
+          "id": 28,
+          "labels": [
+            "Desejo"
+          ],
+          "properties": {
+            "id": "Satisfação da Mestria Tecnológica",
+            "tipo": "Qualidade_de_Vida",
+            "nome": "Satisfação da Mestria Tecnológica",
+            "descricao": "O prazer de dominar uma tecnologia complexa e ser reconhecido como uma referência em odontologia digital."
+          }
+        },
+        {
+          "id": 29,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "O Desbloqueio do Ativo Imobilizado",
+            "descricao_valor": "Transforma o scanner, um investimento caro e subutilizado, numa central de produtividade ao ensinar o processo de planejamento reverso, desbloqueando o retorno sobre o investimento (ROI).",
+            "categoria": "Comercial",
+            "tipo": "Curso_Especifico",
+            "nome": "O Desbloqueio do Ativo Imobilizado",
+            "curso_relacionado": "Imersão em Implantodontia Digital"
+          }
+        },
+        {
+          "id": 30,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "A Transição para o Fluxo Chairside",
+            "descricao_valor": "Leva o dentista ao seu maior desejo de autonomia total, permitindo a execução do fluxo digital completo (planejamento, execução, finalização) em ambiente clínico.",
+            "categoria": "Resultado",
+            "tipo": "Curso_Especifico",
+            "nome": "A Transição para o Fluxo Chairside",
+            "curso_relacionado": "Master - Aperfeiçoamento Clínico"
+          }
+        },
+        {
+          "id": 31,
+          "labels": [
+            "Persona"
+          ],
+          "properties": {
+            "id": "O Focado em Prótese",
+            "volume_leads": "9%",
+            "taxa_conversao": "0%",
+            "resumo": "O Arquiteto da Reabilitação, frustrado por trabalhar sobre fundações defeituosas (implantes mal posicionados), que busca o poder de controlar o projeto do início ao fim.",
+            "nome": "O Focado em Prótese",
+            "descricao": "Este profissional é um especialista na finalização do caso. Sua frustração não vem da sua própria execução, mas sim da \\'herança cirúrgica\\' que recebe. Ele busca o conhecimento do fluxo digital para controlar o ponto de partida (o planejamento cirúrgico) e garantir que a cirurgia seja executada em função da prótese.",
+            "palavras_chave": [
+              "faço prótese sobre implante",
+              "fase protética digital",
+              "desenhar o contorno gengival",
+              "reabilitação",
+              "componentes protéticos"
+            ]
+          }
+        },
+        {
+          "id": 32,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Frustração da Herança Cirúrgica",
+            "tipo": "Clínica",
+            "nome": "Frustração da Herança Cirúrgica",
+            "descricao": "A dor central: Receber implantes em posições que são um desafio protético, comprometendo o perfil de emergência, a estética e a viabilidade de uma prótese aparafusada."
+          }
+        },
+        {
+          "id": 33,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Limitação com Componentes Protéticos",
+            "tipo": "Clínica",
+            "nome": "Limitação com Componentes Protéticos",
+            "descricao": "A necessidade de recorrer a soluções de compromisso, como pilares angulados ou maquiagem cerâmica, para compensar um mau posicionamento cirúrgico do implante."
+          }
+        },
+        {
+          "id": 34,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Falha na Comunicação Multidisciplinar",
+            "tipo": "Operacional",
+            "nome": "Falha na Comunicação Multidisciplinar",
+            "descricao": "A dificuldade de comunicar eficazmente a visão protética para o cirurgião através de métodos analógicos, gerando ruídos e desalinhamento no resultado final."
+          }
+        },
+        {
+          "id": 35,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Frustração do Potencial Não Realizado",
+            "tipo": "Emocional",
+            "nome": "Frustração do Potencial Não Realizado",
+            "descricao": "A sensação de que a qualidade final do seu trabalho está sendo limitada por uma etapa anterior que ele não controla, impedindo-o de alcançar a excelência."
+          }
+        },
+        {
+          "id": 36,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Ansiedade com o Resultado a Longo Prazo",
+            "tipo": "Emocional",
+            "nome": "Ansiedade com o Resultado a Longo Prazo",
+            "descricao": "A preocupação de que as soluções de compromisso (ex: próteses cimentadas) possam levar a problemas biológicos para o paciente no futuro, como a peri-implantite."
+          }
+        },
+        {
+          "id": 37,
+          "labels": [
+            "Desejo"
+          ],
+          "properties": {
+            "id": "Alcançar o Controlo Total (O Arquiteto da Reabilitação)",
+            "tipo": "Profissional",
+            "nome": "Alcançar o Controlo Total (O Arquiteto da Reabilitação)",
+            "descricao": "Dominar o fluxo digital para criar o plano protético ideal e garantir que a fase cirúrgica o execute com total fidelidade, tornando-se o verdadeiro arquiteto do caso."
+          }
+        },
+        {
+          "id": 38,
+          "labels": [
+            "Desejo"
+          ],
+          "properties": {
+            "id": "Entregar a Excelência Protética Sem Compromissos",
+            "tipo": "Profissional",
+            "nome": "Entregar a Excelência Protética Sem Compromissos",
+            "descricao": "Ser capaz de executar a sua visão de reabilitação sem as limitações impostas por uma cirurgia desalinhada com a prótese."
+          }
+        },
+        {
+          "id": 39,
+          "labels": [
+            "Desejo"
+          ],
+          "properties": {
+            "id": "Paz de Espírito Colaborativa",
+            "tipo": "Qualidade_de_Vida",
+            "nome": "Paz de Espírito Colaborativa",
+            "descricao": "Ter a tranquilidade de que a colaboração com o cirurgião é baseada num plano digital preciso, transparente e compartilhado."
+          }
+        },
+        {
+          "id": 40,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "A Linguagem Comum para a Colaboração",
+            "descricao_valor": "Fornece os fundamentos do planejamento cirúrgico digital para que o protesista possa \\'falar a mesma língua\\' que o cirurgião, ganhando poder para exigir e colaborar em um nível mais profundo.",
+            "categoria": "Técnico",
+            "tipo": "Curso_Especifico",
+            "nome": "A Linguagem Comum para a Colaboração",
+            "curso_relacionado": "Imersão em Implantodontia Digital"
+          }
+        },
+        {
+          "id": 41,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "O Poder do Arquiteto da Reabilitação",
+            "descricao_valor": "Transforma o protesista no maestro do tratamento, dando-lhe o conhecimento para controlar o fluxo digital do início ao fim, garantindo que a cirurgia siga perfeitamente o plano protético.",
+            "categoria": "Resultado",
+            "tipo": "Curso_Especifico",
+            "nome": "O Poder do Arquiteto da Reabilitação",
+            "curso_relacionado": "Master - Aperfeiçoamento Clínico"
+          }
+        },
+        {
+          "id": 42,
+          "labels": [
+            "Persona"
+          ],
+          "properties": {
+            "id": "O Recém-Especializado",
+            "volume_leads": "14%",
+            "taxa_conversao": "33%",
+            "resumo": "O arquiteto de sorrisos recém-qualificado que, paralisado pela ansiedade da execução, busca um método seguro para transformar sua visão em realidade clínica.",
+            "nome": "O Recém-Especializado",
+            "descricao": "Este profissional concluiu recentemente a especialização em Implantodontia. Ele possui uma base teórica forte e atualizada, mas carece de experiência clínica prática, o que gera insegurança e ansiedade cirúrgica. Sua principal busca não é por conhecimento teórico, mas por um método, um \\'GPS\\', que lhe dê a confiança necessária para executar procedimentos com segurança.",
+            "palavras_chave": [
+              "acabei de me formar como especialista",
+              "tive pouco contato com o digital",
+              "não atuei ainda",
+              "falta segurança",
+              "inseguro nas cirurgias",
+              "quero ter maior conhecimento"
+            ]
+          }
+        },
+        {
+          "id": 43,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Medo Agudo do Erro Irreversível",
+            "tipo": "Emocional",
+            "nome": "Medo Agudo do Erro Irreversível",
+            "descricao": "A principal dor: A consciência de que um erro de milímetros na implantodontia pode ter consequências permanentes para o paciente e para a sua carreira recém-iniciada."
+          }
+        },
+        {
+          "id": 44,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Insegurança com Estruturas Anatómicas Vitais",
+            "tipo": "Clínica",
+            "nome": "Insegurança com Estruturas Anatómicas Vitais",
+            "descricao": "A ansiedade aguda com a proximidade do nervo alveolar, seio maxilar e raízes de dentes adjacentes durante o procedimento cirúrgico."
+          }
+        },
+        {
+          "id": 45,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Síndrome do Impostor",
+            "tipo": "Emocional",
+            "nome": "Síndrome do Impostor",
+            "descricao": "A sensação de que, apesar do título de especialista, ele ainda não tem a \\'mão\\' ou a experiência necessária para executar com confiança o que aprendeu na teoria."
+          }
+        },
+        {
+          "id": 46,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Recusa ou Adiamento de Casos",
+            "tipo": "Operacional",
+            "nome": "Recusa ou Adiamento de Casos",
+            "descricao": "A tendência de evitar ou encaminhar casos mais complexos e rentáveis por falta de confiança, o que limita o crescimento da sua prática."
+          }
+        },
+        {
+          "id": 47,
+          "labels": [
+            "Citacao"
+          ],
+          "properties": {
+            "id": "Citacao_Falta_Seguranca",
+            "texto": "Sim [falta segurança]",
+            "lead_id": "Não especificado",
+            "contexto": "Lead confirmando a falta de segurança, validando a dor da \\'Síndrome do Impostor\\'."
+          }
+        },
+        {
+          "id": 48,
+          "labels": [
+            "Desejo"
+          ],
+          "properties": {
+            "id": "Alcançar a Confiança Cirúrgica",
+            "tipo": "Profissional",
+            "nome": "Alcançar a Confiança Cirúrgica",
+            "descricao": "O desejo de operar com tranquilidade, sabendo que o seu plano é seguro e que a execução será precisa."
+          }
+        },
+        {
+          "id": 49,
+          "labels": [
+            "Desejo"
+          ],
+          "properties": {
+            "id": "Acelerar a Curva de Aprendizado",
+            "tipo": "Profissional",
+            "nome": "Acelerar a Curva de Aprendizado",
+            "descricao": "Encontrar um atalho metodológico que lhe permita realizar casos complexos de forma segura e previsível mais cedo na sua carreira."
+          }
+        },
+        {
+          "id": 50,
+          "labels": [
+            "Desejo"
+          ],
+          "properties": {
+            "id": "Paz de Espírito Pré e Intraoperatória",
+            "tipo": "Qualidade_de_Vida",
+            "nome": "Paz de Espírito Pré e Intraoperatória",
+            "descricao": "Eliminar a ansiedade paralisante que precede e acompanha os procedimentos cirúrgicos mais desafiadores."
+          }
+        },
+        {
+          "id": 51,
+          "labels": [
+            "Filosofia"
+          ],
+          "properties": {
+            "id": "Cirurgia Guiada",
+            "conceito": "Cirurgia Guiada",
+            "descricao": "Metodologia que utiliza um planejamento digital prévio para criar um guia cirúrgico, permitindo que a execução do implante seja precisa e previsível, mitigando riscos de erros manuais."
+          }
+        },
+        {
+          "id": 52,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "O GPS para a Confiança",
+            "descricao_valor": "Apresenta a cirurgia guiada como uma tecnologia que permite ao profissional recém-formado operar com a segurança de um sênior, transformando teoria em um protocolo clínico previsível e seguro.",
+            "categoria": "Resultado",
+            "tipo": "Curso_Especifico",
+            "nome": "O GPS para a Confiança",
+            "curso_relacionado": "Imersão em Implantodontia Digital"
+          }
+        },
+        {
+          "id": 53,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "A Transformação em Especialista de Elite",
+            "descricao_valor": "Resolve o desejo de acelerar a curva de aprendizado de forma exponencial, proporcionando a experiência clínica com casos complexos em pacientes reais que levaria anos para ser adquirida.",
+            "categoria": "Resultado",
+            "tipo": "Curso_Especifico",
+            "nome": "A Transformação em Especialista de Elite",
+            "curso_relacionado": "Master - Aperfeiçoamento Clínico"
+          }
+        },
+        {
+          "id": 54,
+          "labels": [
+            "Curso"
+          ],
+          "properties": {
+            "id": "Especialização em Implantodontia",
+            "duracao": "24 meses (1.200 horas)",
+            "publico_alvo": "Jovem Arquiteto de Carreira, Dentistas buscando o título formal.",
+            "nome": "Especialização em Implantodontia",
+            "descricao": "É o auge da jornada de aprendizado, um programa de dois anos que integra teoria, prática laboratorial e muita clínica, conferindo o título de especialista com chancela da USP-SP. Prepara o profissional para os mais altos níveis de complexidade, cobrindo desde conceitos biológicos fundamentais (enxertos, regeneração tecidual) até as mais modernas tecnologias digitais."
+          }
+        },
+        {
+          "id": 55,
+          "labels": [
+            "Modulo"
+          ],
+          "properties": {
+            "id": "Conceitos Fundamentais (Imersão)",
+            "ordem": 1,
+            "objetivo_central": "Entender os princípios biológicos do Planejamento Reverso, o \\'porquê\\' por trás de cada decisão clínica no fluxo digital.",
+            "nome": "Conceitos Fundamentais (Imersão)",
+            "descricao": "Módulo introdutório da Imersão focado na filosofia e na base teórica da implantodontia digital."
+          }
+        },
+        {
+          "id": 56,
+          "labels": [
+            "Modulo"
+          ],
+          "properties": {
+            "id": "Diagnóstico e Planejamento (Imersão)",
+            "ordem": 2,
+            "objetivo_central": "Aprender o passo a passo do planejamento tridimensional, desde a aquisição de imagens (tomografia e escaneamento intraoral) até o encerramento digital da prótese e o desenho do perfil de emergência.",
+            "nome": "Diagnóstico e Planejamento (Imersão)",
+            "descricao": "Módulo prático sobre a coleta e manipulação de dados do paciente para criar um plano de tratamento digital."
+          }
+        },
+        {
+          "id": 57,
+          "labels": [
+            "Modulo"
+          ],
+          "properties": {
+            "id": "Atendimento Clínico Supervisionado (Master)",
+            "objetivo_central": "O coração do curso: aplicar todo o conhecimento em pacientes reais, realizando cirurgias e reabilitações protéticas do início ao fim, com o suporte direto da equipe de professores.",
+            "nome": "Atendimento Clínico Supervisionado (Master)",
+            "descricao": "Módulo central do Master onde os alunos consolidam o aprendizado através da prática clínica real e supervisionada."
+          }
+        },
+        {
+          "id": 58,
+          "labels": [
+            "Filosofia"
+          ],
+          "properties": {
+            "id": "Planejamento Reverso",
+            "conceito": "Planejamento Reverso",
+            "descricao": "Conceito central onde a prótese ideal é desenhada primeiro (enceramento digital), e a posição do implante é definida em função dela para otimizar a estética e a função."
+          }
+        },
+        {
+          "id": 59,
+          "labels": [
+            "Metodologia"
+          ],
+          "properties": {
+            "id": "Regeneração Tecidual Guiada (RTG)",
+            "categoria": "Cirúrgica",
+            "nome": "Regeneração Tecidual Guiada (RTG)",
+            "descricao": "Técnicas cirúrgicas avançadas para reconstrução de osso e gengiva, um foco importante do curso de Especialização."
+          }
+        },
+        {
+          "id": 60,
+          "labels": [
+            "Hardware"
+          ],
+          "properties": {
+            "id": "Scanner Intraoral (Sirios da Straumann)",
+            "categoria": "Digitalização",
+            "nome": "Scanner Intraoral (Sirios da Straumann)",
+            "fabricante": "Straumann",
+            "descricao": "Ferramenta usada na prática do curso de Imersão para a captura digital da arcada do paciente, substituindo a moldagem tradicional."
+          }
+        },
+        {
+          "id": 61,
+          "labels": [
+            "Hardware"
+          ],
+          "properties": {
+            "id": "Neodent Easy-Guide",
+            "categoria": "Cirúrgico",
+            "nome": "Neodent Easy-Guide",
+            "fabricante": "Neodent",
+            "descricao": "Sistema de cirurgia guiada (kit de componentes) utilizado no hands-on prático em manequim durante o curso de Imersão."
+          }
+        },
+        {
+          "id": 62,
+          "labels": [
+            "Hardware"
+          ],
+          "properties": {
+            "id": "Cicatrizadores Personalizados",
+            "categoria": "Componente Protético",
+            "nome": "Cicatrizadores Personalizados",
+            "descricao": "Componentes impressos em 3D que ajudam a condicionar o tecido gengival de forma ideal desde a fase cirúrgica. Tópico abordado no Master."
+          }
+        },
+        {
+          "id": 63,
+          "labels": [
+            "Software"
+          ],
+          "properties": {
+            "id": "BlueSky Plan",
+            "categoria": "Planejamento",
+            "nome": "BlueSky Plan",
+            "descricao": "Software de planejamento de baixo custo, usado intensivamente no curso de Imersão para o encerramento digital e o desenho do guia cirúrgico."
+          }
+        },
+        {
+          "id": 64,
+          "labels": [
+            "Software"
+          ],
+          "properties": {
+            "id": "CodiagnostiX",
+            "categoria": "Planejamento",
+            "nome": "CodiagnostiX",
+            "descricao": "Software avançado de planejamento de implantes, que permite uma integração mais profunda e recursos para casos complexos. Abordado no curso Master."
+          }
+        },
+        {
+          "id": 65,
+          "labels": [
+            "Software"
+          ],
+          "properties": {
+            "id": "Meshmixer",
+            "categoria": "CAD",
+            "nome": "Meshmixer",
+            "descricao": "Software utilizado para manipulação de malhas 3D, ensinado em ambos os cursos para etapas como o enceramento de diagnóstico digital."
+          }
+        },
+        {
+          "id": 66,
+          "labels": [
+            "Resultado"
+          ],
+          "properties": {
+            "id": "Certificado USP-SP",
+            "categoria": "Acadêmico",
+            "nome": "Certificado USP-SP",
+            "descricao": "Principal diferencial do curso de Especialização, conferindo o título oficial de Especialista em Implantodontia pela USP-SP, o que confere máxima autoridade e credibilidade no mercado."
+          }
+        },
+        {
+          "id": 67,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "Aplicação do Planejamento Reverso",
+            "descricao_valor": "Capacidade de aplicar a filosofia do Planejamento Reverso, começando o planejamento pela prótese ideal para garantir resultados estéticos e funcionais superiores.",
+            "categoria": "Técnico",
+            "tipo": "Curso_Especifico",
+            "nome": "Aplicação do Planejamento Reverso"
+          }
+        },
+        {
+          "id": 68,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "Proficiência em BlueSky Plan",
+            "descricao_valor": "Domínio prático do software BlueSky Plan para realizar o encerramento diagnóstico digital e o planejamento de guias cirúrgicos.",
+            "categoria": "Técnico",
+            "tipo": "Curso_Especifico",
+            "nome": "Proficiência em BlueSky Plan"
+          }
+        },
+        {
+          "id": 69,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "Domínio do CodiagnostiX",
+            "descricao_valor": "Conhecimento aprofundado do software CodiagnostiX para planejar casos complexos, como desdentados totais, com maior precisão e recursos avançados.",
+            "categoria": "Técnico",
+            "tipo": "Curso_Especifico",
+            "nome": "Domínio do CodiagnostiX"
+          }
+        },
+        {
+          "id": 70,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "Prática em Atendimento Clínico Supervisionado",
+            "descricao_valor": "Experiência clínica real, as \\'horas de voo\\', no atendimento a pacientes do início ao fim do tratamento, transformando conhecimento teórico em habilidade prática.",
+            "categoria": "Resultado",
+            "tipo": "Curso_Especifico",
+            "nome": "Prática em Atendimento Clínico Supervisionado"
+          }
+        },
+        {
+          "id": 71,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "Domínio de Técnicas de Regeneração Tecidual",
+            "descricao_valor": "Capacidade de executar técnicas cirúrgicas avançadas como Regeneração Tecidual Guiada (RTG) e enxertos, essenciais para casos de alta complexidade.",
+            "categoria": "Técnico",
+            "tipo": "Curso_Especifico",
+            "nome": "Domínio de Técnicas de Regeneração Tecidual"
+          }
+        },
+        {
+          "id": 72,
+          "labels": [
+            "Citacao"
+          ],
+          "properties": {
+            "id": "Citacao_1a7a92f0_1",
+            "texto": "Tenho 42 anos de formada e meu protetico esta se aposentando.",
+            "lead_id": "1a7a92f0-4425-4ce8-9a81-c7aa2ba97654",
+            "contexto": "Especialista Analógico expressando a dor da dependência do laboratório."
+          }
+        },
+        {
+          "id": 73,
+          "labels": [
+            "Citacao"
+          ],
+          "properties": {
+            "id": "Citacao_1a7a92f0_2",
+            "texto": "Não quero parar. Preciso me atualizar.",
+            "lead_id": "1a7a92f0-4425-4ce8-9a81-c7aa2ba97654",
+            "contexto": "Especialista Analógico verbalizando o medo da obsolescência."
+          }
+        },
+        {
+          "id": 74,
+          "labels": [
+            "Citacao"
+          ],
+          "properties": {
+            "id": "Citacao_1a7a92f0_3",
+            "texto": "Não sou uma expert em informática. 3 dias serão suficientes?",
+            "lead_id": "1a7a92f0-4425-4ce8-9a81-c7aa2ba97654",
+            "contexto": "Especialista Analógico manifestando ansiedade com a curva de aprendizado."
+          }
+        },
+        {
+          "id": 75,
+          "labels": [
+            "Citacao"
+          ],
+          "properties": {
+            "id": "Citacao_c8de9031",
+            "texto": "Eu até hoje comprei um escanner e um computador pra rodar o programa acho que vai me.ajudar",
+            "lead_id": "c8de9031-4cee-4e97-86ae-2c2f2ad1f167",
+            "contexto": "Iniciado Digital confirmando o investimento em hardware, o que ativa a dor da subutilização."
+          }
+        },
+        {
+          "id": 76,
+          "labels": [
+            "Citacao"
+          ],
+          "properties": {
+            "id": "Citacao_d23e3219",
+            "texto": "Sim [falta segurança]",
+            "lead_id": "d23e3219-d040-4fb6-8114-4a99ea6b709b",
+            "contexto": "Recém-Especializado confirmando verbalmente a dor aguda da insegurança cirúrgica."
+          }
+        },
+        {
+          "id": 77,
+          "labels": [
+            "Citacao"
+          ],
+          "properties": {
+            "id": "Citacao_9a658f31",
+            "texto": "Meu objetivo principal seria fase protética digital. De implantes.",
+            "lead_id": "9a658f31-3a07-467c-b0ed-ec0a93779472",
+            "contexto": "Focado em Prótese deixando claro que sua dor e seu objetivo estão na finalização do caso, e não na cirurgia em si."
+          }
+        },
+        {
+          "id": 78,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "Gatilho de Interesse: Aumentar a Previsibilidade",
+            "descricao_valor": "Argumentos que falam em transformar o conhecimento clínico em um processo de engenharia, conectando a experiência à tecnologia para aumentar a previsibilidade e eliminar \\'surpresas\\'.",
+            "categoria": "Resultado",
+            "tipo": "Implantodontia_Digital",
+            "nome": "Gatilho de Interesse: Aumentar a Previsibilidade"
+          }
+        },
+        {
+          "id": 79,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "Gatilho de Interesse: Dominar o Digital",
+            "descricao_valor": "Argumentos que falam em ir além da moldagem digital, ter autonomia total sobre o fluxo e transformar o scanner em uma central de planejamento, destravando o ROI.",
+            "categoria": "Resultado",
+            "tipo": "Implantodontia_Digital",
+            "nome": "Gatilho de Interesse: Dominar o Digital"
+          }
+        },
+        {
+          "id": 80,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "Gatilho de Interesse: Segurança Cirúrgica",
+            "descricao_valor": "Argumentos que falam em segurança, previsibilidade, mitigação de risco e operar com a confiança de um especialista experiente, posicionando o fluxo digital como um \\'GPS cirúrgico\\'.",
+            "categoria": "Resultado",
+            "tipo": "Implantodontia_Digital",
+            "nome": "Gatilho de Interesse: Segurança Cirúrgica"
+          }
+        },
+        {
+          "id": 81,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "Gatilho de Interesse: Controle Protético",
+            "descricao_valor": "Argumentos focados no Planejamento Reverso, no desenho do perfil de emergência e em como dominar a linguagem do fluxo digital para garantir resultados protéticos ideais.",
+            "categoria": "Técnico",
+            "tipo": "Implantodontia_Digital",
+            "nome": "Gatilho de Interesse: Controle Protético"
+          }
+        },
+        {
+          "id": 82,
+          "labels": [
+            "Filosofia"
+          ],
+          "properties": {
+            "id": "A Biologia Justifica a Tecnologia",
+            "conceito": "A Biologia Justifica a Tecnologia",
+            "descricao": "Método de ensino onde a tecnologia (softwares, guias) é apresentada como uma ferramenta para executar um princípio biológico superior, como o posicionamento apical preciso dos implantes, garantindo a saúde peri-implantar e a longevidade do tratamento."
+          }
+        },
+        {
+          "id": 83,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Ceticismo com o Mercado",
+            "tipo": "Emocional",
+            "nome": "Ceticismo com o Mercado",
+            "descricao": "A desconfiança em relação a um mercado de cursos saturado de \\'gurus\\' e conteúdo patrocinado por marcas, gerando dúvida sobre a isenção e a qualidade do conhecimento oferecido."
+          }
+        },
+        {
+          "id": 84,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Lacuna entre Teoria e Prática",
+            "tipo": "Emocional",
+            "nome": "Lacuna entre Teoria e Prática",
+            "descricao": "A dor de saber o que fazer teoricamente, mas não ter a confiança ou a experiência (\\'horas de voo\\') para aplicar o conhecimento em casos complexos no dia a dia clínico."
+          }
+        },
+        {
+          "id": 85,
+          "labels": [
+            "Dor"
+          ],
+          "properties": {
+            "id": "Dependência de Laboratório para Provisórios",
+            "tipo": "Operacional",
+            "nome": "Dependência de Laboratório para Provisórios",
+            "descricao": "A ineficiência causada pela necessidade de aguardar o laboratório para a confecção de próteses provisórias, resultando em múltiplas consultas e atrasos na finalização do caso."
+          }
+        },
+        {
+          "id": 86,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "Argumento: A Chancela do Selo USP",
+            "descricao_valor": "A credibilidade acadêmica da melhor faculdade de odontologia do mundo, que funciona como um filtro de qualidade, prometendo conhecimento puro, cientificamente embasado e isento de interesses comerciais.",
+            "categoria": "Comercial",
+            "tipo": "Implantodontia_Digital",
+            "nome": "A Chancela do Selo USP"
+          }
+        },
+        {
+          "id": 87,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "Argumento: A Jornada de Educação Continuada",
+            "descricao_valor": "A existência de um caminho claro e estruturado para a evolução profissional (Imersão -> Master), que diminui a pressão de ter que aprender tudo de uma vez e oferece uma solução para cada nível de necessidade.",
+            "categoria": "Comercial",
+            "tipo": "Curso_Especifico",
+            "nome": "A Jornada de Educação Continuada"
+          }
+        },
+        {
+          "id": 88,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "Argumento: A Transformação da Previsibilidade",
+            "descricao_valor": "Elimina o \\'achismo\\' do planejamento ao unir tomografia e escaneamento em um ambiente 3D, permitindo que o resultado final seja validado antes mesmo da cirurgia.",
+            "categoria": "Resultado",
+            "tipo": "Implantodontia_Digital",
+            "nome": "A Transformação da Previsibilidade"
+          }
+        },
+        {
+          "id": 89,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "Argumento: O GPS Cirúrgico",
+            "descricao_valor": "Transforma a ansiedade da cirurgia à mão livre em um procedimento guiado, previsível e seguro. É a compra de paz de espírito, tornando a cirurgia menos dependente da habilidade tátil e mais da precisão do planejamento.",
+            "categoria": "Resultado",
+            "tipo": "Implantodontia_Digital",
+            "nome": "O GPS Cirúrgico"
+          }
+        },
+        {
+          "id": 90,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "Argumento: Autonomia e Controle Operacional",
+            "descricao_valor": "Quebra a dependência crítica do laboratório ao dar ao clínico o poder de desenhar e imprimir provisórios e cicatrizadores no mesmo dia da cirurgia, economizando tempo e otimizando o resultado biológico.",
+            "categoria": "Resultado",
+            "tipo": "Implantodontia_Digital",
+            "nome": "Autonomia e Controle Operacional"
+          }
+        },
+        {
+          "id": 91,
+          "labels": [
+            "Argumento_Valor"
+          ],
+          "properties": {
+            "id": "Argumento: A Ponte da Teoria para a Maestria",
+            "descricao_valor": "Para o ex-aluno da Imersão, o Master oferece as \\'horas de voo\\' supervisionadas para fechar a lacuna entre saber o que fazer e ter a confiança para aplicar em casos complexos, consolidando o conhecimento em excelência clínica.",
+            "categoria": "Resultado",
+            "tipo": "Curso_Especifico",
+            "nome": "A Ponte da Teoria para a Maestria"
+          }
+        },
+        {
+          "id": 92,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "ID-S-01",
+            "texto": "Olá [Nome do Lead]! Que ótimo que você já tem um [Nome do Scanner, ex: TRIOS]. Você já fez o investimento mais importante para entrar no fluxo digital de alta performance.",
+            "fase_spin": "Situacao",
+            "script_id": "ID-S-01",
+            "persona": "O Iniciado Digital",
+            "proposito": "Validar a decisão de compra do lead, reconhecendo que ele está à frente da maioria. Isso gera um rapport imediato."
+          }
+        },
+        {
+          "id": 93,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "ID-P-01",
+            "texto": "Entendi. E hoje, com o scanner e a impressora já no consultório, mas ainda precisando terceirizar ou usar métodos analógicos para os casos de implante, qual o maior impacto disso na sua rotina?",
+            "fase_spin": "Problema",
+            "script_id": "ID-P-01",
+            "persona": "O Iniciado Digital",
+            "proposito": "Fazer o lead verbalizar a dor central da Subutilização do Investimento."
+          }
+        },
+        {
+          "id": 94,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "ID-I-01",
+            "texto": "Exato. E esse investimento que você fez no scanner e na impressora, que de certa forma está parado para a implantodontia, o que isso significa em termos de retorno financeiro e de oportunidades de tratamentos mais rentáveis que você talvez esteja a adiar?",
+            "fase_spin": "Implicacao",
+            "script_id": "ID-I-01",
+            "persona": "O Iniciado Digital",
+            "proposito": "Conectar a dor da subutilização a uma perda financeira tangível."
+          }
+        },
+        {
+          "id": 95,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "ID-N-01",
+            "texto": "Mas vamos focar no cenário ideal. Se você pudesse usar seu scanner e sua impressora em todo o seu potencial, transformando sua clínica numa central de planejamento e produção... que impacto isso teria na sua autonomia e na velocidade com que você entrega tratamentos de alta qualidade?",
+            "fase_spin": "Necessidade",
+            "script_id": "ID-N-01",
+            "persona": "O Iniciado Digital",
+            "proposito": "Fazer o lead construir a visão de um futuro onde seu investimento gera o máximo valor."
+          }
+        },
+        {
+          "id": 96,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "ID-Proposta-01",
+            "texto": "Pois bem, a nossa Imersão foi desenhada exatamente para isso. Ela é o \\'manual avançado\\' que vai te ensinar a conectar a ferramenta (seu scanner) ao processo (planejamento reverso), finalmente destravando o retorno sobre o investimento e eliminando a frustração de ter uma tecnologia parada.",
+            "fase_spin": "Necessidade",
+            "script_id": "ID-Proposta-01",
+            "persona": "O Iniciado Digital",
+            "proposito": "Apresentar a Imersão com a mensagem mais poderosa para esta persona."
+          }
+        },
+        {
+          "id": 97,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "RE-S-01",
+            "texto": "Olá [Nome do Lead]! Que ótimo que você acabou de concluir a especialização. É o melhor momento para construir sua carreira sobre as bases mais modernas e seguras da implantodontia.",
+            "fase_spin": "Situacao",
+            "script_id": "RE-S-01",
+            "persona": "O Recém-Especializado",
+            "proposito": "Validar a conquista recente do lead, reconhecendo o seu esforço e o momento crucial em que se encontra."
+          }
+        },
+        {
+          "id": 98,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "RE-P-01",
+            "texto": "Entendi perfeitamente. Você tem a base sólida dos fundamentos, o que é o mais importante. E hoje, ao pensar em executar seus primeiros casos, você sente que lhe falta segurança na parte cirúrgica?",
+            "fase_spin": "Problema",
+            "script_id": "RE-P-01",
+            "persona": "O Recém-Especializado",
+            "proposito": "Isolar a dor mais aguda e emocional desta persona: a Insegurança Cirúrgica."
+          }
+        },
+        {
+          "id": 99,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "RE-I-01",
+            "texto": "Agradeço a honestidade. E qual o impacto dessa insegurança na sua disposição para aceitar casos mais complexos e estéticos, que poderiam ser mais rentáveis para a sua clínica?",
+            "fase_spin": "Implicacao",
+            "script_id": "RE-I-01",
+            "persona": "O Recém-Especializado",
+            "proposito": "Conectar a dor emocional (insegurança) a uma perda de oportunidade financeira e de desenvolvimento profissional."
+          }
+        },
+        {
+          "id": 100,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "RE-N-01",
+            "texto": "Mas vamos imaginar o cenário oposto. Se você tivesse um método, um verdadeiro \\'GPS cirúrgico\\', que lhe permitisse planear cada detalhe com segurança e transferir esse plano com precisão para a cirurgia... que impacto isso teria na sua confiança para finalmente aceitar e executar esses casos mais desafiadores?",
+            "fase_spin": "Necessidade",
+            "script_id": "RE-N-01",
+            "persona": "O Recém-Especializado",
+            "proposito": "Fazer o lead verbalizar o benefício da solução, usando a metáfora mais poderosa para ele."
+          }
+        },
+        {
+          "id": 101,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "RE-Proposta-01",
+            "texto": "Pois bem, a nossa Imersão é exatamente esse \\'GPS\\' para a sua confiança. É a compra de um método passo a passo que mitiga o medo do erro irreversível. Não é uma complexidade adicional; é a ferramenta que simplifica a cirurgia e lhe permite operar com a segurança de um sênior, transformando a sua excelente base teórica num protocolo clínico previsível.",
+            "fase_spin": "Necessidade",
+            "script_id": "RE-Proposta-01",
+            "persona": "O Recém-Especializado",
+            "proposito": "Apresentar a Imersão com a mensagem mais ressonante para esta persona."
+          }
+        },
+        {
+          "id": 102,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "FP-S-01",
+            "texto": "Olá [Nome do Lead]! Que ótimo. Um especialista em prótese e reabilitação como você tem a visão mais importante de todas: a do resultado final. É a partir da sua visão que todo o tratamento deveria começar.",
+            "fase_spin": "Situacao",
+            "script_id": "FP-S-01",
+            "persona": "O Focado em Prótese",
+            "proposito": "Validar a importância do papel dele no processo, o que gera um rapport imediato com esta persona que muitas vezes se sente desvalorizada na fase cirúrgica."
+          }
+        },
+        {
+          "id": 103,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "FP-P-01",
+            "texto": "Com certeza. E com que frequência você recebe um caso cirúrgico e pensa: \\'Se este implante estivesse apenas alguns milímetros para o lado, a minha prótese ficaria perfeita\\', forçando-o a usar componentes angulados ou outras compensações?",
+            "fase_spin": "Problema",
+            "script_id": "FP-P-01",
+            "persona": "O Focado em Prótese",
+            "proposito": "Fazer o lead verbalizar a sua dor mais comum e frustrante."
+          }
+        },
+        {
+          "id": 104,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "FP-I-01",
+            "texto": "E essa necessidade de fazer \\'gambiarras\\' protéticas para compensar a cirurgia, qual o maior impacto disso? É a sua frustração por não entregar um trabalho com o seu selo máximo de qualidade, ou a preocupação de que isso possa afetar a longevidade do caso e a sua reputação a longo prazo?",
+            "fase_spin": "Implicacao",
+            "script_id": "FP-I-01",
+            "persona": "O Focado em Prótese",
+            "proposito": "Conectar a dor técnica a consequências de alto risco para o negócio e a marca pessoal dele."
+          }
+        },
+        {
+          "id": 105,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "FP-N-01",
+            "texto": "Mas imagine o cenário ideal. Se você tivesse o poder não apenas de projetar a prótese, mas de garantir que a fase cirúrgica executasse o seu plano com fidelidade... que impacto isso teria no nível de excelência e na paz de espírito com que você finaliza seus casos?",
+            "fase_spin": "Necessidade",
+            "script_id": "FP-N-01",
+            "persona": "O Focado em Prótese",
+            "proposito": "Fazer o lead construir a visão de um futuro onde ele tem controlo total."
+          }
+        },
+        {
+          "id": 106,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "FP-Proposta-01",
+            "texto": "Pois bem, o nosso curso Master é a solução definitiva para a sua frustração. Ele foi desenhado para especialistas como você, que querem ir além da prótese e se tornar o verdadeiro arquiteto da reabilitação. Com o atendimento a pacientes reais, você aprende a controlar o projeto do início ao fim, da cirurgia à prótese, eliminando a \\'herança cirúrgica\\' para sempre.",
+            "fase_spin": "Necessidade",
+            "script_id": "FP-Proposta-01",
+            "persona": "O Focado em Prótese",
+            "proposito": "Apresentar o Master como a solução ideal e direta para a sua dor."
+          }
+        },
+        {
+          "id": 107,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "EA-S-01",
+            "texto": "Olá [Nome do Lead]! Que trajetória impressionante. [X] anos de formado e quase [Y] anos de experiência com implantes é uma combinação muito poderosa. Você une a sabedoria da experiência com o conhecimento mais atualizado.",
+            "fase_spin": "Situacao",
+            "script_id": "EA-S-01",
+            "persona": "O Especialista Analógico",
+            "proposito": "Iniciar a conversa validando a senioridade do lead, o que é o fator psicológico mais importante para esta persona."
+          }
+        },
+        {
+          "id": 108,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "EA-P-01",
+            "texto": "Com toda essa sua bagagem no método convencional, me diga uma coisa: qual você sente que é o maior desafio hoje? É a previsibilidade de garantir que o implante fique na posição perfeita para a futura prótese, ou é mais a questão da eficiência do processo, como o tempo e as etapas que envolvem o trabalho com o laboratório?",
+            "fase_spin": "Problema",
+            "script_id": "EA-P-01",
+            "persona": "O Especialista Analógico",
+            "proposito": "Fazer o lead admitir uma dor sistêmica do método analógico, sem que ele se sinta criticado."
+          }
+        },
+        {
+          "id": 109,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "EA-I-01",
+            "texto": "Exato. E quando essa previsibilidade não é total e o resultado não sai como planeado, qual o maior impacto para si? É a qualidade final que entrega ao paciente, que sabe que poderia ser ainda melhor, ou a sua própria satisfação profissional que fica um pouco frustrada?",
+            "fase_spin": "Implicacao",
+            "script_id": "EA-I-01",
+            "persona": "O Especialista Analógico",
+            "proposito": "Aprofundar a dor, conectando o problema técnico a consequências emocionais e de negócio."
+          }
+        },
+        {
+          "id": 110,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "EA-N-01",
+            "texto": "Mas vamos inverter o pensamento. Se você tivesse um método que te permitisse usar toda a sua experiência para, antes mesmo da cirurgia, definir a posição ideal do implante com um nível de previsibilidade muito maior... que impacto essa tranquilidade traria para o seu dia a dia e para o nível de excelência que você entrega?",
+            "fase_spin": "Necessidade",
+            "script_id": "EA-N-01",
+            "persona": "O Especialista Analógico",
+            "proposito": "Fazer o lead verbalizar os benefícios da solução, pivotando da dor para o desejo."
+          }
+        },
+        {
+          "id": 111,
+          "labels": [
+            "Script"
+          ],
+          "properties": {
+            "id": "EA-Proposta-01",
+            "texto": "Pois bem, o objetivo da nossa Imersão é exatamente te entregar essa previsibilidade. Ela foi desenhada como a ponte mais segura para conectar toda a sua vasta experiência clínica com o poder do digital, sem que você precise se sentir um \\'iniciante\\' novamente. É sobre potencializar o mestre que você já é.",
+            "fase_spin": "Necessidade",
+            "script_id": "EA-Proposta-01",
+            "persona": "O Especialista Analógico",
+            "proposito": "Apresentar a Imersão como a solução ideal."
+          }
+        }
+      ],
+      "relationships": [
+        {
+          "id": 1152921504606846976,
+          "startNode": 0,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto descreve a \\'frustração recorrente\\' do Dr. Ricardo com a fase protética."
+          },
+          "type": "SENTE",
+          "endNode": 1
+        },
+        {
+          "id": 1155173304420532224,
+          "startNode": 0,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "Menciona \\'Lidar com variações anatómicas não totalmente previstas no planejamento 2D\\'."
+          },
+          "type": "SENTE",
+          "endNode": 2
+        },
+        {
+          "id": 1157425104234217472,
+          "startNode": 0,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A ideia de depender de um novo laboratório é descrita como \\'assustadora\\'."
+          },
+          "type": "SENTE",
+          "endNode": 3
+        },
+        {
+          "id": 6917529027641081860,
+          "startNode": 0,
+          "properties": {
+            "confidence_score": 8,
+            "justification": "O Especialista Analógico é quem mais sofre com a ineficiência do fluxo analógico por ter uma prática estabelecida nesse modelo.",
+            "connection_type": "logical_business"
+          },
+          "type": "SENTE",
+          "endNode": 4
+        },
+        {
+          "id": 1159676904047902720,
+          "startNode": 0,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Descrita como \\'a dor mais profunda\\' e \\'o medo de que o seu vasto conhecimento se torne uma ilha\\'."
+          },
+          "type": "SENTE",
+          "endNode": 5
+        },
+        {
+          "id": 6917529027641081862,
+          "startNode": 0,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Menciona \\'O medo de não se adaptar à tecnologia, de parecer \\'iniciante\\'\\'."
+          },
+          "type": "SENTE",
+          "endNode": 6
+        },
+        {
+          "id": 6917530127152709639,
+          "startNode": 0,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O desejo é \\'continuar a ser uma referência na sua área\\'."
+          },
+          "type": "ASPIRA_A",
+          "endNode": 7
+        },
+        {
+          "id": 6917530127152709640,
+          "startNode": 0,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "Deseja \\'Transformar a sua intuição clínica num processo de engenharia de precisão\\'."
+          },
+          "type": "ASPIRA_A",
+          "endNode": 8
+        },
+        {
+          "id": 6917530127152709641,
+          "startNode": 0,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "Deseja \\'Reduzir o stresse cirúrgico e a dependência de terceiros\\'."
+          },
+          "type": "ASPIRA_A",
+          "endNode": 9
+        },
+        {
+          "id": 6917530127152709642,
+          "startNode": 0,
+          "properties": {
+            "confidence_score": 8,
+            "justification": "O Especialista Analógico busca renovar seu propósito ao integrar tecnologia digital em sua prática consolidada.",
+            "connection_type": "logical_business"
+          },
+          "type": "ASPIRA_A",
+          "endNode": 10
+        },
+        {
+          "id": 6917530127152709710,
+          "startNode": 0,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto descreve este como o principal gatilho de interesse para a persona, que busca potencializar sua experiência existente."
+          },
+          "type": "ASPIRA_A",
+          "endNode": 78
+        },
+        {
+          "id": 1152923703630102531,
+          "startNode": 3,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A citação é um exemplo direto da dor."
+          },
+          "type": "VALIDADA_POR",
+          "endNode": 11
+        },
+        {
+          "id": 1155175503443787779,
+          "startNode": 3,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A citação é a verbalização exata da dor de dependência, acentuada pela aposentadoria do protético."
+          },
+          "type": "VALIDADA_POR",
+          "endNode": 72
+        },
+        {
+          "id": 1152923703630102533,
+          "startNode": 5,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A citação verbaliza diretamente o medo da obsolescência."
+          },
+          "type": "VALIDADA_POR",
+          "endNode": 12
+        },
+        {
+          "id": 1155175503443787781,
+          "startNode": 5,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A citação expressa diretamente o medo de parar e a necessidade de se manter relevante no mercado."
+          },
+          "type": "VALIDADA_POR",
+          "endNode": 73
+        },
+        {
+          "id": 1152923703630102534,
+          "startNode": 6,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A citação é uma manifestação clara da ansiedade com a tecnologia."
+          },
+          "type": "VALIDADA_POR",
+          "endNode": 13
+        },
+        {
+          "id": 1155175503443787782,
+          "startNode": 6,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A citação manifesta a insegurança com a tecnologia e questiona se o tempo do curso será suficiente, uma clara expressão de ansiedade."
+          },
+          "type": "VALIDADA_POR",
+          "endNode": 74
+        },
+        {
+          "id": 1152924803141730318,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A seção \\'Conexão Estratégica\\' detalha a adequação do curso para este perfil."
+          },
+          "type": "DIRECIONADO_A",
+          "endNode": 0
+        },
+        {
+          "id": 1155176602955415566,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto detalha extensivamente como o curso resolve as dores específicas desta persona."
+          },
+          "type": "DIRECIONADO_A",
+          "endNode": 18
+        },
+        {
+          "id": 1157428402769100814,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 6,
+            "justification": "O texto adverte que a Imersão \\'não é a solução final\\' e deve ser posicionada apenas como um \\'curso de nivelamento estratégico\\', indicando um alinhamento parcial ou condicional."
+          },
+          "type": "DIRECIONADO_A",
+          "endNode": 31
+        },
+        {
+          "id": 1159680202582786062,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto afirma que a Imersão é a \\'solução direta e imediata para a sua dor principal\\', o que justifica a alta taxa de conversão."
+          },
+          "type": "DIRECIONADO_A",
+          "endNode": 42
+        },
+        {
+          "id": 1152925902653358094,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto define \\'A Atualização do Legado\\' como o \\'Argumento de Valor Central\\' da Imersão."
+          },
+          "type": "ENTREGA",
+          "endNode": 16
+        },
+        {
+          "id": 1155177702467043342,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto define este como o \\'Argumento de Valor Central\\' do curso para a persona."
+          },
+          "type": "ENTREGA",
+          "endNode": 29
+        },
+        {
+          "id": 6917533425687593000,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto define este como o \\'Argumento de Valor Central\\' do curso para esta persona."
+          },
+          "type": "ENTREGA",
+          "endNode": 40
+        },
+        {
+          "id": 6917533425687593012,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Definido como o \\'Argumento de Valor Central\\' do curso para esta persona."
+          },
+          "type": "ENTREGA",
+          "endNode": 52
+        },
+        {
+          "id": 6917533425687593027,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O curso de Imersão introduz e se baseia no conceito fundamental de Planejamento Reverso."
+          },
+          "type": "ENTREGA",
+          "endNode": 67
+        },
+        {
+          "id": 6917533425687593028,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto afirma que o curso de Imersão fornece \\'proficiência prática\\' no software BlueSky Plan."
+          },
+          "type": "ENTREGA",
+          "endNode": 68
+        },
+        {
+          "id": 6917538923245731895,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O documento lista este como um dos módulos principais da Imersão."
+          },
+          "type": "CONTEM",
+          "endNode": 55
+        },
+        {
+          "id": 6917538923245731896,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O documento lista este como um dos módulos principais da Imersão."
+          },
+          "type": "CONTEM",
+          "endNode": 56
+        },
+        {
+          "id": 6917541122268987452,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A descrição do hardware afirma que ele é a 'Ferramenta usada na prática do curso de Imersão para a captura digital da arcada do paciente'."
+          },
+          "type": "UTILIZA",
+          "endNode": 60
+        },
+        {
+          "id": 6917541122268987453,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A descrição do hardware confirma que ele é o 'Sistema... utilizado no hands-on prático... durante o curso de Imersão'."
+          },
+          "type": "UTILIZA",
+          "endNode": 61
+        },
+        {
+          "id": 6917541122268987455,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A descrição do software indica que ele é 'usado intensivamente no curso de Imersão'."
+          },
+          "type": "UTILIZA",
+          "endNode": 63
+        },
+        {
+          "id": 6922044721896357953,
+          "startNode": 14,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "Software de design 3D utilizado na Imersão para preparação de modelos e componentes protéticos personalizados."
+          },
+          "type": "UTILIZA",
+          "endNode": 65
+        },
+        {
+          "id": 1152924803141730319,
+          "startNode": 15,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto especifica que o Master é para o Especialista Analógico que já decidiu entrar no digital."
+          },
+          "type": "DIRECIONADO_A",
+          "endNode": 0
+        },
+        {
+          "id": 1155176602955415567,
+          "startNode": 15,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto afirma categoricamente que \\'Este é o curso ideal e a solução definitiva para a sua dor\\'."
+          },
+          "type": "DIRECIONADO_A",
+          "endNode": 31
+        },
+        {
+          "id": 1157428402769100815,
+          "startNode": 15,
+          "properties": {
+            "confidence_score": 8,
+            "justification": "O curso é posicionado como o passo seguinte, para depois que a confiança inicial for ganha na Imersão."
+          },
+          "type": "DIRECIONADO_A",
+          "endNode": 42
+        },
+        {
+          "id": 1152925902653358095,
+          "startNode": 15,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto define \\'A Consolidação da Maestria\\' como o \\'Argumento de Valor Central\\' do Master."
+          },
+          "type": "ENTREGA",
+          "endNode": 17
+        },
+        {
+          "id": 1155177702467043343,
+          "startNode": 15,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto define este como o \\'Argumento de Valor Central\\' do curso para a persona."
+          },
+          "type": "ENTREGA",
+          "endNode": 30
+        },
+        {
+          "id": 6917533425687593001,
+          "startNode": 15,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto define este como o \\'Argumento de Valor Central\\' do curso para esta persona."
+          },
+          "type": "ENTREGA",
+          "endNode": 41
+        },
+        {
+          "id": 6917533425687593013,
+          "startNode": 15,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Definido como o \\'Argumento de Valor Central\\' do curso para esta persona."
+          },
+          "type": "ENTREGA",
+          "endNode": 53
+        },
+        {
+          "id": 6917533425687593029,
+          "startNode": 15,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "O curso Master introduz e aprofunda o treinamento no software avançado CodiagnostiX."
+          },
+          "type": "ENTREGA",
+          "endNode": 69
+        },
+        {
+          "id": 6917533425687593030,
+          "startNode": 15,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O diferencial crucial do Master é a aplicação do conhecimento em pacientes reais, que é o cerne deste argumento de valor."
+          },
+          "type": "ENTREGA",
+          "endNode": 70
+        },
+        {
+          "id": 6917538923245731897,
+          "startNode": 15,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O documento descreve este módulo como \\'O coração do curso\\' Master."
+          },
+          "type": "CONTEM",
+          "endNode": 57
+        },
+        {
+          "id": 6917541122268987454,
+          "startNode": 15,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "A descrição do hardware especifica que este é um 'Tópico abordado no Master', indicando seu uso ou demonstração no curso."
+          },
+          "type": "UTILIZA",
+          "endNode": 62
+        },
+        {
+          "id": 6917541122268987456,
+          "startNode": 15,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A descrição do software afirma que ele é 'Abordado no curso Master' para planejamento de casos complexos."
+          },
+          "type": "UTILIZA",
+          "endNode": 64
+        },
+        {
+          "id": 6919792922082672705,
+          "startNode": 15,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "Software de design 3D usado em módulos avançados de prótese digital no Master."
+          },
+          "type": "UTILIZA",
+          "endNode": 65
+        },
+        {
+          "id": 6917542221780615230,
+          "startNode": 15,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Tópico específico abordado no Master para casos avançados de reabilitação."
+          },
+          "type": "ENSINA",
+          "endNode": 62
+        },
+        {
+          "id": 1152927002164985872,
+          "startNode": 16,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto afirma que o argumento \\'combate o Medo da Obsolescência\\'."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 5
+        },
+        {
+          "id": 1155178801978671120,
+          "startNode": 16,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto afirma que o argumento \\'resolve diretamente a Ansiedade da Curva de Aprendizagem\\'."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 6
+        },
+        {
+          "id": 1152928101676613648,
+          "startNode": 16,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Todo o argumento é construído para ressoar com a identidade e os medos desta persona."
+          },
+          "type": "PARA_A",
+          "endNode": 0
+        },
+        {
+          "id": 6917537823734104071,
+          "startNode": 16,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O argumento de \\'potencializar, em vez de substituir, as décadas de experiência\\' está diretamente alinhado com o desejo do especialista de \\'preservar seu legado e relevância\\'."
+          },
+          "type": "ALINHA_COM",
+          "endNode": 7
+        },
+        {
+          "id": 1152927002164985873,
+          "startNode": 17,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "O texto diz que o argumento \\'resolve a dor da Imprevisibilidade Protética em seu nível mais profundo\\'."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 1
+        },
+        {
+          "id": 1152928101676613649,
+          "startNode": 17,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O argumento é especificamente desenhado para a evolução desta persona após uma introdução ao digital."
+          },
+          "type": "PARA_A",
+          "endNode": 0
+        },
+        {
+          "id": 1152921504606846994,
+          "startNode": 18,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto define esta como \\'A dor central\\' da persona."
+          },
+          "type": "SENTE",
+          "endNode": 21
+        },
+        {
+          "id": 1155173304420532242,
+          "startNode": 18,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "O texto afirma que ele \\'envia tudo para um laboratório, transferindo a etapa mais crítica e inteligente do processo\\'."
+          },
+          "type": "SENTE",
+          "endNode": 22
+        },
+        {
+          "id": 1157425104234217490,
+          "startNode": 18,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Explicitamente mencionado em \\'Mapeamento de Dores\\': \\'Não se sente seguro para desenhar uma guia cirúrgica...\\'"
+          },
+          "type": "SENTE",
+          "endNode": 23
+        },
+        {
+          "id": 1159676904047902738,
+          "startNode": 18,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Descrito como \\'A ansiedade de ter gasto uma quantia significativa num \\'elefante branco\\'\\'."
+          },
+          "type": "SENTE",
+          "endNode": 24
+        },
+        {
+          "id": 6917529027641081881,
+          "startNode": 18,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Descrito como \\'O sentimento de ter as melhores ferramentas, mas não saber usá-las em todo o seu potencial\\'."
+          },
+          "type": "SENTE",
+          "endNode": 25
+        },
+        {
+          "id": 6917530127152709658,
+          "startNode": 18,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Descrito como \\'O sonho de controlar todo o processo... dentro da própria clínica\\'."
+          },
+          "type": "ASPIRA_A",
+          "endNode": 26
+        },
+        {
+          "id": 6917530127152709659,
+          "startNode": 18,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Deseja \\'Transformar o centro de custo (o scanner) num centro de lucro\\'."
+          },
+          "type": "ASPIRA_A",
+          "endNode": 27
+        },
+        {
+          "id": 6917530127152709660,
+          "startNode": 18,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "Mencionado como \\'O prazer de dominar uma tecnologia complexa\\'."
+          },
+          "type": "ASPIRA_A",
+          "endNode": 28
+        },
+        {
+          "id": 6917530127152709711,
+          "startNode": 18,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto define este como o principal gatilho de interesse, focando em extrair o valor de um investimento já realizado."
+          },
+          "type": "ASPIRA_A",
+          "endNode": 79
+        },
+        {
+          "id": 1152923703630102549,
+          "startNode": 21,
+          "properties": {
+            "confidence_score": 8,
+            "justification": "A citação confirma a compra do hardware, que é o pré-requisito para a dor de subutilização existir. O lead acredita que o programa \\'vai ajudar\\', indicando que ainda não está colhendo os frutos."
+          },
+          "type": "VALIDADA_POR",
+          "endNode": 75
+        },
+        {
+          "id": 1152929201188241429,
+          "startNode": 21,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A dor da subutilização existe por causa do alto investimento no hardware (scanner)."
+          },
+          "type": "RELACIONADA_A",
+          "endNode": 19
+        },
+        {
+          "id": 1152929201188241431,
+          "startNode": 23,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "A insegurança decorre da falta de domínio sobre o software que une os arquivos DICOM e STL."
+          },
+          "type": "RELACIONADA_A",
+          "endNode": 20
+        },
+        {
+          "id": 1152927002164985885,
+          "startNode": 29,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O argumento \\'resolve diretamente a dor da Subutilização do Investimento\\'."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 21
+        },
+        {
+          "id": 1155178801978671133,
+          "startNode": 29,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O argumento resolve a \\'Frustração do Artesão Tecnológico, dando-lhe o conhecimento que faltava\\'."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 25
+        },
+        {
+          "id": 1152928101676613661,
+          "startNode": 29,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O argumento é construído para validar o investimento já feito pela persona e desbloquear seu potencial."
+          },
+          "type": "PARA_A",
+          "endNode": 18
+        },
+        {
+          "id": 6917537823734104091,
+          "startNode": 29,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O argumento de \\'desbloquear o retorno sobre o investimento (ROI)\\' é a expressão exata do desejo de \\'maximizar o ROI do scanner\\'."
+          },
+          "type": "ALINHA_COM",
+          "endNode": 27
+        },
+        {
+          "id": 1152930300699869214,
+          "startNode": 30,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto afirma que o curso é o caminho para o seu maior desejo: a Autonomia Total."
+          },
+          "type": "ALINHA_COM",
+          "endNode": 26
+        },
+        {
+          "id": 1152921504606847007,
+          "startNode": 31,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto define esta como \\'A dor central\\' da persona."
+          },
+          "type": "SENTE",
+          "endNode": 32
+        },
+        {
+          "id": 6917529027641081889,
+          "startNode": 31,
+          "properties": {
+            "confidence_score": 8,
+            "justification": "Esta é uma dor central do Focado em Prótese, que recebe casos cirúrgicos com limitações protéticas.",
+            "connection_type": "logical_business"
+          },
+          "type": "SENTE",
+          "endNode": 33
+        },
+        {
+          "id": 1155173304420532255,
+          "startNode": 31,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "Mencionado como \\'A dificuldade de comunicar a sua visão protética de forma eficaz para o cirurgião\\'."
+          },
+          "type": "SENTE",
+          "endNode": 34
+        },
+        {
+          "id": 1157425104234217503,
+          "startNode": 31,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Descrito como \\'A sensação de que a qualidade final do seu trabalho está a ser limitada por uma etapa que ele não controla\\'."
+          },
+          "type": "SENTE",
+          "endNode": 35
+        },
+        {
+          "id": 6917529027641081892,
+          "startNode": 31,
+          "properties": {
+            "confidence_score": 8,
+            "justification": "O Focado em Prótese é responsável pela fase final e se preocupa com a longevidade da reabilitação.",
+            "connection_type": "logical_business"
+          },
+          "type": "SENTE",
+          "endNode": 36
+        },
+        {
+          "id": 1152922604118474783,
+          "startNode": 31,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O desejo central é se tornar o \\'verdadeiro arquiteto que projeta e controla todas as variáveis críticas\\'."
+          },
+          "type": "ASPIRA_A",
+          "endNode": 37
+        },
+        {
+          "id": 6917530127152709670,
+          "startNode": 31,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "O desejo é \\'executar a sua visão de reabilitação sem limitações impostas por uma cirurgia desalinhada\\'."
+          },
+          "type": "ASPIRA_A",
+          "endNode": 38
+        },
+        {
+          "id": 6917530127152709671,
+          "startNode": 31,
+          "properties": {
+            "confidence_score": 8,
+            "justification": "O Focado em Prótese deseja colaboração harmoniosa com os cirurgiões para evitar frustrações.",
+            "connection_type": "logical_business"
+          },
+          "type": "ASPIRA_A",
+          "endNode": 39
+        },
+        {
+          "id": 6917530127152709713,
+          "startNode": 31,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O gatilho de interesse está diretamente alinhado à sua dor de não controlar a fase cirúrgica que precede seu trabalho protético."
+          },
+          "type": "ASPIRA_A",
+          "endNode": 81
+        },
+        {
+          "id": 1152923703630102560,
+          "startNode": 32,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "Ao declarar que seu objetivo principal é a \\'fase protética digital\\', a persona implicitamente valida a dor de não controlar a fase anterior, que impacta seu trabalho."
+          },
+          "type": "VALIDADA_POR",
+          "endNode": 77
+        },
+        {
+          "id": 1152927002164985896,
+          "startNode": 40,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O argumento visa resolver diretamente a dor da comunicação ao ensinar a \\'mesma língua\\' do planejamento digital."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 34
+        },
+        {
+          "id": 1152928101676613672,
+          "startNode": 40,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Este argumento de valor é claramente direcionado à persona \\'O Focado em Prótese\\' para resolver sua dor de comunicação com o cirurgião."
+          },
+          "type": "PARA_A",
+          "endNode": 31
+        },
+        {
+          "id": 1152930300699869224,
+          "startNode": 40,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Conexão explícita que posiciona o curso como a ponte para a colaboração harmoniosa que o Focado em Prótese deseja, resolvendo sua principal frustração."
+          },
+          "type": "ALINHA_COM",
+          "endNode": 39
+        },
+        {
+          "id": 1152927002164985897,
+          "startNode": 41,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Este argumento ataca a dor central, dando ao protesista o controle sobre a fase cirúrgica e eliminando a \\'herança\\' indesejada."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 32
+        },
+        {
+          "id": 6917534525199220769,
+          "startNode": 41,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A dor de usar componentes de compromisso é resolvida quando o profissional se torna o 'Arquiteto', pois o planejamento garante que o implante sirva à prótese, e não o contrário."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 33
+        },
+        {
+          "id": 6917534525199220772,
+          "startNode": 41,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "Este argumento resolve a causa raiz da ansiedade, dando ao Focado em Prótese o controle do planejamento para evitar compromissos que gerem problemas biológicos futuros."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 36
+        },
+        {
+          "id": 1152928101676613673,
+          "startNode": 41,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O argumento é a materialização do objetivo final desta persona."
+          },
+          "type": "PARA_A",
+          "endNode": 31
+        },
+        {
+          "id": 1152930300699869225,
+          "startNode": 41,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O argumento de valor e o desejo da persona são praticamente idênticos, representando um alinhamento perfeito."
+          },
+          "type": "ALINHA_COM",
+          "endNode": 37
+        },
+        {
+          "id": 1152921504606847018,
+          "startNode": 42,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto descreve esta como \\'A principal dor\\' da persona."
+          },
+          "type": "SENTE",
+          "endNode": 43
+        },
+        {
+          "id": 1157425104234217514,
+          "startNode": 42,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "A narrativa descreve a ansiedade ao olhar a tomografia e a proximidade de estruturas vitais."
+          },
+          "type": "SENTE",
+          "endNode": 44
+        },
+        {
+          "id": 1155173304420532266,
+          "startNode": 42,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto descreve a sensação de não ter a \\'mão\\' ou a experiência, validada por uma citação."
+          },
+          "type": "SENTE",
+          "endNode": 45
+        },
+        {
+          "id": 6917529027641081902,
+          "startNode": 42,
+          "properties": {
+            "confidence_score": 8,
+            "justification": "Por falta de confiança, o Recém-Especializado tende a recusar casos mais complexos.",
+            "connection_type": "logical_business"
+          },
+          "type": "SENTE",
+          "endNode": 46
+        },
+        {
+          "id": 1152922604118474794,
+          "startNode": 42,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Este é o desejo central; o texto afirma que ele está \\'comprando confiança\\'."
+          },
+          "type": "ASPIRA_A",
+          "endNode": 48
+        },
+        {
+          "id": 6917530127152709681,
+          "startNode": 42,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "O texto menciona o desejo de encontrar um \\'atalho metodológico\\' para realizar casos complexos."
+          },
+          "type": "ASPIRA_A",
+          "endNode": 49
+        },
+        {
+          "id": 6917530127152709682,
+          "startNode": 42,
+          "properties": {
+            "confidence_score": 8,
+            "justification": "O Recém-Especializado busca confiança e tranquilidade durante os procedimentos cirúrgicos.",
+            "connection_type": "logical_business"
+          },
+          "type": "ASPIRA_A",
+          "endNode": 50
+        },
+        {
+          "id": 6917530127152709712,
+          "startNode": 42,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Este é o principal gatilho para a persona, que busca mitigar sua dor aguda de insegurança."
+          },
+          "type": "ASPIRA_A",
+          "endNode": 80
+        },
+        {
+          "id": 1152923703630102571,
+          "startNode": 43,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A confirmação de \\'falta segurança\\' pelo Recém-Especializado é a validação direta da sua principal dor, que é o medo de errar."
+          },
+          "type": "VALIDADA_POR",
+          "endNode": 76
+        },
+        {
+          "id": 1152923703630102573,
+          "startNode": 45,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A citação é a verbalização direta da dor emocional descrita."
+          },
+          "type": "VALIDADA_POR",
+          "endNode": 47
+        },
+        {
+          "id": 1152927002164985908,
+          "startNode": 52,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O argumento é posicionado como a compra de um método que \\'mitiga o medo do erro\\'."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 43
+        },
+        {
+          "id": 1152928101676613684,
+          "startNode": 52,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O argumento ressoa perfeitamente com a necessidade de um método seguro, sendo a razão da alta conversão."
+          },
+          "type": "PARA_A",
+          "endNode": 42
+        },
+        {
+          "id": 1152930300699869237,
+          "startNode": 53,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O argumento \\'resolve o desejo de Acelerar a Curva de Aprendizado de forma exponencial\\'."
+          },
+          "type": "ALINHA_COM",
+          "endNode": 49
+        },
+        {
+          "id": 1155177702467043382,
+          "startNode": 54,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto aponta o Certificado USP-SP como o \\'principal diferencial\\' e resultado do curso."
+          },
+          "type": "ENTREGA",
+          "endNode": 66
+        },
+        {
+          "id": 1152925902653358134,
+          "startNode": 54,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O texto destaca o domínio de técnicas como RTG como um foco importante do curso de Especialização."
+          },
+          "type": "ENTREGA",
+          "endNode": 71
+        },
+        {
+          "id": 1152934698746380342,
+          "startNode": 54,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A metodologia é descrita como 'um foco importante do curso de Especialização'."
+          },
+          "type": "ENSINA",
+          "endNode": 59
+        },
+        {
+          "id": 1152927002164985923,
+          "startNode": 67,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Este argumento de valor técnico é a solução direta para a dor da imprevisibilidade, garantindo que a cirurgia siga um plano proteticamente guiado."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 1
+        },
+        {
+          "id": 1152927002164985924,
+          "startNode": 68,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A dor da insegurança no planejamento é diretamente combatida pelo domínio prático do software de planejamento."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 23
+        },
+        {
+          "id": 1152927002164985925,
+          "startNode": 69,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "Para casos complexos, o domínio de um software avançado como CodiagnostiX é o que resolve a insegurança no planejamento."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 23
+        },
+        {
+          "id": 1152927002164985926,
+          "startNode": 70,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "As 'horas de voo' em atendimento clínico supervisionado são a ponte que fecha a lacuna entre o conhecimento teórico e a maestria prática."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 84
+        },
+        {
+          "id": 1152930300699869255,
+          "startNode": 71,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "O domínio de técnicas avançadas de RTG permite ao profissional reabilitar casos complexos, alinhando-se com o desejo de entregar excelência sem limitações."
+          },
+          "type": "ALINHA_COM",
+          "endNode": 38
+        },
+        {
+          "id": 1152930300699869262,
+          "startNode": 78,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O gatilho de interesse é a expressão direta do desejo do Especialista Analógico de transformar sua intuição em um processo de engenharia preciso."
+          },
+          "type": "ALINHA_COM",
+          "endNode": 8
+        },
+        {
+          "id": 1152930300699869263,
+          "startNode": 79,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "Para o Especialista Analógico, dominar uma nova tecnologia é o caminho direto para a renovação do propósito e para combater o medo da irrelevância."
+          },
+          "type": "ALINHA_COM",
+          "endNode": 10
+        },
+        {
+          "id": 1152930300699869264,
+          "startNode": 80,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Este gatilho de interesse materializa o desejo central do Recém-Especializado de operar com segurança e confiança."
+          },
+          "type": "ALINHA_COM",
+          "endNode": 48
+        },
+        {
+          "id": 1152930300699869265,
+          "startNode": 81,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Este gatilho de interesse é a verbalização do desejo do Focado em Prótese de ter controle sobre o resultado final."
+          },
+          "type": "ALINHA_COM",
+          "endNode": 37
+        },
+        {
+          "id": 1152927002164985938,
+          "startNode": 82,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "A filosofia valida a experiência clínica do Especialista Analógico, conectando seu conhecimento biológico à precisão da tecnologia."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 5
+        },
+        {
+          "id": 1155178801978671186,
+          "startNode": 82,
+          "properties": {
+            "confidence_score": 8,
+            "justification": "A filosofia oferece um \\'porquê\\' clínico para cada ação no software, transformando etapas técnicas em um protocolo para garantir a saúde e segurança, o que combate a insegurança do Recém-Especializado."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 44
+        },
+        {
+          "id": 1152927002164985942,
+          "startNode": 86,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A chancela USP funciona como um filtro de qualidade e credibilidade, combatendo diretamente a desconfiança do mercado."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 83
+        },
+        {
+          "id": 1152927002164985943,
+          "startNode": 87,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "A existência de uma jornada estruturada (Imersão como \\'ponte segura\\', Master como próximo nível) diminui a pressão de ter que aprender tudo de uma vez."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 6
+        },
+        {
+          "id": 1152930300699869272,
+          "startNode": 88,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A descrição do argumento foca em eliminar o \\'achismo\\' e validar o resultado final antes da cirurgia, o que materializa o desejo de transformar a intuição em um \\'processo de engenharia\\'."
+          },
+          "type": "ALINHA_COM",
+          "endNode": 8
+        },
+        {
+          "id": 1152927002164985945,
+          "startNode": 89,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O argumento é a materialização da solução para o medo de errar, transformando um procedimento manual e ansioso em um processo guiado e seguro."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 43
+        },
+        {
+          "id": 1155178801978671193,
+          "startNode": 89,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "A dor 'Recusa de Casos' é um sintoma direto da falta de confiança. O 'GPS Cirúrgico' é o antídoto, dando a segurança necessária para aceitar casos mais complexos."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 46
+        },
+        {
+          "id": 1152930300699869273,
+          "startNode": 89,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O argumento \\'GPS Cirúrgico\\' promete um método seguro e previsível, o que se alinha perfeitamente com o desejo de \\'Alcançar a Confiança Cirúrgica\\'."
+          },
+          "type": "ALINHA_COM",
+          "endNode": 48
+        },
+        {
+          "id": 1155182100513554521,
+          "startNode": 89,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Estrategicamente, o 'GPS Cirúrgico' é a materialização da solução para a ansiedade do Recém-Especializado, entregando diretamente a paz de espírito que ele procura."
+          },
+          "type": "ALINHA_COM",
+          "endNode": 50
+        },
+        {
+          "id": 1152927002164985946,
+          "startNode": 90,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "O argumento sobre autonomia e quebra da dependência do laboratório ataca diretamente a dor da \\'Dependência Crítica do Laboratório\\'."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 3
+        },
+        {
+          "id": 1157430601792356442,
+          "startNode": 90,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O argumento ataca diretamente a ineficiência (múltiplas consultas, tempo de espera) ao internalizar processos que antes dependiam de laboratórios externos."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 4
+        },
+        {
+          "id": 1155178801978671194,
+          "startNode": 90,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Este argumento resolve diretamente a dor de depender de um laboratório para a confecção de provisórios, dando ao clínico o poder de produzi-los internamente."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 85
+        },
+        {
+          "id": 1152927002164985947,
+          "startNode": 91,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "Este argumento é a solução direta para a dor de quem já tem o conhecimento teórico (da Imersão) mas precisa da experiência clínica para ganhar confiança."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 84
+        },
+        {
+          "id": 1152928101676613724,
+          "startNode": 92,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Situação é desenhado para criar rapport inicial com a persona 'O Iniciado Digital'."
+          },
+          "type": "PARA_A",
+          "endNode": 18
+        },
+        {
+          "id": 1152927002164985949,
+          "startNode": 93,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O propósito do script é 'Fazer o lead verbalizar a dor central da Subutilização do Investimento'."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 21
+        },
+        {
+          "id": 1152928101676613725,
+          "startNode": 93,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script foi desenhado especificamente para a persona 'O Iniciado Digital'."
+          },
+          "type": "PARA_A",
+          "endNode": 18
+        },
+        {
+          "id": 1152927002164985950,
+          "startNode": 94,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O propósito do script é 'conectar a dor da subutilização a uma perda financeira tangível', aprofundando esta dor específica."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 21
+        },
+        {
+          "id": 1152928101676613726,
+          "startNode": 94,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Implicação é desenhado para a persona 'O Iniciado Digital'."
+          },
+          "type": "PARA_A",
+          "endNode": 18
+        },
+        {
+          "id": 1152927002164985951,
+          "startNode": 95,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "O script projeta o cenário ideal de 'transformando sua clínica numa central de planejamento e produção', o que se conecta ao desejo de autonomia total."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 26
+        },
+        {
+          "id": 1152928101676613727,
+          "startNode": 95,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Necessidade de Solução foi desenhado especificamente para a persona 'O Iniciado Digital'."
+          },
+          "type": "PARA_A",
+          "endNode": 18
+        },
+        {
+          "id": 1152927002164985952,
+          "startNode": 96,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script apresenta a Imersão como a solução direta para 'destravar o retorno sobre o investimento e eliminar a frustração', resolvendo esta dor."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 21
+        },
+        {
+          "id": 1152928101676613728,
+          "startNode": 96,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Proposta de Valor é desenhado para a persona 'O Iniciado Digital'."
+          },
+          "type": "PARA_A",
+          "endNode": 18
+        },
+        {
+          "id": 1152928101676613729,
+          "startNode": 97,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Situação é desenhado para criar rapport inicial com a persona 'O Recém-Especializado'."
+          },
+          "type": "PARA_A",
+          "endNode": 42
+        },
+        {
+          "id": 1152927002164985954,
+          "startNode": 98,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script tem o propósito de 'Isolar a dor mais aguda e emocional desta persona', que é a insegurança cirúrgica manifestada como o medo de um erro fatal."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 43
+        },
+        {
+          "id": 1152928101676613730,
+          "startNode": 98,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script foi desenhado especificamente para a persona 'O Recém-Especializado'."
+          },
+          "type": "PARA_A",
+          "endNode": 42
+        },
+        {
+          "id": 1152927002164985955,
+          "startNode": 99,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "O script aprofunda a dor da 'insegurança', que é a manifestação do Medo Agudo do Erro Irreversível."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 43
+        },
+        {
+          "id": 1152928101676613731,
+          "startNode": 99,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Implicação é desenhado para a persona 'O Recém-Especializado'."
+          },
+          "type": "PARA_A",
+          "endNode": 42
+        },
+        {
+          "id": 1152927002164985956,
+          "startNode": 100,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script usa a metáfora do 'GPS cirúrgico' para fazer o lead visualizar o 'impacto que isso teria na sua confiança', conectando-se diretamente a este desejo."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 48
+        },
+        {
+          "id": 1152928101676613732,
+          "startNode": 100,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Necessidade de Solução foi desenhado especificamente para a persona 'O Recém-Especializado'."
+          },
+          "type": "PARA_A",
+          "endNode": 42
+        },
+        {
+          "id": 1152928101676613733,
+          "startNode": 101,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Proposta de Valor foi desenhado especificamente para a persona 'O Recém-Especializado'."
+          },
+          "type": "PARA_A",
+          "endNode": 42
+        },
+        {
+          "id": 1152932499723124837,
+          "startNode": 101,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "O texto do script usa a metáfora de um \\'\\'GPS\\' para a sua confiança\\', que é a aplicação direta da filosofia da \\'Cirurgia Guiada\\' para mitigar o medo e a insegurança."
+          },
+          "type": "APLICA",
+          "endNode": 51
+        },
+        {
+          "id": 1152928101676613734,
+          "startNode": 102,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Situação é desenhado para criar rapport inicial com a persona 'O Focado em Prótese'."
+          },
+          "type": "PARA_A",
+          "endNode": 31
+        },
+        {
+          "id": 1152927002164985959,
+          "startNode": 103,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script descreve com precisão a dor de receber um caso e pensar 'Se este implante estivesse apenas alguns milímetros para o lado...', que é a essência desta dor."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 32
+        },
+        {
+          "id": 1152928101676613735,
+          "startNode": 103,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script foi desenhado especificamente para a persona 'O Focado em Prótese'."
+          },
+          "type": "PARA_A",
+          "endNode": 31
+        },
+        {
+          "id": 1152927002164985960,
+          "startNode": 104,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script aprofunda a dor de ter que fazer 'gambiarras protéticas para compensar a cirurgia', que é a essência da Frustração da Herança Cirúrgica."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 32
+        },
+        {
+          "id": 1152928101676613736,
+          "startNode": 104,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Implicação é desenhado para a persona 'O Focado em Prótese'."
+          },
+          "type": "PARA_A",
+          "endNode": 31
+        },
+        {
+          "id": 1152927002164985961,
+          "startNode": 105,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script constrói a visão do 'poder não apenas de projetar a prótese, mas de garantir que a fase cirúrgica executasse o seu plano com fidelidade', que é a definição deste desejo."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 37
+        },
+        {
+          "id": 1152928101676613737,
+          "startNode": 105,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Necessidade de Solução foi desenhado especificamente para a persona 'O Focado em Prótese'."
+          },
+          "type": "PARA_A",
+          "endNode": 31
+        },
+        {
+          "id": 1152928101676613738,
+          "startNode": 106,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Proposta de Valor foi desenhado especificamente para a persona 'O Focado em Prótese'."
+          },
+          "type": "PARA_A",
+          "endNode": 31
+        },
+        {
+          "id": 1152932499723124842,
+          "startNode": 106,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "A linguagem do script sobre se tornar o \\'arquiteto da reabilitação\\' e controlar o projeto \\'da cirurgia à prótese\\' é uma aplicação clara da filosofia do \\'Planejamento Reverso\\'."
+          },
+          "type": "APLICA",
+          "endNode": 58
+        },
+        {
+          "id": 1152928101676613739,
+          "startNode": 107,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Situação é desenhado para criar rapport inicial com a persona 'O Especialista Analógico'."
+          },
+          "type": "PARA_A",
+          "endNode": 0
+        },
+        {
+          "id": 1152927002164985964,
+          "startNode": 108,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "O script foi desenhado para fazer o lead verbalizar a dor da falta de 'previsibilidade de garantir que o implante fique na posição perfeita para a futura prótese'."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 1
+        },
+        {
+          "id": 1152928101676613740,
+          "startNode": 108,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script foi desenhado especificamente para a persona 'O Especialista Analógico'."
+          },
+          "type": "PARA_A",
+          "endNode": 0
+        },
+        {
+          "id": 1152927002164985965,
+          "startNode": 109,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "O script aprofunda a dor da 'previsibilidade que não é total', que é a causa da Imprevisibilidade Protética."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 1
+        },
+        {
+          "id": 1152928101676613741,
+          "startNode": 109,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Implicação é desenhado para a persona 'O Especialista Analógico'."
+          },
+          "type": "PARA_A",
+          "endNode": 0
+        },
+        {
+          "id": 1152927002164985966,
+          "startNode": 110,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "O script constrói a visão de um 'método que te permitisse... definir a posição ideal do implante com um nível de previsibilidade muito maior', conectando-se diretamente a este desejo."
+          },
+          "type": "CONECTA_COM",
+          "endNode": 8
+        },
+        {
+          "id": 1152928101676613742,
+          "startNode": 110,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Necessidade de Solução foi desenhado especificamente para a persona 'O Especialista Analógico'."
+          },
+          "type": "PARA_A",
+          "endNode": 0
+        },
+        {
+          "id": 1152928101676613743,
+          "startNode": 111,
+          "properties": {
+            "confidence_score": 10,
+            "justification": "O script de Proposta de Valor foi desenhado especificamente para a persona 'O Especialista Analógico'."
+          },
+          "type": "PARA_A",
+          "endNode": 0
+        },
+        {
+          "id": 1152932499723124847,
+          "startNode": 111,
+          "properties": {
+            "confidence_score": 9,
+            "justification": "O script, ao focar em \\'conectar toda a sua vasta experiência clínica com o poder do digital\\', aplica a filosofia de que a tecnologia serve para potencializar o conhecimento biológico e clínico já existente."
+          },
+          "type": "APLICA",
+          "endNode": 82
+        }
+      ]
+    }
+  }
+]
