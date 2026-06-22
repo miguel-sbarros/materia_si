@@ -35,7 +35,7 @@ jobs:
       - run: pip install -e ".[dev]"
       - run: ruff check .
       - run: alembic upgrade head
-      - run: pytest -q
+      - run: pytest -q -m "not integration"
 
   docker-build:
     runs-on: ubuntu-latest
@@ -48,6 +48,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Cria .env dummy do backend (CI nao usa chaves reais)
+        run: |
+          cat > src/backend/.env <<'EOF'
+          DATABASE_URL=postgresql+psycopg://captus:captus@db:5432/captus
+          ANTHROPIC_API_KEY=ci-dummy
+          OPENAI_API_KEY=ci-dummy
+          EOF
       - name: Compose up
         run: docker compose up -d --build
       - name: Wait for /health
