@@ -1,0 +1,9 @@
+[16/03/2026, 17:02:44] ~Sérgio Andrade: Boa tarde! Vi a ementa que me mandaram. Sou reabilitador e queria detalhar uma dúvida
+[16/03/2026, 17:13:20] MR Digital: Boa tarde, Sérgio! Claro, manda a dúvida.
+[16/03/2026, 17:28:55] ~Sérgio Andrade: É o seguinte: eu recebo os casos já operados pelos cirurgiões e muita vez o implante vem mal posicionado pra prótese. Aí sobra pra mim resolver o que não dá
+[16/03/2026, 17:31:42] MR Digital: Essa é a clássica "herança cirúrgica". O problema é que o planejamento começou na cirurgia e não na prótese, certo?
+[16/03/2026, 17:47:18] ~Sérgio Andrade: Exatamente isso! Perco horas tentando contornar componente, inclinação, perfil de emergência. Queria poder ditar o planejamento de trás pra frente
+[16/03/2026, 17:50:33] MR Digital: O Master é construído nessa lógica de planejamento reverso: a prótese ideal define a posição do implante, e você conduz o caso do início. Vira protagonista do planejamento, não refém dele.
+[16/03/2026, 18:05:09] ~Sérgio Andrade: Isso muda o jogo pra mim. Hoje eu sou refém mesmo
+[16/03/2026, 18:07:51] MR Digital: Então faz muito sentido. Posso te mandar dois cases de reabilitadores que fizeram o curso e a gente conversa sobre as condições?
+[16/03/2026, 18:22:40] ~Sérgio Andrade: Manda os cases. Depois vejo as condições com você

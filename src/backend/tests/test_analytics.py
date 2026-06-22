@@ -86,12 +86,82 @@ def test_icp_summary_conversion_by_persona(db_session):
 
 
 def test_icp_summary_lead_without_profile_is_indeterminado(db_session):
-    """Lead sem perfil cai no bucket 'Indeterminado' (null-safe)."""
+    """Lead sem perfil NÃO vira card de persona — só conta como denominador + disclaimer."""
     make_lead(db_session, name="Sem Perfil")
     summary = icp_summary(db_session)
     assert summary["totalLeads"] == 1
-    assert summary["personas"][0]["persona"] == "Indeterminado"
-    assert summary["personas"][0]["topDores"] == []
+    # "Indeterminado" não aparece entre as personas exibidas.
+    assert [p["persona"] for p in summary["personas"]] == []
+    # ... mas conta como denominador (1 de 1 lead) + alimenta o disclaimer.
+    assert summary["indeterminadoCount"] == 1
+    assert summary["indeterminadoRate"] == 1.0
+
+
+def test_icp_summary_indeterminado_kept_as_denominator(db_session):
+    """1 lead com persona + 1 sem perfil: persona aparece, Indeterminado só no denominador."""
+    _course, [cohort] = make_course(db_session)
+    com_perfil = make_lead(db_session, name="Com Perfil")
+    make_profile(db_session, com_perfil, matched_persona="Especialista Analógico")
+    make_deal(db_session, cohort, lead=com_perfil, status=DealStatus.WON)
+    make_lead(db_session, name="Sem Perfil")  # bumpa Indeterminado + totalLeads
+
+    summary = icp_summary(db_session)
+    assert summary["totalLeads"] == 2
+    # "Indeterminado" NÃO entra na lista de personas exibidas.
+    assert "Indeterminado" not in [p["persona"] for p in summary["personas"]]
+    assert [p["persona"] for p in summary["personas"]] == ["Especialista Analógico"]
+    # ... mas conta no denominador: 1 de 2 leads → 0.5.
+    assert summary["indeterminadoCount"] == 1
+    assert summary["indeterminadoRate"] == 0.5
+
+
+def test_analytics_filter_by_course_and_cohort(db_session):
+    """Filtro curso/turma escopa funil e ICP ao subconjunto; sem args = visão global."""
+    # Curso A (1 turma) — 1 won. Curso B (1 turma) — 1 lost.
+    _course_a, [cohort_a] = make_course(db_session, name="Curso A")
+    _course_b, [cohort_b] = make_course(db_session, name="Curso B")
+
+    lead_a = make_lead(db_session, name="A1")
+    make_profile(db_session, lead_a, matched_persona="Especialista Analógico")
+    make_deal(db_session, cohort_a, lead=lead_a, status=DealStatus.WON)
+
+    lead_b = make_lead(db_session, name="B1")
+    make_profile(db_session, lead_b, matched_persona="Iniciado Digital")
+    make_deal(
+        db_session, cohort_b, lead=lead_b, status=DealStatus.LOST, lost_reason="Preço"
+    )
+
+    # Sem filtro: vê os dois deals.
+    full = funnel_analytics(db_session)
+    assert full["total"] == 2
+    assert full["won"] == 1
+    assert full["lost"] == 1
+
+    # Filtro por curso A: só o deal won.
+    only_a = funnel_analytics(db_session, course_id=_course_a.id)
+    assert only_a["total"] == 1
+    assert only_a["won"] == 1
+    assert only_a["lost"] == 0
+    assert only_a["conversionRate"] == 1.0
+
+    # Filtro por turma B: só o deal lost.
+    only_b = funnel_analytics(db_session, cohort_id=cohort_b.id)
+    assert only_b["total"] == 1
+    assert only_b["lost"] == 1
+    assert only_b["conversionRate"] == 0.0
+
+    # ICP escopado à turma A → só a persona do lead A.
+    icp_a = icp_summary(db_session, cohort_id=cohort_a.id)
+    assert icp_a["totalLeads"] == 1
+    assert [p["persona"] for p in icp_a["personas"]] == ["Especialista Analógico"]
+
+    # ICP sem filtro → ambas as personas.
+    icp_full = icp_summary(db_session)
+    assert icp_full["totalLeads"] == 2
+    assert {p["persona"] for p in icp_full["personas"]} == {
+        "Especialista Analógico",
+        "Iniciado Digital",
+    }
 
 
 def test_funnel_analytics_rates_and_latency(db_session):
@@ -255,6 +325,7 @@ def test_get_analytics_endpoint_shape(api_client, db_session):
     for key in (
         "kpis", "funnelStages", "spin", "personas", "painPoints",
         "revenue", "latency", "abandonmentRate", "messageActivity",
+        "indeterminadoCount", "indeterminadoRate",
     ):
         assert key in body, f"chave ausente: {key}"
 
@@ -305,3 +376,30 @@ def test_get_analytics_empty_db_is_null_safe(api_client):
     # funnelStages e spin têm sempre as colunas/estágios fixos, mesmo zerados.
     assert len(body["spin"]) == 4
     assert all(s["count"] == 0 for s in body["funnelStages"])
+
+
+def test_get_analytics_endpoint_filtered_by_course(api_client, db_session):
+    """GET /analytics?course_id= → 200 com a forma filtrada + indeterminadoRate presente."""
+    _course_a, [cohort_a] = make_course(db_session, name="Curso A")
+    _course_b, [cohort_b] = make_course(db_session, name="Curso B")
+    lead_a = make_lead(db_session, name="A1")
+    make_deal(db_session, cohort_a, lead=lead_a, status=DealStatus.WON)
+    lead_b = make_lead(db_session, name="B1")
+    make_deal(
+        db_session, cohort_b, lead=lead_b, status=DealStatus.LOST, lost_reason="Preço"
+    )
+    db_session.flush()
+
+    resp = api_client.get(f"/analytics?course_id={_course_a.id}")
+    assert resp.status_code == 200
+    body = resp.json()
+    # Escopado ao curso A: só o deal won conta.
+    matriculado = next(s for s in body["funnelStages"] if s["name"] == "Matriculado")
+    perdido = next(s for s in body["funnelStages"] if s["name"] == "Perdido")
+    assert matriculado["count"] == 1
+    assert perdido["count"] == 0
+    assert body["kpis"]["totalLeads"] == 1
+    # A1 não tem perfil → conta como indeterminado dentro do recorte.
+    assert "indeterminadoRate" in body
+    assert body["indeterminadoCount"] == 1
+    assert body["indeterminadoRate"] == 1.0

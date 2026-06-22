@@ -1,7 +1,7 @@
-import { memo, lazy, Suspense } from 'react'
+import { memo, lazy, Suspense, useState, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Users, Zap, Target, Download, GitBranch, Sparkles, AlertCircle, TrendingUp } from 'lucide-react'
-import { getAnalytics } from '../lib/api.js'
+import { getAnalytics, getCourses } from '../lib/api.js'
 
 // ─── Lazy chart imports (bundle-dynamic-imports) ─────────────────────────────
 const LazyConversationChart = lazy(() =>
@@ -100,7 +100,8 @@ const SpinRow = memo(function SpinRow({ stage, retained, churned, opacity }) {
 })
 
 // ─── ICP Card (resumo derivado da persona dominante) ──────────────────────────
-const IcpCard = memo(function IcpCard({ icp }) {
+const IcpCard = memo(function IcpCard({ icp, indeterminadoRate }) {
+  const indeterminadoPct = Math.round((indeterminadoRate ?? 0) * 100)
   return (
     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
       <div className="flex justify-between items-start mb-6">
@@ -116,6 +117,16 @@ const IcpCard = memo(function IcpCard({ icp }) {
         <div className="flex items-start gap-3 p-4 bg-blue-50/60 rounded-xl border-l-4 border-[#2563EB]">
           <TrendingUp size={15} className="text-[#2563EB] mt-0.5 shrink-0" />
           <p className="text-xs text-slate-600 leading-relaxed">{icp.insight}</p>
+        </div>
+      )}
+      {indeterminadoRate > 0 && (
+        <div className="flex items-start gap-3 p-4 mt-4 bg-amber-50 rounded-xl border-l-4 border-amber-400">
+          <AlertCircle size={15} className="text-amber-500 mt-0.5 shrink-0" />
+          <p className="text-xs text-amber-800 leading-relaxed">
+            <strong>{indeterminadoPct}%</strong> dos leads estão indeterminados — indício de
+            falha na qualificação pelo vendedor. Esses leads contam no total, mas não geram
+            persona.
+          </p>
         </div>
       )}
     </div>
@@ -141,7 +152,7 @@ const PersonaCard = memo(function PersonaCard({ persona, colorIndex }) {
           <Users size={18} className={c.text} />
         </div>
         <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${c.badge}`}>
-          {persona.conversionRate}% conv.
+          {Math.round(persona.conversionRate * 100)}% conv.
         </span>
       </div>
       <h4 className="text-sm font-bold text-slate-900 mb-1 font-headline">{persona.persona}</h4>
@@ -212,7 +223,7 @@ function deriveIcp(personas) {
   const top = [...personas].sort((a, b) => b.leads - a.leads)[0]
   const dores = (top.topDores ?? []).slice(0, 2).join(', ')
   const desejos = (top.topDesejos ?? []).slice(0, 2).join(', ')
-  const summary = `Perfil predominante: ${top.persona} (${top.leads} leads, ${top.conversionRate}% de conversão).` +
+  const summary = `Perfil predominante: ${top.persona} (${top.leads} leads, ${Math.round(top.conversionRate * 100)}% de conversão).` +
     (top.description ? ` ${top.description}` : '')
   const insight = (dores || desejos)
     ? `Principais dores: ${dores || '—'}. Principais desejos: ${desejos || '—'}.`
@@ -250,10 +261,28 @@ function AnalyticsError() {
 
 // ─── Analytics Page ───────────────────────────────────────────────────────────
 export default function Analytics() {
+  const [courseId, setCourseId] = useState('') // '' = todos os cursos
+  const [cohortId, setCohortId] = useState('') // '' = todas as turmas
+
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['analytics'],
-    queryFn: getAnalytics,
+    queryKey: ['analytics', courseId || null, cohortId || null],
+    queryFn: () =>
+      getAnalytics({
+        courseId: courseId ? Number(courseId) : undefined,
+        cohortId: cohortId ? Number(cohortId) : undefined,
+      }),
   })
+
+  const { data: courses = [] } = useQuery({ queryKey: ['courses'], queryFn: getCourses })
+
+  // Turmas do curso selecionado (ou todas as turmas quando nenhum curso está filtrado).
+  const cohortOptions = useMemo(() => {
+    if (courseId) {
+      const c = courses.find((co) => String(co.id) === String(courseId))
+      return c?.cohorts ?? []
+    }
+    return courses.flatMap((co) => co.cohorts ?? [])
+  }, [courses, courseId])
 
   if (isLoading) return <AnalyticsSkeleton />
   if (isError || !data) return <AnalyticsError />
@@ -268,6 +297,7 @@ export default function Analytics() {
     latency,
     abandonmentRate,
     messageActivity,
+    indeterminadoRate,
   } = data
 
   const kpiCards = [
@@ -318,9 +348,29 @@ export default function Analytics() {
           </p>
         </div>
         <div className="flex gap-3">
-          <button className="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg font-semibold text-sm hover:bg-slate-200 transition-colors">
-            Últimos 30 Dias
-          </button>
+          <select
+            value={courseId}
+            onChange={(e) => {
+              setCourseId(e.target.value)
+              setCohortId('') // turma pertence ao curso → reseta ao trocar de curso
+            }}
+            className="px-4 py-2 border border-slate-200 text-slate-700 font-semibold text-sm rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Todos os cursos</option>
+            {courses.map((c) => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+          <select
+            value={cohortId}
+            onChange={(e) => setCohortId(e.target.value)}
+            className="px-4 py-2 border border-slate-200 text-slate-700 font-semibold text-sm rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Todas as turmas</option>
+            {cohortOptions.map((co) => (
+              <option key={co.id} value={co.id}>{co.name}</option>
+            ))}
+          </select>
           <button className="flex items-center gap-2 px-4 py-2 bg-[#2563EB] text-white rounded-lg font-semibold text-sm shadow-md shadow-blue-500/20 hover:bg-[#1D4ED8] transition-colors">
             <Download size={15} />
             Exportar Relatório
@@ -467,7 +517,7 @@ export default function Analytics() {
         </div>
 
         {/* ICP */}
-        <IcpCard icp={icp} />
+        <IcpCard icp={icp} indeterminadoRate={indeterminadoRate} />
 
         {/* Personas + Pain Points */}
         <div className="grid grid-cols-12 gap-6">

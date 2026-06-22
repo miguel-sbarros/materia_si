@@ -248,11 +248,17 @@ export async function importChat(file, { leadId, leadName } = {}) {
 
 // ─── Analytics (Análises) ───────────────────────────────────────────────────────
 /**
- * `GET /analytics` — métricas agregadas reais (KPIs, funil, SPIN, personas, dores,
- * receita, latência, abandono, atividade de mensagens).
+ * `GET /analytics?course_id=&cohort_id=` — métricas agregadas reais (KPIs, funil, SPIN,
+ * personas, dores, receita, latência, abandono, atividade de mensagens). Filtros opcionais
+ * por curso/turma escopam todas as métricas ao subconjunto correspondente.
+ * @param {{courseId?: number, cohortId?: number}} [filters]
  */
-export async function getAnalytics() {
-  return request('/analytics')
+export async function getAnalytics({ courseId, cohortId } = {}) {
+  const params = new URLSearchParams()
+  if (courseId) params.set('course_id', courseId)
+  if (cohortId) params.set('cohort_id', cohortId)
+  const qs = params.toString()
+  return request(`/analytics${qs ? `?${qs}` : ''}`)
 }
 
 // Extrai HH:MM de um ISO timestamp (bolhas do chat). '' se ausente.

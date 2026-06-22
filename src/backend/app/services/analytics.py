@@ -16,11 +16,11 @@ from collections import Counter
 from datetime import date, timedelta
 from statistics import median
 
-from sqlalchemy import func, select
+from sqlalchemy import ColumnElement, func, select
 from sqlalchemy.orm import Session, joinedload
 
 from app.core.constants import DealStatus
-from app.models import Cohort, Deal, Lead, LeadProfile, Message, Persona
+from app.models import Cohort, Conversation, Deal, Lead, LeadProfile, Message, Persona
 from app.schemas.analysis import SPINStage, label_to_persona
 from app.services.deals import BOARD_COLUMNS, card_column
 
@@ -64,7 +64,39 @@ def _count_items(lists: list[list | None]) -> Counter[str]:
     return counter
 
 
-def icp_summary(db: Session) -> dict:
+def _deal_cohort_filter(
+    course_id: int | None, cohort_id: int | None
+) -> ColumnElement[bool] | None:
+    """Condição SQL sobre ``Deal.cohort_id`` para o filtro curso/turma (``None`` = sem filtro).
+
+    Turma tem precedência sobre curso (deal: lead → cohort; o curso é alcançado via cohort).
+    """
+    if cohort_id is not None:
+        return Deal.cohort_id == cohort_id
+    if course_id is not None:
+        return Deal.cohort_id.in_(
+            select(Cohort.id).where(Cohort.course_id == course_id)
+        )
+    return None
+
+
+def _filtered_lead_ids(
+    db: Session, course_id: int | None, cohort_id: int | None
+) -> list[int] | None:
+    """Ids dos leads com ≥1 deal que casa o filtro curso/turma (``None`` = sem filtro).
+
+    Métricas baseadas em lead/perfil/mensagem se restringem a este conjunto. Sem filtro,
+    devolve ``None`` (o chamador então não aplica restrição → comportamento original).
+    """
+    cond = _deal_cohort_filter(course_id, cohort_id)
+    if cond is None:
+        return None
+    return list(db.scalars(select(Deal.lead_id).where(cond).distinct()).all())
+
+
+def icp_summary(
+    db: Session, course_id: int | None = None, cohort_id: int | None = None
+) -> dict:
     """Resumo de ICP por persona (``LeadProfile.matched_persona``).
 
     Para cada persona: ``leads`` (nº de leads com aquele rótulo), ``conversionRate``
@@ -75,12 +107,14 @@ def icp_summary(db: Session) -> dict:
     ``baselineConversao`` (taxa de conversão de catálogo), ``volumeLeads`` (volume estimado)
     e ``description``. Null-safe: sem linha correspondente, esses campos vêm ``None``.
     """
-    leads = db.scalars(
-        select(Lead).options(
-            joinedload(Lead.profile),
-            joinedload(Lead.deals),
-        )
-    ).unique().all()
+    stmt = select(Lead).options(
+        joinedload(Lead.profile),
+        joinedload(Lead.deals),
+    )
+    lead_ids = _filtered_lead_ids(db, course_id, cohort_id)
+    if lead_ids is not None:
+        stmt = stmt.where(Lead.id.in_(lead_ids))
+    leads = db.scalars(stmt).unique().all()
 
     # persona (rótulo PT) → acumuladores.
     buckets: dict[str, dict] = {}
@@ -108,6 +142,10 @@ def icp_summary(db: Session) -> dict:
         row.code: row for row in db.scalars(select(Persona)).all()
     }
 
+    # "Indeterminado" (leads sem perfil/persona) NÃO vira card de persona — conta apenas como
+    # denominador + disclaimer (indício de falha na qualificação pelo vendedor).
+    indeterminado_count = buckets.pop("Indeterminado", {}).get("leads", 0)
+
     personas = []
     for persona, data in buckets.items():
         matched = label_to_persona(persona)
@@ -127,7 +165,12 @@ def icp_summary(db: Session) -> dict:
     # Ordena por nº de leads (desc) para uma narrativa estável.
     personas.sort(key=lambda p: p["leads"], reverse=True)
 
-    return {"personas": personas, "totalLeads": total_leads}
+    return {
+        "personas": personas,
+        "totalLeads": total_leads,
+        "indeterminadoCount": indeterminado_count,
+        "indeterminadoRate": _rate(indeterminado_count, total_leads),
+    }
 
 
 def _median_int(values: list[int | None]) -> int | None:
@@ -138,7 +181,9 @@ def _median_int(values: list[int | None]) -> int | None:
     return int(round(median(nums)))
 
 
-def funnel_analytics(db: Session) -> dict:
+def funnel_analytics(
+    db: Session, course_id: int | None = None, cohort_id: int | None = None
+) -> dict:
     """Métricas do funil + latência + abandono.
 
     - ``columns``: contagem de deals por coluna do quadro (mapeamento de ``card_column``:
@@ -148,7 +193,11 @@ def funnel_analytics(db: Session) -> dict:
       ``medianFirstResponseLatencySeconds`` (medianas sobre ``lead_profiles``, null-safe).
     - ``abandonmentRate`` (perfis ``is_abandoned`` / total de perfis).
     """
-    deals = db.scalars(select(Deal)).all()
+    deal_stmt = select(Deal)
+    cond = _deal_cohort_filter(course_id, cohort_id)
+    if cond is not None:
+        deal_stmt = deal_stmt.where(cond)
+    deals = db.scalars(deal_stmt).all()
 
     columns = dict.fromkeys(BOARD_COLUMNS, 0)
     won = lost = 0
@@ -160,7 +209,11 @@ def funnel_analytics(db: Session) -> dict:
             lost += 1
     total = len(deals)
 
-    profiles = db.scalars(select(LeadProfile)).all()
+    profile_stmt = select(LeadProfile)
+    lead_ids = _filtered_lead_ids(db, course_id, cohort_id)
+    if lead_ids is not None:
+        profile_stmt = profile_stmt.where(LeadProfile.lead_id.in_(lead_ids))
+    profiles = db.scalars(profile_stmt).all()
     abandoned = sum(1 for p in profiles if p.is_abandoned)
 
     return {
@@ -182,23 +235,30 @@ def funnel_analytics(db: Session) -> dict:
     }
 
 
-def kpis(db: Session) -> dict:
+def kpis(
+    db: Session, course_id: int | None = None, cohort_id: int | None = None
+) -> dict:
     """KPIs de topo: total de leads, novos leads hoje e taxa de conversão (em %).
 
     ``newLeadsToday`` compara ``Lead.created_at::date`` com a data atual do banco
     (``current_date``) — degrada para 0 quando não há leads de hoje. ``conversionRate``
     reusa o ``funnel_analytics`` (won/total) escalado a percentual e arredondado a 1 casa.
     """
-    total_leads = db.scalar(select(func.count()).select_from(Lead)) or 0
-    new_today = (
-        db.scalar(
-            select(func.count())
-            .select_from(Lead)
-            .where(func.date(Lead.created_at) == func.current_date())
-        )
-        or 0
+    lead_ids = _filtered_lead_ids(db, course_id, cohort_id)
+
+    total_stmt = select(func.count()).select_from(Lead)
+    today_stmt = (
+        select(func.count())
+        .select_from(Lead)
+        .where(func.date(Lead.created_at) == func.current_date())
     )
-    conversion = funnel_analytics(db)["conversionRate"]
+    if lead_ids is not None:
+        total_stmt = total_stmt.where(Lead.id.in_(lead_ids))
+        today_stmt = today_stmt.where(Lead.id.in_(lead_ids))
+
+    total_leads = db.scalar(total_stmt) or 0
+    new_today = db.scalar(today_stmt) or 0
+    conversion = funnel_analytics(db, course_id, cohort_id)["conversionRate"]
     return {
         "totalLeads": int(total_leads),
         "newLeadsToday": int(new_today),
@@ -206,7 +266,9 @@ def kpis(db: Session) -> dict:
     }
 
 
-def spin_abandonment(db: Session) -> list[dict]:
+def spin_abandonment(
+    db: Session, course_id: int | None = None, cohort_id: int | None = None
+) -> list[dict]:
     """Churn por estágio SPIN: % de perfis abandonados em cada estágio (null-safe).
 
     Para os 4 estágios em ordem [Situação, Problema, Implicação, Necessidade], ``churned`` é a
@@ -214,7 +276,11 @@ def spin_abandonment(db: Session) -> list[dict]:
     total de perfis (em pontos percentuais inteiros). ``retained`` = 100 - churned. Sem perfis
     → tudo 0/100.
     """
-    profiles = db.scalars(select(LeadProfile)).all()
+    stmt = select(LeadProfile)
+    lead_ids = _filtered_lead_ids(db, course_id, cohort_id)
+    if lead_ids is not None:
+        stmt = stmt.where(LeadProfile.lead_id.in_(lead_ids))
+    profiles = db.scalars(stmt).all()
     total = len(profiles)
 
     churn_by_stage: Counter[SPINStage] = Counter()
@@ -243,17 +309,23 @@ def _won_deal_value(deal: Deal) -> float:
     return float(price) if price is not None else 0.0
 
 
-def revenue_summary(db: Session) -> dict:
+def revenue_summary(
+    db: Session, course_id: int | None = None, cohort_id: int | None = None
+) -> dict:
     """Receita realizada (deals ``won``): total + série mensal (Decimal→float).
 
     Mês derivado do ``updated_at`` do deal (data do fechamento; cai para ``created_at``). Sem
     deals ganhos → ``{"total": 0.0, "byMonth": []}``.
     """
-    deals = db.scalars(
+    stmt = (
         select(Deal)
         .options(joinedload(Deal.cohort).joinedload(Cohort.course))
         .where(Deal.status == DealStatus.WON)
-    ).all()
+    )
+    cond = _deal_cohort_filter(course_id, cohort_id)
+    if cond is not None:
+        stmt = stmt.where(cond)
+    deals = db.scalars(stmt).all()
 
     total = 0.0
     by_month: dict[str, float] = {}
@@ -271,7 +343,9 @@ def revenue_summary(db: Session) -> dict:
     return {"total": round(total, 2), "byMonth": months}
 
 
-def message_activity(db: Session) -> dict:
+def message_activity(
+    db: Session, course_id: int | None = None, cohort_id: int | None = None
+) -> dict:
     """Atividade de mensagens por timestamp (``Message.sent_at``; ``NULL`` é ignorado).
 
     - ``weekly``: contagem por semana (segunda-feira como início, ``YYYY-MM-DD``).
@@ -279,11 +353,17 @@ def message_activity(db: Session) -> dict:
     - ``avgResponseSeconds``: reusa a mediana de latência do vendedor do funil.
     Sem timestamps → ``{"weekly": [], "peakHour": None, "avgResponseSeconds": None}``.
     """
-    sent_ats = db.scalars(
-        select(Message.sent_at).where(Message.sent_at.is_not(None))
-    ).all()
+    sent_stmt = select(Message.sent_at).where(Message.sent_at.is_not(None))
+    lead_ids = _filtered_lead_ids(db, course_id, cohort_id)
+    if lead_ids is not None:
+        sent_stmt = sent_stmt.where(
+            Message.conversation_id.in_(
+                select(Conversation.id).where(Conversation.lead_id.in_(lead_ids))
+            )
+        )
+    sent_ats = db.scalars(sent_stmt).all()
 
-    avg_response = funnel_analytics(db)["medianSellerLatencySeconds"]
+    avg_response = funnel_analytics(db, course_id, cohort_id)["medianSellerLatencySeconds"]
 
     if not sent_ats:
         return {"weekly": [], "peakHour": None, "avgResponseSeconds": avg_response}
@@ -306,12 +386,21 @@ def message_activity(db: Session) -> dict:
     }
 
 
-def pain_points(db: Session, n: int = _TOP_N) -> list[dict]:
+def pain_points(
+    db: Session,
+    n: int = _TOP_N,
+    course_id: int | None = None,
+    cohort_id: int | None = None,
+) -> list[dict]:
     """Top dores verbalizadas agregadas sobre todos os ``LeadProfile`` (por frequência).
 
     Retorna ``[{"rank": 1-based, "title": str, "count": int}]`` (vazio sem dores).
     """
-    profiles = db.scalars(select(LeadProfile)).all()
+    stmt = select(LeadProfile)
+    lead_ids = _filtered_lead_ids(db, course_id, cohort_id)
+    if lead_ids is not None:
+        stmt = stmt.where(LeadProfile.lead_id.in_(lead_ids))
+    profiles = db.scalars(stmt).all()
     counts = _count_items([p.dores_verbalizadas for p in profiles])
     return [
         {"rank": i, "title": title, "count": count}
