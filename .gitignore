@@ -19,3 +19,6 @@ dist/
 
 # Corpora reais de WhatsApp — só local (PII + binários grandes), não versionar
 data/
+
+# PII corpus — removed from history, never re-add
+all_chats.json
