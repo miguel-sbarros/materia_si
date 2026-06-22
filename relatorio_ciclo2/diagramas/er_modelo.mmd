@@ -1,0 +1,131 @@
+erDiagram
+    users ||--o{ leads : atribui
+    users ||--o{ deal_events : registra
+    courses ||--o{ cohorts : oferece
+    courses ||--o{ course_modules : organiza
+    cohorts ||--o{ deals : recebe
+    cohorts ||--o{ enrollments : matricula
+    leads ||--o{ deals : gera
+    leads ||--o| lead_profiles : possui
+    leads ||--o{ conversations : mantem
+    leads ||--o{ enrollments : aluno
+    leads ||--o{ copilot_sessions : assiste
+    deals ||--o{ deal_events : historico
+    deals |o--o| enrollments : materializa
+    conversations ||--o{ messages : contem
+    copilot_sessions ||--o{ copilot_messages : contem
+
+    users {
+        int id PK
+        string name
+        string role "seller ou admin"
+        string email UK
+        bool active
+    }
+    courses {
+        int id PK
+        string name UK
+        numeric price
+        bool active
+    }
+    cohorts {
+        int id PK
+        int course_id FK
+        date start_date
+        int capacity
+        numeric price_per_slot
+        string status "open active finished"
+    }
+    leads {
+        int id PK
+        string name
+        string email "unique se informado"
+        string phone
+        int assignee_id FK
+        string external_user_id UK
+    }
+    deals {
+        int id PK
+        int lead_id FK
+        int cohort_id FK
+        string stage "Novo Contatado Negociando Aprovado"
+        string status "open won lost"
+        text lost_reason "obrigatorio se lost"
+    }
+    deal_events {
+        int id PK
+        int deal_id FK
+        int user_id FK
+        string from_stage
+        string to_stage
+        string from_status
+        string to_status
+        timestamptz ts
+    }
+    enrollments {
+        int id PK
+        int lead_id FK
+        int cohort_id FK
+        int deal_id FK "nullable"
+        string status "active cancelled"
+        string source
+    }
+    course_modules {
+        int id PK
+        int course_id FK
+        string title
+        text content
+        int position
+        string carga
+    }
+    conversations {
+        int id PK
+        int lead_id FK
+        string channel "unique por lead"
+        timestamptz last_message_at
+    }
+    messages {
+        int id PK
+        int conversation_id FK
+        text text
+        bool sent "true igual vendedor"
+        int sequence "unique por conversa"
+        timestamptz sent_at
+    }
+    lead_profiles {
+        int id PK
+        int lead_id FK "unique 1 para 1"
+        string matched_persona
+        int lead_score
+        string current_spin_stage
+        bool is_abandoned
+        jsonb dores_verbalizadas
+    }
+    copilot_sessions {
+        int id PK
+        int lead_id FK "nullable"
+        string title
+    }
+    copilot_messages {
+        int id PK
+        int session_id FK
+        string role
+        string kind
+        jsonb advice
+    }
+    knowledge_chunks {
+        int id PK
+        string source "unique com node_ref"
+        string node_ref
+        string persona "soft-link personas.code"
+        string spin_stage
+        vector embedding "vector 1536 pgvector"
+        tsvector tsv "BM25 diferido"
+    }
+    personas {
+        int id PK
+        string code UK
+        string name
+        string taxa_conversao
+        jsonb palavras_chave
+    }

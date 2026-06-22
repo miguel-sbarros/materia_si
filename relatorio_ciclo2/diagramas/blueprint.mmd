@@ -1,0 +1,38 @@
+flowchart LR
+    user([Usuário · Navegador])
+
+    subgraph FRONT["Tier 1 — Frontend · container: frontend"]
+        react["React SPA<br/>Vite · React Router · TanStack Query"]
+        seam["lib/api.js<br/>seam HTTP"]
+        react --- seam
+    end
+
+    subgraph BACK["Tier 2 — Backend · container: backend (FastAPI/uvicorn)"]
+        direction TB
+        api["Camada API<br/>roteadores finos · api/routes"]
+        svc["Camada Services<br/>regras de negócio + acesso a dados/LLM"]
+        ia["Módulo de IA (1ª classe)<br/>services/llm · services/rag · prompts"]
+        models["Camada Models/DB<br/>SQLAlchemy ORM"]
+        bg["BackgroundTasks<br/>análise · ingestão · re-embed"]
+        api --> svc
+        svc --> models
+        svc --- ia
+        svc -. agenda .-> bg
+    end
+
+    subgraph DB["Tier 3 — Banco · container: db"]
+        pg["PostgreSQL 16 + pgvector<br/>tabelas + knowledge_chunks (vetores)"]
+    end
+
+    anthropic[["Anthropic API<br/>geração · copiloto/análise"]]
+    openai[["OpenAI API<br/>embeddings 1536-d"]]
+
+    user --> react
+    seam -- "HTTP/JSON · OpenAPI" --> api
+    models --> pg
+    bg --> pg
+    ia -- SDK --> anthropic
+    ia -- embeddings --> openai
+
+    classDef ext fill:#eeeeee,stroke:#999999,stroke-dasharray:4 3;
+    class anthropic,openai ext;
