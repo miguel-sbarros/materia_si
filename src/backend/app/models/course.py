@@ -19,7 +19,9 @@ from app.core.constants import CohortStatus
 from app.db.base import Base, enum_column
 
 if TYPE_CHECKING:
+    from app.models.course_module import CourseModule
     from app.models.deal import Deal
+    from app.models.enrollment import Enrollment
 
 
 class Course(Base):
@@ -37,6 +39,11 @@ class Course(Base):
 
     cohorts: Mapped[list["Cohort"]] = relationship(
         back_populates="course", cascade="all, delete-orphan"
+    )
+    modules: Mapped[list["CourseModule"]] = relationship(
+        back_populates="course",
+        cascade="all, delete-orphan",
+        order_by="CourseModule.position",
     )
 
 
@@ -58,3 +65,4 @@ class Cohort(Base):
 
     course: Mapped["Course"] = relationship(back_populates="cohorts")
     deals: Mapped[list["Deal"]] = relationship(back_populates="cohort")
+    enrollments: Mapped[list["Enrollment"]] = relationship(back_populates="cohort")

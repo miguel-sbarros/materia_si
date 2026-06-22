@@ -9,6 +9,7 @@ from app.api.routes import (
     conversations,
     copilot,
     deals,
+    enrollments,
     health,
     imports,
     leads,
@@ -32,6 +33,7 @@ def create_app() -> FastAPI:
     app.include_router(catalog.router)
     app.include_router(leads.router)
     app.include_router(deals.router)
+    app.include_router(enrollments.router)
     app.include_router(imports.router)
     app.include_router(conversations.router)
     app.include_router(copilot.router)

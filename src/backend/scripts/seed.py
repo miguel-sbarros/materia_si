@@ -1,9 +1,12 @@
-"""Seed idempotente de dados demo (upsert por chave natural — re-execução não duplica).
+"""Seed idempotente de dados demo (upsert por chave natural; re-execução não duplica).
 
-Cria: 1 admin (Marcelo Romano) + 1 seller (Ana Costa), 3 cursos e suas turmas — incluindo
+Cria: 1 admin (Marcelo Romano) + 1 seller (Ana Costa), 3 cursos e suas turmas, incluindo
 a turma ABERTA ``Master 3.0 — Turma 2027`` que recebe o pipeline de leads realistas
 (``scripts/seed_pipeline.py``). Não cria leads/deals demo aqui: o pipeline de vendas em
 aberto é populado pelo ``seed_pipeline.py`` (20 conversas reais analisadas pela IA).
+
+Também semeia os módulos de ementa (``course_modules``) a partir de ``cursos.md`` e garante
+uma matrícula ativa para cada deal ``won`` existente (fonte da verdade das vagas).
 """
 
 from datetime import date
@@ -11,9 +14,10 @@ from decimal import Decimal
 
 from sqlalchemy import select
 
-from app.core.constants import CohortStatus, UserRole
+from app.core.constants import CohortStatus, DealStatus, EnrollmentStatus, UserRole
 from app.db.session import SessionLocal
-from app.models import Cohort, Course, User
+from app.models import Cohort, Course, CourseModule, Deal, Enrollment, User
+from app.services import course_content
 
 
 def get_or_create(session, model, defaults=None, **keys):
@@ -28,11 +32,11 @@ def get_or_create(session, model, defaults=None, **keys):
 
 def run() -> None:
     with SessionLocal() as session:
-        admin, _ = get_or_create(
+        get_or_create(
             session, User, email="marcelo@mrdigital.com",
             defaults={"name": "Prof. Marcelo Romano", "role": UserRole.ADMIN, "initials": "MR"},
         )
-        seller, _ = get_or_create(
+        get_or_create(
             session, User, email="ana.costa@mrdigital.com",
             defaults={"name": "Dra. Ana Costa", "role": UserRole.SELLER, "initials": "AC"},
         )
@@ -53,25 +57,25 @@ def run() -> None:
                       "description": "Formação completa em implantodontia digital. FOUSP/USP-SP."},
         )
 
-        imersao_t1, _ = get_or_create(
+        get_or_create(
             session, Cohort, course_id=imersao.id, name="Imersão — Turma T1 2026",
             defaults={"capacity": 30, "price_per_slot": Decimal("5900.00"),
                       "start_date": date(2026, 3, 10), "end_date": date(2026, 3, 12),
                       "status": CohortStatus.ACTIVE},
         )
-        imersao_t2, _ = get_or_create(
+        get_or_create(
             session, Cohort, course_id=imersao.id, name="Imersão — Turma T2 2026",
             defaults={"capacity": 30, "price_per_slot": Decimal("5900.00"),
                       "start_date": date(2026, 9, 8), "end_date": date(2026, 9, 10),
                       "status": CohortStatus.OPEN},
         )
-        master_t2, _ = get_or_create(
+        get_or_create(
             session, Cohort, course_id=master.id, name="Master 3.0 — Turma T2 2026",
             defaults={"capacity": 30, "price_per_slot": Decimal("22250.00"),
                       "start_date": date(2026, 5, 5), "end_date": date(2027, 2, 28),
                       "status": CohortStatus.ACTIVE},
         )
-        # Turma ABERTA do Master — alvo do pipeline de leads realistas (seed_pipeline.py).
+        # Turma ABERTA do Master, alvo do pipeline de leads realistas (seed_pipeline.py).
         get_or_create(
             session, Cohort, course_id=master.id, name="Master 3.0 — Turma 2027",
             defaults={"capacity": 30, "price_per_slot": Decimal("22250.00"),
@@ -84,8 +88,37 @@ def run() -> None:
                       "end_date": date(2028, 3, 31), "status": CohortStatus.ACTIVE},
         )
 
+        # Invariante de vagas: todo deal won tem uma matrícula ativa correspondente.
+        for deal in session.scalars(
+            select(Deal).where(Deal.status == DealStatus.WON)
+        ).all():
+            get_or_create(
+                session, Enrollment, lead_id=deal.lead_id, cohort_id=deal.cohort_id,
+                defaults={"deal_id": deal.id, "status": EnrollmentStatus.ACTIVE},
+            )
+
+        _seed_course_modules(session, [imersao, master, espec])
+
         session.commit()
     print("Seed concluído (idempotente).")
+
+
+def _seed_course_modules(session, courses) -> None:
+    """Popula ``course_modules`` a partir da ementa parseada de ``cursos.md`` (idempotente).
+
+    Casa cada curso semeado com a entrada do ``cursos.md`` por nome; cria um módulo por
+    linha do syllabus (chave natural = ``course_id`` + ``position``). Re-execução não duplica.
+    """
+    for course in courses:
+        ementa = course_content.course_ementa(course.name)
+        if not ementa or not ementa.get("syllabus"):
+            continue
+        for position, row in enumerate(ementa["syllabus"]):
+            get_or_create(
+                session, CourseModule, course_id=course.id, position=position,
+                defaults={"title": row.get("tema") or f"Módulo {position + 1}",
+                          "content": row.get("conteudo"), "carga": row.get("carga")},
+            )
 
 
 if __name__ == "__main__":

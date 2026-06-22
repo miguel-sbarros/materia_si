@@ -2,8 +2,17 @@
 
 from decimal import Decimal
 
-from app.core.constants import DealStage, DealStatus, UserRole
-from app.models import Cohort, Course, Deal, Lead, LeadProfile, User
+from app.core.constants import DealStage, DealStatus, EnrollmentStatus, UserRole
+from app.models import (
+    Cohort,
+    Course,
+    CourseModule,
+    Deal,
+    Enrollment,
+    Lead,
+    LeadProfile,
+    User,
+)
 
 
 def make_seller(session, email="ana.costa@mr.com", initials="AC"):
@@ -49,6 +58,32 @@ def make_deal(
     session.add(deal)
     session.flush()
     return deal
+
+
+def make_enrollment(
+    session, cohort, lead=None, deal=None, status=EnrollmentStatus.ACTIVE, source=None,
+):
+    if lead is None:
+        lead = make_lead(session)
+    enrollment = Enrollment(
+        lead_id=lead.id,
+        cohort_id=cohort.id,
+        deal_id=deal.id if deal is not None else None,
+        status=status,
+        source=source,
+    )
+    session.add(enrollment)
+    session.flush()
+    return enrollment
+
+
+def make_course_module(session, course, title="Módulo 1", position=0, content=None, carga=None):
+    module = CourseModule(
+        course_id=course.id, title=title, position=position, content=content, carga=carga,
+    )
+    session.add(module)
+    session.flush()
+    return module
 
 
 def make_profile(

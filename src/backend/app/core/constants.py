@@ -41,3 +41,10 @@ class CohortStatus(StrEnum):
     OPEN = "open"
     ACTIVE = "active"
     FINISHED = "finished"
+
+
+class EnrollmentStatus(StrEnum):
+    """Estado da matrícula de um lead numa turma. Só ``active`` conta vaga."""
+
+    ACTIVE = "active"
+    CANCELLED = "cancelled"

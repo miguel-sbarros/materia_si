@@ -9,6 +9,7 @@ import {
 } from '../lib/api.js'
 import CourseModal from '../components/cursos/CourseModal.jsx'
 import CohortModal from '../components/cursos/CohortModal.jsx'
+import CohortDetailModal from '../components/cursos/CohortDetailModal.jsx'
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -87,6 +88,8 @@ const CourseCard = memo(function CourseCard({ course, onEdit }) {
 
   // Modal de turma: `null` fechado · `{}` criar · `{cohort}` editar.
   const [cohortModal, setCohortModal] = useState(null)
+  // Modal de detalhe (matrículas + ementa): a turma clicada, ou null.
+  const [cohortDetail, setCohortDetail] = useState(null)
 
   const cohortMutation = useMutation({
     mutationFn: ({ cohort, payload }) =>
@@ -177,17 +180,28 @@ const CourseCard = memo(function CourseCard({ course, onEdit }) {
         {cohorts.length > 0 ? (
           <div className="flex flex-wrap gap-2">
             {cohorts.map(co => (
-              <button
+              <span
                 key={co.id}
-                onClick={() => setCohortModal({ cohort: co })}
-                className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-opacity hover:opacity-80 ${STATUS_COLORS[co.status] ?? 'bg-slate-50 text-slate-600 border border-slate-200'}`}
-                title={`${STATUS_LABELS[co.status] ?? co.status} · clique para editar`}
+                className={`inline-flex items-center gap-1.5 text-xs font-semibold pl-3 pr-1.5 py-1.5 rounded-lg ${STATUS_COLORS[co.status] ?? 'bg-slate-50 text-slate-600 border border-slate-200'}`}
               >
-                {co.name}
-                {co.price_per_slot != null && (
-                  <span className="font-normal opacity-70">· {fmtBRL(co.price_per_slot)}</span>
-                )}
-              </button>
+                <button
+                  onClick={() => setCohortDetail(co)}
+                  className="inline-flex items-center gap-1.5 transition-opacity hover:opacity-80"
+                  title={`${STATUS_LABELS[co.status] ?? co.status} · clique para ver matrículas e ementa`}
+                >
+                  {co.name}
+                  {co.price_per_slot != null && (
+                    <span className="font-normal opacity-70">· {fmtBRL(co.price_per_slot)}</span>
+                  )}
+                </button>
+                <button
+                  onClick={() => setCohortModal({ cohort: co })}
+                  title="Editar turma"
+                  className="opacity-60 hover:opacity-100 transition-opacity"
+                >
+                  <Pencil size={11} />
+                </button>
+              </span>
             ))}
           </div>
         ) : (
@@ -226,6 +240,14 @@ const CourseCard = memo(function CourseCard({ course, onEdit }) {
           onSave={(payload) => cohortMutation.mutate({ cohort: cohortModal.cohort, payload })}
           submitting={cohortMutation.isPending}
           error={cohortMutation.error ? cohortMutation.error.message : null}
+        />
+      )}
+
+      {cohortDetail && (
+        <CohortDetailModal
+          cohort={cohortDetail}
+          courseId={course.id}
+          onClose={() => setCohortDetail(null)}
         />
       )}
     </section>

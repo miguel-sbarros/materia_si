@@ -69,3 +69,30 @@ class CohortUpdate(BaseModel):
     capacity: int | None = None
     price_per_slot: Decimal | None = None
     status: CohortStatus | None = None
+
+
+class ModuleOut(BaseModel):
+    """Módulo da ementa (camelCase no fio: ``courseId``)."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    courseId: int
+    title: str
+    content: str | None = None
+    position: int
+    carga: str | None = None
+
+
+class ModuleCreate(BaseModel):
+    title: str
+    content: str | None = None
+    position: int = 0
+    carga: str | None = None
+
+
+class ModuleUpdate(BaseModel):
+    title: str | None = None
+    content: str | None = None
+    position: int | None = None
+    carga: str | None = None

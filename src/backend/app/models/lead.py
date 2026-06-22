@@ -14,6 +14,7 @@ from app.db.base import Base
 if TYPE_CHECKING:
     from app.models.conversation import Conversation
     from app.models.deal import Deal
+    from app.models.enrollment import Enrollment
     from app.models.lead_profile import LeadProfile
     from app.models.user import User
 
@@ -45,6 +46,9 @@ class Lead(Base):
         back_populates="lead", cascade="all, delete-orphan"
     )
     conversations: Mapped[list["Conversation"]] = relationship(
+        back_populates="lead", cascade="all, delete-orphan"
+    )
+    enrollments: Mapped[list["Enrollment"]] = relationship(
         back_populates="lead", cascade="all, delete-orphan"
     )
     profile: Mapped["LeadProfile | None"] = relationship(

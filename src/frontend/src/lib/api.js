@@ -105,6 +105,81 @@ export async function updateCohort(cohortId, payload) {
   return request(`/cohorts/${cohortId}`, { method: 'PUT', body: JSON.stringify(payload) })
 }
 
+// ─── Matrícula (REQF06) ─────────────────────────────────────────────────────
+/**
+ * @typedef {Object} EnrollmentOut
+ * @property {number} id
+ * @property {number} leadId
+ * @property {string} leadName
+ * @property {number} cohortId
+ * @property {number|null} dealId
+ * @property {'active'|'cancelled'} status
+ * @property {string|null} source
+ * @property {string|null} enrolledAt
+ */
+
+/**
+ * `GET /cohorts/{id}/enrollments` — resumo de vagas + matrículas ativas da turma.
+ * @param {number} cohortId
+ * @returns {Promise<{capacity:number|null, enrolled:number, available:number|null, enrollments:EnrollmentOut[]}>}
+ */
+export async function getCohortEnrollments(cohortId) {
+  return request(`/cohorts/${cohortId}/enrollments`)
+}
+
+/**
+ * `POST /cohorts/{id}/enrollments` — matricula um lead existente (cria/transiciona deal → won).
+ * @param {number} cohortId
+ * @param {number} leadId
+ * @param {string} [source]
+ * @returns {Promise<EnrollmentOut>}
+ */
+export async function enrollLead(cohortId, leadId, source) {
+  return request(`/cohorts/${cohortId}/enrollments`, {
+    method: 'POST',
+    body: JSON.stringify({ lead_id: leadId, source: source ?? null }),
+  })
+}
+
+/** `DELETE /cohorts/{id}/enrollments/{leadId}` — cancela a matrícula e libera a vaga. */
+export async function cancelEnrollment(cohortId, leadId) {
+  return request(`/cohorts/${cohortId}/enrollments/${leadId}`, { method: 'DELETE' })
+}
+
+// ─── Conteúdo do curso — módulos da ementa (REQF04) ─────────────────────────
+/**
+ * @typedef {Object} ModuleOut
+ * @property {number} id
+ * @property {number} courseId
+ * @property {string} title
+ * @property {string|null} content
+ * @property {number} position
+ * @property {string|null} carga
+ */
+
+/** `GET /courses/{id}/modules` — módulos da ementa (ordenados por posição). */
+export async function getCourseModules(courseId) {
+  return request(`/courses/${courseId}/modules`)
+}
+
+/** `POST /courses/{id}/modules` — cria um módulo (agenda re-ingestão no RAG). */
+export async function createCourseModule(courseId, payload) {
+  return request(`/courses/${courseId}/modules`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
+/** `PUT /modules/{id}` — edita um módulo (parcial; agenda re-ingestão no RAG). */
+export async function updateCourseModule(moduleId, payload) {
+  return request(`/modules/${moduleId}`, { method: 'PUT', body: JSON.stringify(payload) })
+}
+
+/** `DELETE /modules/{id}` — exclui um módulo (agenda re-ingestão no RAG). */
+export async function deleteCourseModule(moduleId) {
+  return request(`/modules/${moduleId}`, { method: 'DELETE' })
+}
+
 /**
  * `POST /leads` — cria lead + deal inicial; retorna o DealCard (em Novo).
  * @param {{name: string, email?: string, phone?: string, source?: string, cohort_id: number}} payload
