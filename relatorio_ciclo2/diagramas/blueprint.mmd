@@ -1,13 +1,13 @@
 flowchart LR
     user([Usuário · Navegador])
 
-    subgraph FRONT["Tier 1 — Frontend · container: frontend"]
+    subgraph FRONT["Tier 1, Frontend · container: frontend"]
         react["React SPA<br/>Vite · React Router · TanStack Query"]
         seam["lib/api.js<br/>seam HTTP"]
         react --- seam
     end
 
-    subgraph BACK["Tier 2 — Backend · container: backend (FastAPI/uvicorn)"]
+    subgraph BACK["Tier 2, Backend · container: backend (FastAPI/uvicorn)"]
         direction TB
         api["Camada API<br/>roteadores finos · api/routes"]
         svc["Camada Services<br/>regras de negócio + acesso a dados/LLM"]
@@ -20,7 +20,7 @@ flowchart LR
         svc -. agenda .-> bg
     end
 
-    subgraph DB["Tier 3 — Banco · container: db"]
+    subgraph DB["Tier 3, Banco · container: db"]
         pg["PostgreSQL 16 + pgvector<br/>tabelas + knowledge_chunks (vetores)"]
     end
 

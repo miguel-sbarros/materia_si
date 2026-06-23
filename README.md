@@ -1,60 +1,88 @@
-Software Requirements Document
-MR Digital - Plataforma de CRM & Gestão de Leads
-Grupo 10 | 2026
-Felipe Smaniotto, Henrique Guaré, Miguel Barros, Murilo Abud, Ulisses Calixto
-________________________________________
-1. Visão Geral do Sistema
-•	Nome do sistema: MR Digital CRM - Plataforma de Gestão de Leads & Cursos
-•	Objetivo de negócio: Estruturar e automatizar a área comercial da MR Digital, reduzindo a perda de leads qualificados e melhorando as taxas de conversão para cursos de pós-graduação em odontologia.
-•	Usuários principais: Equipe de vendas, coordenadores e administradores da MR Digital (afiliada à FOUSP).
-•	Crescimento esperado de dados: Dezenas a centenas de leads por turma de curso; múltiplas turmas por ano. O sistema deve suportar até 10.000 registros de leads sem degradação no tempo de resposta, permitindo crescimento à medida que a empresa expanda seus canais de marketing.
-•	Restrições regulatórias: A LGPD (Lei Geral de Proteção de Dados do Brasil) aplica-se a todos os dados pessoais coletados dos leads, incluindo CPF e informações de contato.
-•	Limites orçamentários/operacionais: A solução deve ser econômica; preferência por integrações open-source e SaaS de baixo custo.
-________________________________________
-2. Requisitos Funcionais
-Abaixo estão os requisitos funcionais detalhados do sistema:
-•	FR-01 (Prioridade: Alta): O sistema deve permitir que usuários autorizados criem e atualizem leads, incluindo dados pessoais (nome, e-mail, telefone) e canal de origem.
-•	FR-02 (Prioridade: Alta): O sistema deve permitir mover leads entre etapas definidas do pipeline de vendas (ex.: Novo, Contatado, Negociando, Matriculado, Perdido).
-•	FR-03 (Prioridade: Alta): O sistema deve registrar o histórico completo de interações com cada lead (ligações, e-mails, mensagens de WhatsApp, anotações), garantindo rastreabilidade das atividades comerciais.
-•	FR-04 (Prioridade: Alta): O sistema deve permitir criar, editar e desativar cursos (ex.: Implantodontia Digital) e suas respectivas turmas.
-•	FR-05 (Prioridade: Alta): O sistema deve acompanhar o número de vagas disponíveis por turma e atualizá-lo automaticamente após uma matrícula.
-•	FR-06 (Prioridade: Alta): O sistema deve permitir associar um lead a uma turma de curso e registrar a matrícula.
-•	FR-07 (Prioridade: Média): O sistema deve permitir visualização de métricas de conversão entre estágios de venda e de projeção financeira.
-•	FR-08 (Prioridade: Baixa): O sistema deve suportar o envio automatizado ou manual de mensagens de WhatsApp para leads.
-•	FR-09 (Prioridade: Média): O sistema deve fornecer um painel com métricas do pipeline: total de leads, taxa de conversão por etapa e próximas turmas.
-•	FR-10 (Prioridade: Alta): O sistema deve suportar controle de acesso baseado em papéis com pelo menos três níveis: Usuário, Admin e Super Admin.
-•	FR-11 (Prioridade: Baixa): O sistema deve suportar a análise de conversas e extração de dados estruturados para classificação de leads
-•	FR-12 (Prioridade: Baixa): O sistema deve ser capaz de instruir o vendedor a guiar as conversas no WhatsApp por meio de um Agente Copiloto.
-________________________________________
-3. Requisitos Não Funcionais
-Abaixo estão as métricas e metas para os requisitos não funcionais:
-•	Performance (Tempo de resposta da API sob carga): Respostas da API para consultas relacionadas a leads devem ser $< 200\text{ms no percentil 95 sob 50 usuários simultâneos}$.
-•	Escalabilidade (Volume de dados): O sistema deve suportar até 10.000 registros de leads sem degradação perceptível no tempo de resposta.
-•	Escalabilidade (Usuários ativos simultâneos): Até 50 usuários simultâneos.
-•	Disponibilidade (Tempo de atividade do sistema): 99,5% de uptime mensal.
-•	Segurança - Auth (Autenticação de usuários): Tokens de sessão baseados em JWT com expiração.
-•	Segurança - Controle de Acesso: Todos os dados de leads devem ser protegidos por controle de acesso baseado em papéis (RBAC).
-•	Segurança - RLS (Row Level Security): Papéis de Usuário, Admin e Super Admin aplicados no nível do banco de dados.
-•	Segurança - Chaves (Armazenamento de chaves de API): Armazenadas em variáveis de ambiente, nunca no código-fonte.
-•	Privacidade de dados (Conformidade com LGPD): CPF e endereço criptografados em repouso (AES-256).
-•	Usabilidade (Tempo de onboarding): Fluxos principais operáveis em até 30 minutos sem treinamento.
-•	Manutenibilidade (Cobertura de código): $>=70%$ de cobertura de testes unitários para módulos críticos.
-•	Observabilidade (Logs e rastreamento): Logs estruturados para todas as chamadas de API; alertas de erro habilitados.
-________________________________________
-4. Premissas & Restrições
-•	O sistema será acessado via navegador web; nenhum aplicativo móvel nativo é necessário na versão inicial.
-•	Os dados de leads serão inseridos manualmente pela equipe de vendas.
-•	Importação automática de plataformas externas de marketing (ex.: Facebook Ads) está fora do escopo da v1.
-•	A integração com WhatsApp depende de acesso à API oficial do WhatsApp Business, que requer aprovação da Meta.
-•	A equipe utilizará um banco de dados gerenciado em nuvem (ex.: Supabase) para reduzir a sobrecarga de infraestrutura.
-•	A conformidade com a LGPD deve ser implementada desde o primeiro dia; conformidade retroativa não é aceitável.
-•	Espera-se no máximo 3 turmas simultâneas por curso no curto prazo.
-________________________________________
-5. Mapeamento de Arquitetura
-Decisões arquiteturais baseadas nos requisitos não funcionais (NFR):
-•	Row Level Security (RLS) & Níveis de Acesso: Aplicar políticas de RLS na camada de banco de dados (ex.: Supabase/PostgreSQL RLS). O frontend renderiza apenas ações permitidas com base no papel retornado no token de autenticação.
-•	Conformidade com LGPD & Criptografia: Criptografar campos sensíveis (CPF e endereço) em repouso usando AES-256 no banco de dados. Implementar logs de auditoria para acesso a dados pessoais identificáveis (PII).
-•	Segurança de Chaves de API: Usar variáveis de ambiente ou um gerenciador de segredos (ex.: Doppler, AWS Secrets Manager). Nunca enviar credenciais para controle de versão.
-•	Performance (< 200ms): Implementar indexação no banco de dados para campos frequentemente consultados, como status do lead e identificação da turma. Usar pool de conexões e cachear dados frequentemente acessados (ex.: lista de cursos).
-•	Escalabilidade: Backend stateless (FastAPI) implantável como contêineres. Escalonamento horizontal via provedor de nuvem (ex.: Railway, Fly.io, AWS ECS). A arquitetura deve suportar 50 usuários simultâneos e pelo menos 10.000 registros de leads sem perda de desempenho.
-•	Envio de Email/WhatsApp: Integrar com provedor de e-mail (ex.: SendGrid) e API do WhatsApp Business. Usar uma fila (ex.: Redis + Celery) para envio assíncrono, evitando bloquear respostas da API.
+# Captus
+
+CRM com IA nativa para o setor de educação. Cliente: MR Digital, empresa afiliada à FOUSP que vende cursos presenciais de implantodontia digital em turmas com vagas limitadas.
+
+Projeto da disciplina PRO3151 (Laboratório de Sistemas de Informação), Grupo 10.
+
+## O que é
+
+O diferencial do Captus frente a um CRM genérico é que leads, cursos, turmas e vagas são integrados, e a inteligência artificial é parte nativa da ferramenta. O modelo de dados é centrado no negócio (deal): cada negócio liga um lead a uma turma, então o mesmo lead pode avançar em ritmos diferentes para turmas diferentes.
+
+## Funcionalidades
+
+- Funil de vendas em Kanban, ligado ao banco, com histórico de cada movimentação (REQF01 e REQF02).
+- Importação de conversas exportadas do WhatsApp, como alternativa à API da Meta (REQF03).
+- Análise comportamental por IA: cada conversa vira um perfil do lead com persona, dores, desejos, estágio SPIN e pontuação (REQF08).
+- Copiloto: um agente que apoia o vendedor, com RAG sobre os materiais dos cursos e a base de conhecimento, somado ao histórico e ao perfil do lead.
+- Cursos, turmas, conteúdo editável e matrícula com controle de vagas (REQF04, REQF05 e REQF06).
+- Painel de Analytics com métricas do funil e de público (REQF07).
+
+## Arquitetura
+
+Três tiers, cada um em seu contêiner, orquestrados pelo Docker Compose:
+
+- Frontend: React, Vite, React Router e TanStack Query.
+- Backend: FastAPI (Python), SQLAlchemy e Alembic, em camadas (api, services, models), com a IA como módulo de primeira classe.
+- Banco: PostgreSQL 16 com a extensão pgvector.
+- IA: SDK Anthropic (Claude) para geração de texto; OpenAI (text-embedding-3-small) para os embeddings do RAG.
+
+## Como executar
+
+Pré-requisitos: Docker e Docker Compose.
+
+1. Crie o arquivo de ambiente do backend a partir do exemplo e preencha as chaves:
+
+   ```bash
+   cp src/backend/.env.example src/backend/.env
+   ```
+
+   Defina `ANTHROPIC_API_KEY` e `OPENAI_API_KEY`. Sem elas o núcleo do CRM funciona, mas o copiloto, a análise e os embeddings ficam indisponíveis.
+
+2. Suba os três serviços de forma integrada:
+
+   ```bash
+   docker compose up
+   ```
+
+3. Popule os dados de demonstração:
+
+   ```bash
+   docker compose exec backend python scripts/seed.py
+   docker compose exec backend python scripts/seed_pipeline.py
+   ```
+
+4. Acesse:
+
+   - Interface: http://localhost:5173
+   - API e documentação interativa: http://localhost:8000/docs
+   - Saúde: http://localhost:8000/health
+
+## Estrutura do repositório
+
+- `src/backend`: API FastAPI (`app/{api,services,models,schemas,core,db,prompts}`), migrações Alembic, scripts e testes.
+- `src/frontend`: SPA em React (pages, components, lib, hooks).
+- `specs/`: especificações por feature (desenvolvimento guiado por especificação).
+- `relatorio_ciclo2/`: material do relatório do Ciclo 2 (texto, diagramas e o `.docx`).
+- `docs/SRD.md`: documento de requisitos original.
+- `docker-compose.yml`: orquestração dos três serviços.
+
+## Testes e qualidade
+
+- Testes: `docker compose exec backend pytest`
+- Lint: `docker compose exec backend ruff check .`
+- Build do frontend: `cd src/frontend && npm run build`
+- Integração contínua (GitHub Actions): lint, testes, build das imagens e um teste de fumaça com docker compose a cada mudança.
+
+## Documentação
+
+- Relatório completo do trabalho: `PRO3151 - Laboratório de Sistemas de Informações - Relatório do Trabalho da disciplina - Grupo 10.md`
+- Especificações de cada feature: `specs/`
+- Requisitos originais (SRD): `docs/SRD.md`
+
+## Grupo 10
+
+- Felipe Smaniotto Costa (16865335)
+- Henrique Guaré Romano (6610082)
+- Murilo Dib Abud (16893751)
+- Ulisses Calixto Aquino Fontoura (16903160)
+- Miguel Francisco Soares Barros (15586304)

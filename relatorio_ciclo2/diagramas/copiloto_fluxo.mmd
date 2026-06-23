@@ -1,0 +1,33 @@
+flowchart TD
+    A["Vendedor escreve no Composer<br/>(texto, '@lead' ou '/comando')"] --> B{"O que o vendedor enviou?"}
+
+    B -- "/comando" --> C["Instrucao em PT do comando<br/>(_COMMAND_INSTRUCTIONS)"]
+    B -- "lead anexado (@)" --> D["Injeta perfil + historico do lead<br/>(build_copilot_content)"]
+    B -- "sem lead, texto livre" --> E["Modo base de conhecimento"]
+
+    C --> F["chat(): monta o turno do usuario<br/>e persiste a pergunta (CopilotMessage)"]
+    D --> F
+    E --> F
+
+    F --> G["run_agent(): loop de tool-use<br/>(messages.create da Anthropic)"]
+
+    G --> H{"O modelo pediu<br/>ferramenta?"}
+    H -- "sim" --> I["Executa a ferramenta via dispatch"]
+
+    subgraph TOOLS["Ferramentas de fundamentacao"]
+        I1["search_knowledge → rag.retrieve<br/>(embedding + cosseno + boost persona/SPIN)"]
+        I2["get_cohorts_status / get_course_ementa"]
+        I3["get_icp_stats / get_funnel_analytics"]
+        I4["suggest_messages (so quando o vendedor pede)"]
+    end
+
+    I --> TOOLS
+    TOOLS --> J["Devolve tool_result ao modelo"]
+    J --> G
+
+    H -- "nao (end_turn)" --> K{"O agente chamou<br/>suggest_messages?"}
+    K -- "sim" --> L["Persiste kind='advice'<br/>reasoning + 3 paths"]
+    K -- "nao" --> M["Persiste kind='text'<br/>prosa em markdown"]
+
+    L --> N["UI: 3 DraftCards (tons/estrategias)<br/>vendedor Copia ou Envia ao historico"]
+    M --> O["UI: bolha de texto da analise"]

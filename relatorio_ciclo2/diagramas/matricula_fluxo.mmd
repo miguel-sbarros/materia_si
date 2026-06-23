@@ -1,0 +1,17 @@
+flowchart TD
+    A["Usuario escolhe lead e turma<br/>(POST /cohorts/{cohort_id}/enrollments)"] --> B["enroll_lead(): carrega turma e lead"]
+    B --> C{"Turma existe?<br/>Lead existe?"}
+    C -- "nao" --> C1["ValueError 'nao encontrad...'<br/>router traduz para 404"]
+    C -- "sim" --> D{"capacity definida E<br/>matriculas ativas >= capacity?"}
+    D -- "sim (turma lotada)" --> D1["ValueError 'Turma lotada'<br/>router traduz para 422"]
+    D -- "nao (ha vaga)" --> E["Cria Enrollment status=active<br/>db.flush()"]
+    E --> F{"db.flush() viola<br/>UNIQUE(lead_id, cohort_id)?"}
+    F -- "sim" --> F1["rollback + ValueError<br/>'Lead ja matriculado' -> 409"]
+    F -- "nao" --> G["_win_deal(): busca o deal (lead, cohort)"]
+    G --> H{"Existe deal aberto?"}
+    H -- "nao existe deal" --> H1["create_closed_deal(): cria deal won<br/>(stage Negociando) + eventos de historico"]
+    H -- "existe e nao e won" --> H2["status = won, lost_reason = None<br/>grava DealEvent 'Matriculado'"]
+    H1 --> I["Vincula enrollment.deal_id = deal.id"]
+    H2 --> I
+    I --> J["db.commit()"]
+    J --> K["Retorna EnrollmentOut<br/>(vaga consumida, deal na coluna Matriculado)"]

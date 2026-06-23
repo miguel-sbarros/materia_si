@@ -1,0 +1,22 @@
+flowchart TD
+    A["Usuário envia arquivo<br/>(.zip ou _chat.txt)"] --> B["POST /imports<br/>router fino"]
+    B --> C["_read_chat_text<br/>extrai _chat.txt do zip<br/>ou decodifica o .txt"]
+    C --> D["import_chat<br/>resolve ou cria o lead"]
+    D --> E["parse_chat<br/>fatia por timestamp,<br/>til marca o lead,<br/>filtra sistema/vazias"]
+    E --> F{"Parsing OK?"}
+    F -->|"vazio / formato inválido"| G["422<br/>EmptyChatError /<br/>NotWhatsAppExportError"]
+    F -->|"ok"| H["upsert da conversa<br/>(1 por lead + canal)"]
+    H --> I["insere mensagens<br/>pulando sequence já existente<br/>(idempotente)"]
+    I --> J["commit + ImportSummary"]
+    J --> K{"mais de 3<br/>mensagens?<br/>should_auto_analyze"}
+    K -->|"não"| L["responde o import<br/>sem analisar"]
+    K -->|"sim"| M["agenda run_analysis_bg<br/>BackgroundTask"]
+    M --> N["responde o import<br/>imediatamente"]
+    M -.->|"em segundo plano,<br/>SessionLocal própria"| O["analyze_lead"]
+    O --> P["compute_chat_metrics<br/>(latências, mediana,<br/>abandono, sem LLM)"]
+    O --> Q["parse_structured 1<br/>ExtractedEntities"]
+    O --> R["parse_structured 2<br/>LeadAssessment"]
+    P --> S["upsert LeadProfile<br/>(1 para 1 com o lead)"]
+    Q --> S
+    R --> S
+    S --> T["perfil exibido no LeadPage,<br/>no painel de Conversas<br/>e agregado na Analytics"]
